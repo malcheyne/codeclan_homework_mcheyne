@@ -1,0 +1,11 @@
+Git + Github
+
+-Version Control Software
+        Can go back to saved file's "revert"
+
+-Git repository if same as folder
+        Github repository -> R directory -> folder
+
+-Initialize a repository links to Github, makes a folder
+
+-Staging -> file changed but not uploaded
