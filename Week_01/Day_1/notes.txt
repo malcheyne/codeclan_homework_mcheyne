@@ -8,4 +8,11 @@ Git + Github
 
 -Initialize a repository links to Github, makes a folder
 
--Staging -> file changed but not uploaded
+-Staging -> file changed but not uploaded "a change to the file"
+
+-Commit -> bookmarks saves, done at points when your happy with the change
+
+-Push -> sends to Github, can be seen by everyone
+
+-Reverting -> going back to a parviose Commit. ie now not working, go back a
+        day or two to when it was.
