@@ -16,3 +16,8 @@ Git + Github
 
 -Reverting -> going back to a parviose Commit. ie now not working, go back a
         day or two to when it was.
+
+-Copy files -> makes a Branch > lets you add a feature > then merges back
+        into main Branch
+
+-Main Branch is the new way to write Master Branch > old style may see in 
