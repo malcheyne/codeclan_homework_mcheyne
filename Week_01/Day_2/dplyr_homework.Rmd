@@ -93,7 +93,10 @@ calories_by_category
 Let's look at this a different way. What is the average number of calories in each `Beverage_prep` type? 
 
 ```{r}
-
+av_calories <- Beverage %>% 
+      group_by(Beverage_category, Calories) %>% 
+      mutate(Calories = sum(Calories)/nrow())
+av_calories
 ```
 
 <br>
