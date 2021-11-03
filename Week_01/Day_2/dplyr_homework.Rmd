@@ -79,9 +79,11 @@ Beverage
 Summarise the mean number of calories in each `beverage_category`.  Which 3 category of drinks have the most calories? Which 3 drinks have the least? Write a small summary of your findings.
 
 ```{r}
-calories_by_category <- Beverage %>% 
-      group_by(Beverage_category, Calories)  
-summarise(calories_by_category, count = n())
+calories_by_category <- Beverage %>%
+  
+      group_by(Beverage_category) %>% 
+      summarise(mean = mean(Calories)) %>% 
+      arrange(desc(mean(Calories)))
 calories_by_category
 ```
 
@@ -93,11 +95,30 @@ calories_by_category
 Let's look at this a different way. What is the average number of calories in each `Beverage_prep` type? 
 
 ```{r}
-av_calories <- Beverage %>% 
-      group_by(Beverage_category, Calories) %>% 
-      mutate(Calories = sum(Calories)/nrow())
-av_calories
+# av_calories <- Beverage %>% 
+#       group_by(Beverage_category, Calories) %>% 
+#       mutate(Calories = sum(Calories)/nrow())
+# av_calories
 ```
+```{r}
+mean_calories <- Beverage %>%
+  summarise(mean_cal = mean(Calories))
+  
+mean_calories
+```
+```{r}
+# average_bev_prep %>% 
+#     filter(mean_cal < mean_calories)
+```
+```{r}
+average_bev_prep <- Beverage %>%
+  group_by(Beverage_prep) %>%
+  summarise(mean_cals = mean(Calories)) %>%
+  arrange(desc(mean_cals))
+
+average_bev_prep
+```
+
 
 <br>
 
