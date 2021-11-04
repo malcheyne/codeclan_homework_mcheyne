@@ -150,7 +150,8 @@ movies_selected %>%
 ```{r}
 movies_imputed <- movies_imputed %>% 
       select(title, runtime, budget) %>%
-      mutate(budget = if_else(budget < 100, median(budget), budget)
+      mutate(budget = if_else(budget < 100,
+                              median(budget), budget)
         
       )
   
@@ -185,7 +186,7 @@ Save this into a new variable called `movie_budgets`.
 movie_budgets <- movies_imputed %>% 
   select(title, runtime, budget) %>%
   mutate(budget_type = case_when(
-    budget < 1e6 ~ "Small budget",
+    budget < 12e6 ~ "Small budget",
     budget < 40e6 ~ "Medium budget",
     TRUE ~ "Big budget"
     )
