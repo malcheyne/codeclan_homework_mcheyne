@@ -71,8 +71,7 @@ movies_selected %>%
 There's not too many NAs, but there are actually quite a few movies with a runtime of 0 in this dataset. Since it's impossible for a movie to have a runtime of 0, use the function `na_if` to convert runtimes of length 0 into NAs. Save this into a new variable called `movies_runtime`. Then count how many missing values there are now in the column `runtime`.
 
 ```{r}
-movies_selected <- movies_selected %>% 
-  select(title, runtime, budget) %>% 
+movies_selected %>% 
   mutate(runtime = na_if(runtime, "0")
   ) 
 
@@ -146,6 +145,12 @@ movies_selected %>%
   slice_min(budget, n = 10)
 ```
 
+```{r}
+movies_imputed %>% 
+  slice_min(budget, n = 10)
+```
+
+
 
 ```{r}
 movies_imputed <- movies_imputed %>% 
@@ -202,6 +207,9 @@ movie_budgets
 
 Take the original dataset with all the variables. Using `across` and `where`, summarise the number of missing values, first across all columns of type `character`, and then across all columns of type `numeric`.
 
+
+
+
 ```{r}
 movies %>% 
   summarise(across(everything(), ~ sum(is.na(.))))
@@ -209,4 +217,15 @@ movies %>%
 
 
 <br> 
+
+# What I should have done
+```{r}
+movies %>%
+  summarise(across(where(is.numeric), ~sum(is.na(.x))))
+```
+
+```{r}
+movies %>%
+  summarise(across(where(is.character), ~sum(is.na(.x))))
+```
 
