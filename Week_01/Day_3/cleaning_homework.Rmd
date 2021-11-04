@@ -40,6 +40,18 @@ After you've read in the data and assigned it to a variable with a useful name, 
 # Make sure runtime is not na
 # Change date to dbl
 
+
+
+# A suggested code
+```{r}
+movies %>% 
+  mutate(same_title = if_else(original_title == title, "same", "not same")) %>% 
+  filter(same_title == "not same")
+```
+
+
+
+
 <br> 
 
 **Question 2.**
