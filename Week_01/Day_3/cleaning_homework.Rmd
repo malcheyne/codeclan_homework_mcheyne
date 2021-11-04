@@ -40,6 +40,18 @@ After you've read in the data and assigned it to a variable with a useful name, 
 # Make sure runtime is not na
 # Change date to dbl
 
+
+
+# A suggested code
+```{r}
+movies %>% 
+  mutate(same_title = if_else(original_title == title, "same", "not same")) %>% 
+  filter(same_title == "not same")
+```
+
+
+
+
 <br> 
 
 **Question 2.**
@@ -72,9 +84,10 @@ There's not too many NAs, but there are actually quite a few movies with a runti
 
 ```{r}
 movies_selected %>% 
-  select(runtime)
   mutate(runtime = na_if(runtime, "0")
-  ) %>% 
+  ) 
+
+movies_selected %>% 
   summarise(across(everything(), ~ sum(is.na(.))))
 ```
 
@@ -87,18 +100,37 @@ Impute the missing values in `runtime` with the median runtime using `coalesce` 
 
 ```{r}
 movies_selected %>% 
-  filter(is.na(runtime)
+  filter(is.na(runtime))
+
+
 ```
 
 
 ```{r}
-movies_selected <- movies_selected %>% 
-  mutate(runtime = coalesce(
+movies_imputed <- movies_selected %>% 
+  mutate(runtime2 = coalesce(
     runtime,
     median(runtime,
-    na.rm = TRUE)
-    ))
-movies_selected
+    na.rm = TRUE))
+    )
+
+movies_imputed
+```
+```{r}
+movies_imputed %>% 
+  filter(is.na(runtime))
+```
+
+
+```{r}
+movies_selected %>% 
+summarise(across(everything(), ~ sum(is.na(.))))
+```
+
+```{r}
+movies_selected %>% 
+summarise(across(.fns =  ~ sum(is.na(.x))))
+#same as above, across already is checking everything colum
 ```
 
 
@@ -107,11 +139,51 @@ movies_selected
 **Question 6.**  
 
 Finally, use the `slice_min` and `slice_max` functions on `movies_imputed` to get the movies with the 10 shortest and 10 longest runtimes.
+# Longest 10 flims
+```{r}
+movies_imputed %>% 
+  slice_max(runtime, n = 10)
+```
+
+# Shortest 10 flims
+```{r}
+movies_imputed %>% 
+  slice_min(runtime, n = 10)
+```
+
+
 
 <br>
 **Question 7.**  
 
 Using the `if_else` function, impute anything with a budget below $100 with the median budget. Overwrite your `movies_imputed` so it contains the new budget values.
+
+```{r}
+movies_selected %>% 
+  slice_min(budget, n = 10)
+```
+
+```{r}
+movies_imputed %>% 
+  slice_min(budget, n = 10)
+```
+
+
+
+```{r}
+movies_imputed <- movies_imputed %>% 
+      select(title, runtime, budget) %>%
+      mutate(budget = if_else(budget < 100,
+                              median(budget), budget)
+        
+      )
+  
+```
+
+```{r}
+movies_imputed %>% 
+  slice_min(budget, n = 10)
+```
 
 
 # Extension
@@ -133,11 +205,45 @@ Save this into a new variable called `movie_budgets`.
 <summary>**Hint:**</summary> 1e6 is a shorthand way of writing 1 million ($1 \times 10^6$)
 </details>
 
+```{r}
+movie_budgets <- movies_imputed %>% 
+  select(title, runtime, budget) %>%
+  mutate(budget_type = case_when(
+    budget < 12e6 ~ "Small budget",
+    budget < 40e6 ~ "Medium budget",
+    TRUE ~ "Big budget"
+    )
+    
+  )
+movie_budgets
+```
+
+
 <br> 
 
 **Question 2.**  
 
 Take the original dataset with all the variables. Using `across` and `where`, summarise the number of missing values, first across all columns of type `character`, and then across all columns of type `numeric`.
 
+
+
+
+```{r}
+movies %>% 
+  summarise(across(everything(), ~ sum(is.na(.))))
+```
+
+
 <br> 
+
+# What I should have done
+```{r}
+movies %>%
+  summarise(across(where(is.numeric), ~sum(is.na(.x))))
+```
+
+```{r}
+movies %>%
+  summarise(across(where(is.character), ~sum(is.na(.x))))
+```
 
