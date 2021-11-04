@@ -115,6 +115,12 @@ movies_selected %>%
 summarise(across(everything(), ~ sum(is.na(.))))
 ```
 
+```{r}
+movies_selected %>% 
+summarise(across(.fns =  ~ sum(is.na(.x))))
+#same as above, across already is checking everything colum
+```
+
 
 <br>
 
