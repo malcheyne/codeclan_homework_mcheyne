@@ -97,7 +97,7 @@ movies_selected %>%
 
 ```{r}
 movies_imputed <- movies_selected %>% 
-  mutate(runtime = coalesce(
+  mutate(runtime2 = coalesce(
     runtime,
     median(runtime,
     na.rm = TRUE))
@@ -105,6 +105,12 @@ movies_imputed <- movies_selected %>%
 
 movies_imputed
 ```
+```{r}
+movies_imputed %>% 
+  filter(is.na(runtime))
+```
+
+
 ```{r}
 movies_selected %>% 
 summarise(across(everything(), ~ sum(is.na(.))))
@@ -136,12 +142,23 @@ movies_imputed %>%
 Using the `if_else` function, impute anything with a budget below $100 with the median budget. Overwrite your `movies_imputed` so it contains the new budget values.
 
 ```{r}
+movies_selected %>% 
+  slice_min(budget, n = 10)
+```
+
+
+```{r}
 movies_imputed <- movies_imputed %>% 
       select(title, runtime, budget) %>%
       mutate(budget = if_else(budget < 100, median(budget), budget)
         
       )
   
+```
+
+```{r}
+movies_imputed %>% 
+  slice_min(budget, n = 10)
 ```
 
 
@@ -168,8 +185,8 @@ Save this into a new variable called `movie_budgets`.
 movie_budgets <- movies_imputed %>% 
   select(title, runtime, budget) %>%
   mutate(budget_type = case_when(
-    budget < 1e6 ~ "Small budget"
-    budget < 40e6 ~ "Medium budget"
+    budget < 1e6 ~ "Small budget",
+    budget < 40e6 ~ "Medium budget",
     TRUE ~ "Big budget"
     )
     
