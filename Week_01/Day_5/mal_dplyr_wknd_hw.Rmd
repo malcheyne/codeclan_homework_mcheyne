@@ -1,0 +1,246 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+goodread_books <- read_csv("data/books.csv")
+```
+
+```{r}
+var(goodread_books)
+# Warning in var(books) : NAs introduced by coercion, I'm making them as the colums are CHR not DBL
+```
+
+```{r}
+names(goodread_books)
+```
+
+```{r}
+books <- goodread_books %>% 
+  select(1:13) %>% 
+  rename(num_of_ratings = ratings_count,
+         num_of_reviews = text_reviews_count,
+         num_of_pages = num_pages
+         )
+# renamed to make clear and consistent with other columns
+names(books)
+```
+
+
+
+```{r}
+glimpse(books)
+```
+
+
+```{r}
+dim(books)
+# Over 11k Rows, 13 Column
+```
+
+```{r}
+head(books)
+# Publication data is in US 
+```
+Checking for NA
+```{r}
+books %>% 
+  summarise(across(everything(), ~ sum(is.na(.))))
+# no NA's 
+```
+Summary
+```{r}
+summary(books)
+```
+
+
+Top 10 with the average rating
+```{r}
+high_ratings <- books %>% 
+  select(title, average_rating, num_of_ratings, publication_date, authors) %>% 
+  arrange(desc(average_rating))  %>% 
+  head(10)
+  
+high_ratings
+# The highest ratings are for books that have 5 or less votes that will scu the reading 
+```
+
+Top 10 with the median or grater number of votes
+```{r}
+median_high_ratings <- books %>% 
+  select(title, average_rating, num_of_ratings, num_of_reviews, publication_date, authors) %>% 
+  filter(num_of_ratings > median(num_of_ratings)) %>% 
+  arrange(desc(average_rating))  %>% 
+  head(10)
+  
+median_high_ratings 
+# Using the median number as the min
+```
+
+Top 10 with the mean or grater number of votes
+```{r}
+mean_high_ratings <- books %>% 
+  select(title, average_rating, num_of_ratings, num_of_reviews, publication_date, authors) %>%  
+  filter(num_of_ratings > mean(num_of_ratings)) %>% 
+  arrange(desc(average_rating))  %>% 
+  head(10)
+  
+mean_high_ratings 
+# Changing to the mean as the min, the top 4 stay the same 
+```
+
+Top 10 with the most number of votes
+```{r}
+most_ratings <- books %>% 
+  select(title, average_rating, num_of_ratings, num_of_reviews, publication_date, authors) %>% 
+  arrange(desc(num_of_ratings))  %>% 
+  head(10)
+most_ratings
+# These are all new books in them self's 
+# seeing the more votes the bigger the spread, more chance for people to love or hate it
+```
+
+Top 10 with the most reviews
+```{r}
+most_reviews <- books %>% 
+  select(title, average_rating, num_of_ratings, num_of_reviews, publication_date, authors) %>%
+  arrange(desc(num_of_reviews))  %>% 
+  head(10)
+most_reviews
+# This shows the top 10 with the most reviews
+```
+
+Number of books published by authors
+```{r}
+books %>%
+  filter(!is.na(rowid)) %>%
+  group_by(authors) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count))
+# Number of books published
+```
+
+
+```{r}
+books %>%
+  filter(!is.na(rowid)) %>%
+  group_by(authors) %>%
+  summarise(count = n(),
+            mean_rating_of_all_books = sum(average_rating)/count) %>%
+  arrange(desc(count))
+```
+
+
+
+P.G. Wodehouse work 
+```{r}
+books %>% 
+  filter(authors == "P.G. Wodehouse" ) %>% 
+  group_by(average_rating) %>% 
+  arrange(desc(average_rating))
+```
+
+```{r}
+books %>% 
+  filter(authors == "Stephen King" ) %>% 
+  group_by(average_rating) %>% 
+  arrange(desc(average_rating))
+```
+
+Seen S. King had municipal so reran with distinct
+```{r}
+books %>% 
+  filter(authors == "Stephen King" ) %>%
+  group_by(average_rating) %>% 
+  arrange(desc(average_rating)) %>% 
+  distinct(title) 
+
+```
+
+
+Seen S. King had municipal so reran with distinct
+```{r}
+books %>%
+  
+  group_by(authors) %>%
+  distinct(title) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count))
+```
+
+
+# Not working trying to use distinct but kill the code when added
+```{r}
+books %>%
+  filter(!is.na(rowid)) %>%
+  group_by(authors) %>%
+  distinct(title) %>%
+  summarise(count = n(),
+            mean_rating_of_all_books = sum(average_rating)/count) %>%
+  arrange(desc(count))
+```
+
+
+# Not working authors_by_book
+```{r}
+# authors_by_book <- group_by(books, authors)
+# authors_by_book
+# 
+# #summarise(authors_by_book, character_count = n())
+# summarise(authors_by_book, unique() = n())
+
+```
+
+
+# Not working by_book for authors
+```{r}
+# by_book <- books %>% 
+#   select(authors) %>% 
+#   summary(unique(authors)) %>%
+#   
+# by_book
+```
+
+# Not working hfsd for authors
+```{r}
+# hfsd <- books %>% 
+#   select(authors) %>% 
+#   summary(unique(authors)) %>%
+# hfsd
+```
+
+# Not working pub_year for year
+```{r}
+# pub_year <- books %>% 
+#   select(1:13) %>% 
+#   #rename(publication_year = publication_date) %>% 
+#   mutate_at(publication_date, as.Date, format = "%d-%m-%Y")
+#         
+#   #format(as.Date(nzd$date, format = "%d/%m/%Y")
+#           
+# pub_year
+```
+
+# Extra library don't help
+```{r}
+# library(stringi)
+# library(stringr)
+```
+
+# down the rabbit hole still can't get the year
+```{r}
+#as.numeric(as.character(publication_date)
+
+#mutate(books, publication_year = as.numeric(publication_date))
+#mutate(books, publication_year = str_sub(publication_date, -4, -1) 
+# x <-  3/14/2006
+# str_sub(x, start = -4)
+# #str_sub(x, -4, -1)
+```
+
