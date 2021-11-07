@@ -20,7 +20,7 @@ var(goodread_books)
 ```{r}
 names(goodread_books)
 ```
-
+renamed to make clear and consistent with other columns
 ```{r}
 books <- goodread_books %>% 
   select(1:13) %>% 
