@@ -252,7 +252,7 @@ viz
 ```
 
 ```{r}
-viz <- ggplot(data=exam_scores_prefix, aes(x=id, y=exam_question, Q1:Q10)) +
+viz <- ggplot(data=exam_scores_prefix, aes(x=id, y=exam_question, "Q1":"Q10")) +
        geom_point(aes(color=score)) + 
        geom_smooth()
 
