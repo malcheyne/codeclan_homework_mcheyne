@@ -174,6 +174,84 @@ books %>%
   arrange(desc(count))
 ```
 
+# Johny work to change date from chr to dbl
+```{r}
+books_date_edited <- goodread_books %>% # have change books <- goodread_books
+  select(title, ratings_count, text_reviews_count, publication_date) %>%
+  mutate(date = as.Date(publication_date, "%m/%d/%Y")) %>%
+  arrange(date)
+
+books_date_edited
+
+libarary(lurbridate)
+
+books_date_edited <- goodread_books %>% # have change books <- goodread_books
+  select(title, ratings_count, text_reviews_count, publication_date) %>%
+  mutate(date = as.Date(publication_date, "%m/%d/%Y"),
+         year = year(date)) %>% # Using the package lurbridate reads the just the year and prints that
+  arrange(date)
+
+books_date_edited
+
+```
+
+# Louise work is lower rating than long books
+```{r}
+short_book <- goodread_books %>% # have change books <- goodread_books
+  select(title, average_rating, num_pages) %>%
+  mutate(length_of_book = case_when(
+    num_pages < 200 ~ "under 200",
+    num_pages > 200 & num_pages < 400 ~ "200 to 400",
+    
+    TRUE ~ "above 2000")) %>%
+  filter(length_of_book == "200 to 400") %>%
+  summarise(low_book_avg_rating = mean(average_rating))
+
+
+  
+long_book <- goodread_books %>% # change main_books_data to goodread_books
+  select(title, average_rating, num_pages) %>%
+  mutate(length_of_book = case_when(
+    num_pages < 600 ~ "under 200",
+    num_pages > 600 & num_pages < 800 ~ "600 to 800",
+    TRUE ~ "above 2000")) %>%
+  filter(length_of_book == "600 to 800") %>%
+  summarise(high_book_avg_rating = mean(average_rating))
+
+highest_book_split_rating <- short_book < long_book
+highest_book_split_rating
+
+# short book do have a lower rating than long books
+
+# class changes to Louise work to give table 
+
+book_summ <- goodread_books %>% # change main_books_data to goodread_books
+  select(title, average_rating, num_pages) %>%
+  mutate(length_of_book = case_when(
+    num_pages < 200 ~ "0. under 200",
+    num_pages >= 200 & num_pages < 400 ~ "1. 200 to 400",
+    num_pages >= 400 & num_pages < 600 ~ "2. 400 to 600",
+    num_pages >= 600 & num_pages < 800 ~ "3. 600 to 800",
+    TRUE ~ "4. above 800")) %>%
+  # filter(length_of_book == "200 to 400") %>%
+  group_by(length_of_book) %>%
+  summarise(avg_rating = mean(average_rating))
+
+book_summ
+```
+
+# Ricardo  work
+```{r}
+efficient_writers <- books %>% 
+  group_by(authors, title) %>% 
+  summarise(pages_written = sum(num_pages),
+            author_av_rating = mean(average_rating),
+            efficiency_score = author_av_rating / pages_written) %>%
+  mutate(pages_written = if_else(pages_written <100, as.numeric(NA), pages_written)) %>% 
+  drop_na(.) %>% 
+  slice_max(efficiency_score)
+```
+
 
 # Not working trying to use distinct but kill the code when added
 ```{r}
@@ -198,13 +276,13 @@ books %>%
 ```
 
 
-# Not working by_book for authors
+# Not working by_book for authors, works by taking the last %>% out
 ```{r}
-# by_book <- books %>% 
-#   select(authors) %>% 
-#   summary(unique(authors)) %>%
-#   
-# by_book
+by_book <- books %>%
+  select(authors) %>%
+  summary(unique(authors))
+
+by_book
 ```
 
 # Not working hfsd for authors
@@ -214,6 +292,11 @@ books %>%
 #   summary(unique(authors)) %>%
 # hfsd
 ```
+
+```{r}
+
+```
+
 
 # Not working pub_year for year
 ```{r}
