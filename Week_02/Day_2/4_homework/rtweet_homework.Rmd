@@ -108,10 +108,18 @@ tweets %>%
   
 ```
 
+# David work
 ```{r}
-tweets %>% 
-  select(text) %>% 
-  display_text```
+tweets %>%
+  mutate(count_str_length = str_length(text)) %>%
+  select(count_str_length, display_text_width, text) %>% 
+  summarise(mean_counts = mean(count_str_length, na.rm = TRUE),
+            mean_dsp = mean(display_text_width, na.rm = TRUE))
+```
+
+
+
+
 
 
 <br>
@@ -123,6 +131,40 @@ The `code_clan_info.csv` data file contains `status_url` along with other info. 
 
 **Question 7.**  
 From your new joined data, create a new tibble `codeclan_hashtags` containing only the `tweet_id` and convert the hashtags into lowercase for analysis. Keep only those tweets with hashtags.
+
+# Johny works
+```{r}
+# codeclan_hashtags <- codeclan_all_data %>%
+#   select(tweet_id, hashtags) %>%
+#   filter(!is.na (hashtags)) %>%
+#   mutate(hashtags_lower = str_to_lower(hashtags)
+```
+
+# Louise work
+```{r}
+# codeclan_hashtags <- tweets_cc_joined %>%
+#   select(tweet_id, text)
+# 
+# codeclan_hashtags %>%
+#   str_extract_all("#[A-Za-z0-9]+") %>%
+#   flatten_chr() %>%
+#   str_to_lower()
+# 
+# codeclan_hashtags %>%
+#   filter(str_detect(text, ("[#]"))) %>% 
+#   mutate(hashtags = str_extract_all(text, "#[A-Za-z0-9]+")) %>% 
+#   unnest() %>% 
+#   mutate(hashtags = str_to_lower(hashtags))
+```
+
+# David work
+```{r}
+codeclan_all_data %>%
+  filter(str_detect(text, ("[#]"))) %>% 
+  mutate(hashtags = str_extract_all(text, "#[A-Za-z0-9]*")) %>% 
+  unnest() %>% 
+  mutate(hashtags = str_to_lower(hashtags))
+```
 
 <br>
 
