@@ -146,7 +146,7 @@ stop_val <- 10
 #   print(phrase)
 # }
 #
-input(hello)
+input <- "hello"
 
 input <- function(answer) {
 if (is.character(answer)) {
@@ -182,6 +182,7 @@ Write a function which checks if two vectors have the same elements.
 * If they don't have the same elements, return "Different".
 
 
+
 <details>
 <summary>**Hints**</summary>
 * You can check if two vectors have the same elements but in a different order by using `sort` to sort each vector first and then checking if they are equal.
@@ -202,6 +203,34 @@ Write a function which checks if two vectors have the same elements.
 Write code that prints a multiplication table for numbers up to 12. i.e. there will be 12 rows and 12 columns, and each element should be the row number multiplied by the column number.
 
 *From: https://adriann.github.io/programming_problems.html*
+
+```{r}
+
+r = list(1:12)
+c = list(1:12)
+# 
+# 
+# 
+# m <- matrix((1:12) %*% (1:12), nrow = 12,ncol = 12)
+#     
+# m
+
+# m <- matrix([x,] %*% [,x], nrow = 12,ncol = 12)
+# 
+# m
+
+# m <- matrix(1-12 %*% 1-12, nrow = 12,ncol = 12)
+# 
+# m
+# m <- matrix(r %*% c, nrow = 12,ncol = 12)
+# 
+# m
+
+m <- matrix(x %*% x, nrow = 12,ncol = 12)
+
+m
+```
+
 
 <br>
 
