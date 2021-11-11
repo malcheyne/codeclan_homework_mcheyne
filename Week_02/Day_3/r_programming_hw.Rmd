@@ -146,29 +146,67 @@ stop_val <- 10
 #   print(phrase)
 # }
 #
-input <- "hello"
+answer <- "hello"
 
 input <- function(answer) {
-if (is.character(answer)) {
-  phrase <-  paste("The answer is", answer, sep = " ")
-  print(phrase)
-} else {
-  if (is.numeric(answer)) {
-    if (answer < stop_val) {
-        print(answer)
+  
+  if (is.character(answer)) {
+    phrase <-  paste("The answer is", answer, sep = " ")
+    print(phrase)
+    
+  } else {
+      if (is.numeric(answer)) {
+        if (answer < stop_val) {
+          print(answer)
         } else {
-        print(answer/2)
+          print(answer/2)
         }
-  }
-} else {
+      }
+    } else {
   phrase <-  paste("Invalid input")
   print(phrase)
 }
 }
 
+input
 
 
+```
 
+# Johny work
+```{r}
+mutate_answers <- function(x) {
+  
+  if(is.character(x)){
+  return(str_c("The answer is:", x))
+}
+
+  if (is.numeric() & (x < 10))
+  print(x)
+  if (is.numeric() & (x > 10))
+  print(x/10)}
+
+  else{
+  print("Invalid input")
+  }
+```
+
+
+# Class work out
+```{r}
+mutate_answers <- function(x) {
+  if(is.character(x)){
+    return(str_c(“The answer is:“, x))
+  }
+  if (is.numeric(x) & (x < 10)){
+    print(x)
+  }
+  if (is.numeric(x) & (x > 10)) {
+    print(x/10)
+  } else {
+    print(“Invalid input”)
+  }
+}
 ```
 
 
@@ -211,8 +249,8 @@ c = list(1:12)
 # 
 # 
 # 
-# m <- matrix((1:12) %*% (1:12), nrow = 12,ncol = 12)
-#     
+# m <- matrix((1:12) %*% (1:12), nrow = 12,ncol = 12) # So fing close
+# 
 # m
 
 # m <- matrix([x,] %*% [,x], nrow = 12,ncol = 12)
@@ -226,9 +264,12 @@ c = list(1:12)
 # 
 # m
 
-m <- matrix(x %*% x, nrow = 12,ncol = 12)
+# m <- matrix(x %*% x, nrow = 12,ncol = 12)
+# 
+# 
+# m
 
-m
+1:12 %o% 1:12 # %o% outer function
 ```
 
 
@@ -245,5 +286,16 @@ You may want to use the function `cat()`. This is similar to `print()`, but prin
 3 | *******
 4 | ****
 5 | **
+```
+
+# Ricardo work
+```{r}
+graph <- function(vector) {
+  for (i in 1:length(vector))
+    cat(str_c(strrep("#", vector[i]), "\n"))
+}
+
+sample(1:5, size = 50, replace = TRUE)
+graph(sample(1:15, 10))
 ```
 
