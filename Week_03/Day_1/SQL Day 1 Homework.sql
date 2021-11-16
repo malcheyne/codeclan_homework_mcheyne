@@ -35,6 +35,12 @@ SELECT
 FROM employees 
 WHERE country = 'Spain';
 
+/* Homework anwser */
+SELECT 
+  COUNT(id) AS num_employees_Portugal_Spain
+FROM employees
+WHERE country IN ('Portugal', 'Spain'
+
 /* MVP */
 /* Q5 */
 /* Count the number of pay_details records lacking a local_account_no. */
@@ -97,6 +103,7 @@ SELECT
 	last_name, 
 	salary
 FROM employees
+WHERE country = 'Hungary'
 ORDER BY
 	salary ASC NULLS LAST
 LIMIT 1;
@@ -161,7 +168,14 @@ SELECT
 	salary
 FROM employees 
 WHERE department = 'Engineering' AND fte_hours >= 1.0
+ORDER BY salary DESC
 LIMIT 1;
+
+/* Homework anwser*/
+SELECT 
+  MAX(salary) AS max_salary_engineering_ft
+FROM employees
+WHERE department = 'Engineering' AND fte_hours = 
 
 /* MVP */
 /* Q15 */
@@ -222,6 +236,39 @@ SELECT
   CONCAT(first_name, ' ', last_name, ' ', '-', ' ', department, ' ', '(', 'joined', ' ', month_year,')') AS badge_label
 FROM employees
 WHERE (first_name, last_name, department, start_date) IS NOT NULL;
+
+/* homework answers*/
+SELECT
+  first_name,
+  last_name,
+  department,
+  start_date,
+  CONCAT(
+    first_name, ' ', last_name, ' - ', department, 
+    ' (joined ', EXTRACT(YEAR FROM start_date), ')'
+  ) AS badge_label
+FROM employees
+WHERE 
+  first_name IS NOT NULL AND 
+  last_name IS NOT NULL AND 
+  department IS NOT NULL AND
+  start_date IS NOT NULL;
+ /* homework answers*/ 
+SELECT
+  first_name,
+  last_name,
+  department,
+  start_date,
+  CONCAT(
+    first_name, ' ', last_name, ' - ', department, ' (joined ', 
+    TO_CHAR(start_date, 'FMMonth'), ' ', TO_CHAR(start_date, 'YYYY'), ')'
+  ) AS badge_label
+FROM employees
+WHERE 
+  first_name IS NOT NULL AND 
+  last_name IS NOT NULL AND 
+  department IS NOT NULL AND
+  start_date IS NOT NULL;
 
 /* EXT */
 /* Q18 */
