@@ -115,7 +115,7 @@ GROUP BY t.name
 ORDER BY employee_sum ASC;
 
 --MVP
---Q3
+--Q4
 
 --(a). Create a table with the team id, team name and the count of the number of employees in each team.
 
@@ -126,6 +126,16 @@ FROM employees AS e LEFT JOIN teams AS t
 ON e.team_id = t.id
 GROUP BY t.name; 
 
+
+-- Homework work thruogh
+SELECT 
+  t.id,  
+  t.name,
+  COUNT(e.id)
+FROM employees AS e
+INNER JOIN teams AS t
+ON e.team_id = t.id
+GROUP BY t.id
 
 /*(b). The total_day_charge of a team is defined as the charge_cost of the team multiplied by the number 
  * of employees in the team. Calculate the total_day_charge for each team.
@@ -151,17 +161,39 @@ GROUP BY t.id;
 SELECT 
 	COUNT(t.id) AS employee_sum,
 	t.name AS team_id,
-	CAST ( t.charge_cost AS int4 ) * t.id AS total_day_charge
+	CAST ( t.charge_cost AS int4 ) * COUNT(t.id) AS total_day_charge
 FROM employees AS e LEFT JOIN teams AS t
 ON e.team_id = t.id
-WHERE CAST ( t.charge_cost AS int4 ) * COUNT(t.id) > 5000
-GROUP BY t.id;
+GROUP BY t.id
+HAVING CAST ( t.charge_cost AS int4 ) * COUNT(t.id) > 5000;
+
+-- Homework work thruogh
+-- EXT
+-- Q5
+-- How many of the employees serve on one or more committees?
+
+SELECT
+	COUNT(DISTINCT(employee_id)) AS num_employees_on_committees
+FROM employees_committees;
 
 
+-- Homework work thruogh
+-- EXT
+-- Q6
+-- How many of the employees do not serve on a committee?
 
+SELECT
+	COUNT(*) AS num_not_in_comittees
+FROM employees AS e
+LEFT JOIN employees_committees AS ec
+ON e.id = ec.employee_id
+WHERE ec.employee_id IS NULL;
 
+-- 2nd way to do it
 
-
-
-
+SELECT 
+  (SELECT COUNT(id) FROM employees) -
+  (SELECT COUNT(DISTINCT(employee_id)) 
+FROM employees_committees)
+    AS num_not_in_committees
 
