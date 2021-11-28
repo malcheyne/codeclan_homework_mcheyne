@@ -1,0 +1,188 @@
+---
+title: "dplyr_practice"
+output: html_notebook
+---
+
+
+```{r}
+library(tidyverse)
+library(here)
+```
+
+
+```{r}
+salaries <-  read_csv(here("raw_data/salaries.csv"))
+```
+
+# 1.Using the dplyr verbs
+
+### Q1 Use select to see the beginning salary variable and the current salary variable.
+```{r}
+select(salaries, c("beginning_salary", "current_salary"))
+```
+
+### Q2 Use filter to see the employees aged over 50, who have a salary over £20,000.
+```{r}
+filter(salaries, age >= 50 & current_salary >= 20000)
+```
+
+### Q3 Use arrange to order by the data so that the highest salaries are first.
+```{r}
+arrange(salaries, desc(current_salary))
+```
+
+### Q4 Use mutate to make a new variables beginning_salary_pence and current_salary_pence. These should have the corresponding salaries in pence instead of pounds.
+```{r}
+mutate(salaries, 
+       beginning_salary_pence = beginning_salary*100,
+       current_salary_pence = current_salary*100)
+```
+
+### Q5 Use summarise to find the maximum age and the minimum age.
+```{r}
+summarise(salaries, max(age), min(age))
+```
+
+### Q6 Find the minimum salary and the maximum salary.
+```{r}
+summarise(salaries, max(current_salary), min(current_salary))
+```
+
+### Q7 Find all the employees aged under 30.
+```{r}
+filter(salaries, age < 30)
+```
+
+### Q8 Order the data in terms of increasing educational level where ties are broken using age.
+```{r}
+arrange(salaries, educational_level, age)
+```
+
+### Q9 Drop all the non-numeric variables in the tibble.
+```{r}
+select(salaries, beginning_salary, job_seniority, age, current_salary, educational_level, work_experience)
+```
+
+### Q10 Find all employees with either less than 2 years work experience or an education level below 12.
+```{r}
+filter(salaries, work_experience < 2 | educational_level < 12)
+```
+
+### Q11 Transform the salary variables so they measure how many 1000s of pounds each salary is.
+```{r}
+mutate(salaries, 
+       current_salary = current_salary/1000,
+       beginning_salary = beginning_salary/1000)
+```
+
+### Q12 Find all the females employees with an employment category of ‘security officer’.
+```{r}
+filter(salaries, gender == "female" &
+        employment_category == "security officer")
+```
+
+# 2.Pipes
+
+
+### Q1 Find the average salary per educational level, for educational levels of 16 and below. Arrange the results from highest salary to lowest. Answer using pipes.
+```{r}
+salaries %>% 
+  filter(educational_level <= 16) %>% 
+  group_by(educational_level) %>% 
+  summarise(avg_salary = mean(current_salary)) %>% 
+  arrange(desc(avg_salary))
+```
+
+### Q2 Find the average salary for each gender in each employment category. Exclude any employees with less than 2 years of work experience. Answer using pipes.
+```{r}
+salaries %>% 
+  filter(work_experience >= 2) %>% 
+  group_by(gender, employment_category) %>% 
+  summarise(avg_salary = mean(current_salary)) %>% 
+  arrange(desc(avg_salary))
+```
+
+### Q3 For each employment category find the difference between the mean salary and the median salary. Arrange so that the greatest difference comes first. Answer using pipes. (The difference between mean salary and median salary gives us a measure of how skewed salaries - we’ll come on to this shortly!)
+```{r}
+salaries %>% 
+  group_by(employment_category) %>% 
+  summarise(avg_salary = mean(current_salary),
+            median_salary = median(current_salary),
+            salary_diff = mean(current_salary) - median(current_salary)) %>% 
+  arrange(desc(salary_diff))
+```
+
+# 3.Missing values exercise
+
+### Q1 Find all the observations where the carbohydrates are missing.
+```{r}
+beers <-  read_delim(here("raw_data/beer.txt"))
+
+head(beers)
+```
+```{r}
+filter(beers, is.na(carbohydrates))
+```
+
+
+### Q2 Find all the observations where the brand is missing
+```{r}
+filter(beers, is.na(brand))
+```
+
+### Q3 What is different about the observations missing carbohydrates and the observations missing brand? To clean the data should we drop the rows missing brand or the rows missing carbohydrates?
+
+Loses a lot less data by removing the missing brand rows 
+
+
+# 4.Recoding excercise
+
+```{r}
+inmates <-  read_tsv(here("raw_data/inmates.tsv"))
+head(inmates)
+```
+
+
+### Q1 Change the ‘M’/‘F’ values in gender to be ‘Male’/‘Female’.
+```{r}
+inmates <- inmates %>% 
+            mutate(gender = if_else(gender == "M", "Male", "Female"))
+inmates
+```
+
+### Q2 For the race variable, everything is in capital letters, change each level to title case. Also combine ‘AMER IND’ and ‘ASIAN’ into an ‘Other’ category.
+```{r}
+inmates <- inmates %>% 
+  mutate(race = recode(race, WHITE = "White",
+                             BLACK = "Black",
+                             HISPANIC = "Hispanic",
+                             .default = "Other"))
+
+inmates
+```
+
+### 3a Make a new variable bond_level which is High whenever the bond for an inmate is above $1,000,000 and Normal otherwise.
+```{r}
+inmates <- inmates %>% 
+            mutate(bond_level = if_else(bond_amount > 1000000, "High", "Normal"))
+
+inmates
+```
+
+### 3b How many inmates have a high bond level?
+```{r}
+sum(inmates$bond_level == "High")
+```
+
+### Q4 Modify the detainer variable so that NONE, IMIGRATION and FEDERAL are in title case and all other levels are set to Other.
+```{r}
+inmates <- inmates %>% 
+            mutate(detainer = recode(detainer,
+                                     NONE = "None",
+                                     IMIGRATION = "Imigration",
+                                     FEDERAL = "Federal",
+                                     .default = "Other"))
+inmates
+```
+
+
