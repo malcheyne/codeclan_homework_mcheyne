@@ -53,7 +53,11 @@ Take the data in the dataset `qb_revenue_breakdown` and make a stacked bar chart
 ```{r}
  
   ggplot(data = qb_revenue_breakdown, mapping = aes(x = Product, y = Revenue, fill = Year)) +
-  geom_col(position = "stack", size = 12) +
+  geom_col(position = "stack") +
+  theme(
+        axis.text = element_text(size = 12),
+        plot.title = element_text(size = 18)
+        ) +
   labs(
     title = "Sources of Revenue",
     )
@@ -69,6 +73,9 @@ kwikbit_sales <- qb_monthly_sales %>%
 
 ggplot(kwikbit_sales, aes(x = Date, y = Amount) ) +
   geom_line() +
+  theme(axis.text = element_text(size = 12),
+        plot.title = element_text(size = 18)
+        ) +
   labs(
     title = "Monthly Sales",
     subtitle = "KwikBit Unit 1 Sales\n"
@@ -82,6 +89,9 @@ Make a line chart showing monthly revenue and costs over the last year. This dat
 ```{r}
 ggplot(qb_monthly_sales, aes(x = Date, y = Amount, colour = Cashflow)) +
   geom_line() +
+  theme(axis.text = element_text(size = 12),
+        plot.title = element_text(size = 18)
+        ) +
   labs(
     title = "Revenue v Costs"
   )
@@ -93,6 +103,9 @@ Show annual sales of personal fitness trackers over the last 5 years broken down
 ```{r}
 ggplot(qb_competitors, aes(Year, Revenue, fill = Company)) +
   geom_area() +
+  theme(axis.text = element_text(size = 12),
+        plot.title = element_text(size = 18)
+        ) +
   labs(
     title = "Annual Sales",
     subtitle = "fitness trackers over the last 5 years\n"
@@ -105,15 +118,21 @@ Now show the sales from the four competitors as a line graph. Include an extra l
 ```{r}
 ggplot(qb_competitors, aes(Revenue, Year, colour = Company)) +
   geom_line() +
+  theme(axis.text = element_text(size = 12),
+        plot.title = element_text(size = 18)
+        ) +
   labs(
-    title = "Annual Sales",
+    title = "Annual Sales Comparason",
     subtitle = "fitness trackers over the last 5 years\n"
   )
 
 ggplot(qb_competitors, aes(Year, Revenue, colour = Company)) +
   geom_line() +
+  theme(axis.text = element_text(size = 12),
+        plot.title = element_text(size = 18)
+        ) +
   labs(
-    title = "Annual Sales",
+    title = "Annual Sales Comparason",
     subtitle = "fitness trackers over the last 5 years\n"
   )
 ```
@@ -123,11 +142,22 @@ ggplot(qb_competitors, aes(Year, Revenue, colour = Company)) +
 Now the company wants to compare the number of steps that their device counts vs. their competitors. Make a line graph of the number of steps throughout time, and use faceting to compare between companies and people. The data for this is in `qb_device_data`.
 <br>
 ```{r}
+no_idea <- qb_device_data %>% 
+            group_by(device, hours) %>% 
+            summarise(counts)
 
-
-ggplot(qb_device_data, aes(counts, hours, colour = device)) +
+ggplot(no_idea, aes(counts, hours, colour = device)) +
   geom_line() +
-  facet_wrap(~ device)
+  labs(
+    title = "Step Counts",
+    subtitle = "Step Counts v Competitors\n"
+  ) +
+  theme(axis.text = element_text(size = 12),
+        plot.title = element_text(size = 18),
+        panel.background = element_rect(fill = "white", colour = "grey50")) +
+  scale_x_continuous(trans = "log10", name = "log(counts)") +
+  scale_y_continuous(trans = "log10", name = "log(hours)") +
+  facet_wrap(~ device, labeller = "label_both")
 ```
 
 
@@ -158,3 +188,36 @@ col_scheme <- c("#E89FE9", "#50434F", "#B6A7B5", "#F9A472", "#BD7040")
 **Question 1.**  
 Try out different ways of plotting these three datasets. Which graphs do you think are particularly effective at showing QikBit's success?
 <br>
+
+```{r}
+ggplot(no_idea, aes(counts, hours, colour = device)) +
+  geom_col() +
+  labs(
+    title = "Step Counts",
+    subtitle = "Step Counts v Competitors\n"
+  ) +
+  theme(axis.text = element_text(size = 12),
+        plot.title = element_text(size = 18),
+        panel.background = element_rect(fill = "white", colour = "grey50")) +
+  scale_x_continuous(trans = "log10", name = "log(counts)") +
+  scale_y_continuous(trans = "log10", name = "log(hours)") +
+  facet_wrap(~ device, labeller = "label_both")
+```
+
+```{r}
+ggplot(no_idea, aes(counts, hours, colour = device)) +
+  geom_point() +
+  labs(
+    title = "Step Counts",
+    subtitle = "Step Counts v Competitors\n"
+  ) +
+  theme(axis.text = element_text(size = 12),
+        plot.title = element_text(size = 18),
+        panel.background = element_rect(fill = "white", colour = "grey50")) +
+  scale_x_continuous(trans = "log10", name = "log(counts)") +
+  scale_y_continuous(trans = "log10", name = "log(hours)") +
+  facet_wrap(~ device, labeller = "label_both")
+```
+
+
+
