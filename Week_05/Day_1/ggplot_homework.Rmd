@@ -53,7 +53,10 @@ Take the data in the dataset `qb_revenue_breakdown` and make a stacked bar chart
 ```{r}
  
   ggplot(data = qb_revenue_breakdown, mapping = aes(x = Product, y = Revenue, fill = Year)) +
-  geom_col(position = "stack")
+  geom_col(position = "stack", size = 12) +
+  labs(
+    title = "Sources of Revenue",
+    )
   
 ```
 
@@ -65,7 +68,11 @@ kwikbit_sales <- qb_monthly_sales %>%
                           filter(Cashflow == "Kwikbit Unit 1 Sales")
 
 ggplot(kwikbit_sales, aes(x = Date, y = Amount) ) +
-  geom_line()
+  geom_line() +
+  labs(
+    title = "Monthly Sales",
+    subtitle = "KwikBit Unit 1 Sales\n"
+  )
 
 ```
 
@@ -74,20 +81,55 @@ Make a line chart showing monthly revenue and costs over the last year. This dat
 <br>
 ```{r}
 ggplot(qb_monthly_sales, aes(x = Date, y = Amount, colour = Cashflow)) +
-  geom_line()
+  geom_line() +
+  labs(
+    title = "Revenue v Costs"
+  )
 ```
 
 **Question 4.**  
 Show annual sales of personal fitness trackers over the last 5 years broken down by company as a ribbon plot (use `geom_area`). This data is in `qb_competitors`.
 <br>
+```{r}
+ggplot(qb_competitors, aes(Year, Revenue, fill = Company)) +
+  geom_area() +
+  labs(
+    title = "Annual Sales",
+    subtitle = "fitness trackers over the last 5 years\n"
+  )
+```
 
 **Question 5.**  
 Now show the sales from the four competitors as a line graph. Include an extra layer that shows the data points used to make the lines.
 <br>
+```{r}
+ggplot(qb_competitors, aes(Revenue, Year, colour = Company)) +
+  geom_line() +
+  labs(
+    title = "Annual Sales",
+    subtitle = "fitness trackers over the last 5 years\n"
+  )
+
+ggplot(qb_competitors, aes(Year, Revenue, colour = Company)) +
+  geom_line() +
+  labs(
+    title = "Annual Sales",
+    subtitle = "fitness trackers over the last 5 years\n"
+  )
+```
+
 
 **Question 6.**  
 Now the company wants to compare the number of steps that their device counts vs. their competitors. Make a line graph of the number of steps throughout time, and use faceting to compare between companies and people. The data for this is in `qb_device_data`.
 <br>
+```{r}
+
+
+ggplot(qb_device_data, aes(counts, hours, colour = device)) +
+  geom_line() +
+  facet_wrap(~ device)
+```
+
 
 ## Part 2 
 
