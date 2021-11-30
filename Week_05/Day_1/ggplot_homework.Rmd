@@ -97,6 +97,23 @@ ggplot(qb_monthly_sales, aes(x = Date, y = Amount, colour = Cashflow)) +
   )
 ```
 
+### Ricardo
+```{r}
+# qb_monthly_sales %>% 
+#   filter(Cashflow == c("Total Revenue","Cost")) %>%
+#   ggplot(aes(Date, Amount, colour = Cashflow)) +
+#   geom_line() 
+
+# Was only taking the first argument 
+
+qb_monthly_sales %>%
+  filter(Cashflow %in% c("Total Revenue","Cost")) %>%
+  ggplot(aes(Date, Amount, colour = Cashflow)) +
+  geom_line()
+
+```
+
+
 **Question 4.**  
 Show annual sales of personal fitness trackers over the last 5 years broken down by company as a ribbon plot (use `geom_area`). This data is in `qb_competitors`.
 <br>
@@ -128,6 +145,7 @@ ggplot(qb_competitors, aes(Revenue, Year, colour = Company)) +
 
 ggplot(qb_competitors, aes(Year, Revenue, colour = Company)) +
   geom_line() +
+  geom_point() +
   theme(axis.text = element_text(size = 12),
         plot.title = element_text(size = 18)
         ) +
@@ -150,7 +168,7 @@ ggplot(no_idea, aes(counts, hours, colour = device)) +
   geom_line() +
   labs(
     title = "Step Counts",
-    subtitle = "Step Counts v Competitors\n"
+    subtitle = "Step Counts v Competitors\n"   # \n makes a new row
   ) +
   theme(axis.text = element_text(size = 12),
         plot.title = element_text(size = 18),
