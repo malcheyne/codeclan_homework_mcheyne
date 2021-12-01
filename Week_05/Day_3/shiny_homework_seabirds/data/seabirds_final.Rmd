@@ -14,7 +14,7 @@ library(here)
 
 ### Reading in the data
 ```{r}
-clean_data <- read_csv(here("clean_data/seabirds_cleaned_data.csv"))
+clean_data <- read_csv("seabirds_cleaned_data.csv")
 clean_data
 ```
 # Breif
