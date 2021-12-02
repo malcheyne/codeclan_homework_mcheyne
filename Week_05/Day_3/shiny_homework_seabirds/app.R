@@ -83,11 +83,8 @@ ui <- fluidPage(
              
             sidebarLayout(
                 sidebarPanel(
-                  checkboxGroupInput("checkGroup", label = h3("Checkbox group"), 
-                                    choices = list("Shearwater" = 1, 
-                                                   "Albatross" = 2, 
-                                                   "Mollymawk" = 3),
-                                    selected = 4),
+                  checkboxGroupInput("checkgroup_input", label = h3("Seabirds"), 
+                                    choices = unique(birds_9$common_name)),
                    
                    
                                     hr(),
@@ -128,11 +125,15 @@ ui <- fluidPage(
                  #                         "Penguin", "Brown noddy", 
                  #                         "Red-tailed tropicbird")
                  # )
-            ),
+            
                
               mainPanel(
+                
+                # Add tabs here ****
+                
                 plotOutput("bird_plot")
               )
+            )  
       )
   ),
     
@@ -212,7 +213,7 @@ ui <- fluidPage(
     #          
     #          
     # )
-  )    
+  #)    
 )
 
 
@@ -222,10 +223,7 @@ server <- function(input, output) {
   output$bird_plot <- renderPlot ({
     birds_9 %>%
       group_by(common_name) %>% 
-      filter(common_name %in% c(input$bird_1, 
-                                input$bird_2, 
-                                input$bird_3, 
-                                input$bird_4)) %>%
+      filter(common_name %in% input$checkgroup_input) %>%
       summarise(count = sum(total_sighting, na.rm = TRUE)) %>% 
       ggplot() +
       aes(x = common_name, 
