@@ -135,3 +135,98 @@ fly_by %>%
 ```
 
 
+
+```{r}
+library(shiny)
+library(tidyverse)
+library(shinythemes)
+
+
+seabirds_cleaned_data <- read_csv("data/seabirds_cleaned_data.csv")
+```
+
+```{r}
+birds_9 <- seabirds_cleaned_data %>% 
+  group_by(common_name) %>% 
+  mutate(common_name = if_else(str_detect(common_name, 
+                                          "(?i)shearwater"),"Shearwater", 
+                               common_name),
+         common_name = if_else(str_detect(common_name, 
+                                          "(?i)albatross"), "Albatross",
+                               common_name),
+         common_name = if_else(str_detect(common_name, 
+                                          "(?i)mollymawk"), "Mollymawk",
+                               common_name),
+         common_name = if_else(str_detect(common_name, 
+                                          "(?i)petrel"), "Petrel",
+                               common_name),
+         common_name = if_else(str_detect(common_name, 
+                                          "(?i)prion"), "Prion",
+                               common_name),
+         common_name = if_else(str_detect(common_name, 
+                                          "(?i)skua"), "Skua",
+                               common_name),
+         common_name = if_else(str_detect(common_name, 
+                                          "(?i)penguin"), "Penguin",
+                               common_name),
+         common_name = if_else(str_detect(common_name, 
+                                          "(?i)Red-tailed tropicbird"), 
+                               "Red-tailed tropicbird",
+                               common_name),
+         common_name = if_else(str_detect(common_name, 
+                                          "(?i)Brown noddy"), "Brown noddy",
+                               common_name)
+  ) %>% 
+  filter(common_name %in% c("Shearwater", "Albatross", 
+                            "Mollymawk", "Petrel", 
+                            "Prion", "Skua", 
+                            "Penguin", "Brown noddy", 
+                            "Red-tailed tropicbird"))
+```
+
+
+```{r}
+pal <- c("Shearwater" = "grey", "Albatross" = "blue", 
+         "Mollymawk" = "yellow", "Petrel" = "green", 
+         "Prion" = "pink", "Skua" = "purple", 
+         "Penguin" = "orange", "Brown noddy" = "brown", 
+         "Red-tailed tropicbird" = "red")
+```
+
+```{r}
+names(birds_9)
+head(birds_9)
+```
+
+
+```{r}
+
+birds_9 %>% 
+  group_by(common_name) %>% 
+  mutate(feeding = if_else(feeding %in% "YES", 1, 0),
+         on_ship = if_else(on_ship %in% "YES", 1, 0),
+         in_hand = if_else(in_hand %in% "YES", 1, 0),
+         fly_by = if_else(fly_by %in% "YES", 1, 0)) %>% 
+  summarise(sighting_count = sum(total_sighting, na.rm = TRUE),
+            feeding_count = sum(feeding, na.rm = TRUE),
+            on_ship_count = sum(on_ship, na.rm = TRUE),
+            in_hand_count = sum(in_hand, na.rm = TRUE),
+            fly_by_count = sum(fly_by, na.rm = TRUE)) 
+```
+
+
+```{r}
+library(leaflet)
+```
+
+```{r}
+m <- birds_9 %>%
+  leaflet() %>%
+  addTiles() %>%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=birds_9$long, lat=birds_9$lat, popup=birds_9$common_name)
+m  # Print the map
+```
+
+
+-45.91667
+165.4000

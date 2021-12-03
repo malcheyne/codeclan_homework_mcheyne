@@ -40,37 +40,29 @@ birds_9 <- seabirds_cleaned_data %>%
                             "Mollymawk", "Petrel", 
                             "Prion", "Skua", 
                             "Penguin", "Brown noddy", 
-                            "Red-tailed tropicbird"))
+                            "Red-tailed tropicbird")) %>% 
+  arrange(desc(common_name))
+  
+  
+pal <- c("Shearwater" = "grey", "Albatross" = "blue", 
+         "Mollymawk" = "yellow", "Petrel" = "green", 
+         "Prion" = "pink", "Skua" = "purple", 
+         "Penguin" = "orange", "Brown noddy" = "brown", 
+         "Red-tailed tropicbird" = "red")
 
 
-sighting <-  birds_9 %>% 
-  group_by(common_name) %>% 
-  summarise(count = sum(total_sighting, na.rm = TRUE)) %>% 
-  mutate(sighting_id = row_number())
-
-feeding <-  birds_9 %>% 
-  group_by(common_name) %>% 
-  filter(str_detect(feeding, "YES")) %>% 
-  summarise(count = n()) %>% 
-  mutate(feeding_id = row_number())
-
-on_ship <-  birds_9 %>% 
-  group_by(common_name) %>% 
-  filter(str_detect(on_ship, "YES")) %>% 
-  summarise(count = n()) %>% 
-  mutate(on_ship_id = row_number())
-
-in_hand <-  birds_9 %>% 
-  group_by(common_name) %>% 
-  filter(str_detect(in_hand, "YES")) %>% 
-  summarise(count = n()) %>% 
-  mutate(in_hand_id = row_number())
-
-fly_by <-  birds_9 %>% 
-  group_by(common_name) %>% 
-  filter(str_detect(fly_by, "YES")) %>% 
-  summarise(count = n()) %>% 
-  mutate(fly_by_id = row_number())
+bird_count <- birds_9 %>% 
+                group_by(common_name) %>% 
+                mutate(feeding = if_else(feeding %in% "YES", 1, 0),
+                     on_ship = if_else(on_ship %in% "YES", 1, 0),
+                     in_hand = if_else(in_hand %in% "YES", 1, 0),
+                     fly_by = if_else(fly_by %in% "YES", 1, 0)) %>% 
+                summarise(sighting_count = sum(total_sighting, na.rm = TRUE),
+                          feeding_count = sum(feeding, na.rm = TRUE),
+                          on_ship_count = sum(on_ship, na.rm = TRUE),
+                          in_hand_count = sum(in_hand, na.rm = TRUE),
+                          fly_by_count = sum(fly_by, na.rm = TRUE))
+ 
 
 
 ui <- fluidPage(
@@ -86,18 +78,19 @@ ui <- fluidPage(
             sidebarPanel(
               # check box
                 checkboxGroupInput("checkgroup_input", 
-                                  label = h3("Seabirds"), 
+                                  label = h3("Select Birds"), 
                                   choices = 
                                     unique(birds_9$common_name),
                                   selected = 
                                     unique(birds_9$common_name)
+                ),
+              #ACTION BUTTON
+                actionButton("update", "Generate Polts and Table"
                 )
-                # ,
-              # ACTION BUTTON 
-                # actionButton("update", "Generate Polts and Table"
-                # )
+              
             ),
-             
+          
+            
             mainPanel(
                 tabsetPanel(
                   # First tab  
@@ -122,6 +115,7 @@ ui <- fluidPage(
                     )
                 )
             )
+           
         ) 
     )
 )
@@ -130,81 +124,65 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   # ACTION BUTTON
-  # filtered_data <- eventReactive(input$update, {
-  # 
-  # filter_sighting <- sighting %>%
-  #     filter(common_name %in% input$checkgroup_input)
-  # 
-  # filter_feeding <- feeding %>% 
-  #   filter(common_name %in% input$checkgroup_input)
-  # 
-  # filter_on_ship <- on_ship %>% 
-  #   filter(common_name %in% input$checkgroup_input)
-  # 
-  # filter_in_hand <- in_hand %>% 
-  #   filter(common_name %in% input$checkgroup_input)
-  # 
-  # filter_fly_by <- fly_by %>% 
-  #   filter(common_name %in% input$checkgroup_input)
-  # 
-  # })
+  filtered_birds <- eventReactive(input$update, {
+    
+    bird_count %>% 
+      filter(common_name %in% input$checkgroup_input)
+
+  })
   
   output$sightings <- renderPlot({
     
-   sighting %>%
-      filter(common_name %in% input$checkgroup_input) %>%
-      ggplot() +
+      ggplot(filtered_birds()) +
       aes(y = common_name,
-          x = log10(count), fill = sighting_id) +
+          x = log10(sighting_count), fill = common_name) +
       geom_col() +
-      theme(legend.position = "none")
+      theme(legend.position = "none") +
+      scale_fill_manual(values = pal)
     # log10() as 1 or more birds are less than 10 and don't show on normal graph
     
   })
   
   output$feeding <- renderPlot({
     
-    feeding %>%
-      filter(common_name %in% input$checkgroup_input) %>%
+    filtered_birds() %>% 
       ggplot() +
       aes(y = common_name, 
-          x = log10(count), fill = feeding_id) +
+          x = log10(feeding_count), fill = common_name) +
       geom_col() +
-      theme(legend.position = "none")
+      theme(legend.position = "none") +
+      scale_fill_manual(values = pal)
     # log10() as 1 or more birds are less than 10 and don't show on normal graph
   })
   
   output$on_ship <- renderPlot({
     
-    on_ship %>%
-      filter(common_name %in% input$checkgroup_input) %>%
-      ggplot() +
+      ggplot(filtered_birds()) +
       aes(y = common_name, 
-          x = count, fill = on_ship_id) +
+          x = on_ship_count, fill = common_name) +
       geom_col() +
-      theme(legend.position = "none")
+      theme(legend.position = "none") +
+      scale_fill_manual(values = pal)
   })
   
   output$in_hand <- renderPlot({
     
-    in_hand %>%
-      filter(common_name %in% input$checkgroup_input) %>%
-      ggplot() +
+      ggplot(filtered_birds()) +
       aes(y = common_name, 
-          x = count, fill = in_hand_id) +
+          x = in_hand_count, fill = common_name) +
       geom_col() +
-      theme(legend.position = "none")
+      theme(legend.position = "none") +
+      scale_fill_manual(values = pal)
   })
   
   output$fly_by <- renderPlot({
     
-    fly_by %>%
-      filter(common_name %in% input$checkgroup_input) %>%
-      ggplot() +
+      ggplot(filtered_birds()) +
       aes(y = common_name, 
-          x = log10(count), fill = fly_by_id) +
+          x = log10(fly_by_count), fill = common_name) +
       geom_col() +
-      theme(legend.position = "none")
+      theme(legend.position = "none") +
+      scale_fill_manual(values = pal)
   })
   
 }
