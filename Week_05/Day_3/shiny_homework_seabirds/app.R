@@ -1,6 +1,7 @@
 library(shiny)
 library(tidyverse)
 library(shinythemes)
+library(leaflet)
 
 
 seabirds_cleaned_data <- read_csv("data/seabirds_cleaned_data.csv")
@@ -107,22 +108,31 @@ ui <- fluidPage(
                     ),
                   # Forth tab
                     tabPanel("Handled",
-                             plotOutput("in_hand")
+                        plotOutput("in_hand")
                     ),
                   # Fifth tab
                     tabPanel("Seen flying",
-                             plotOutput("fly_by")
+                        plotOutput("fly_by")
                     )
                 )
             )
            
         ) 
     )
+  ,
+
+    fluidRow(
+
+        leafletOutput("map"),
+        downloadButton( outputId = "dl")
+
+    )
+  
 )
 
 
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   # ACTION BUTTON
   filtered_birds <- eventReactive(input$update, {
     
@@ -183,6 +193,24 @@ server <- function(input, output) {
       geom_col() +
       theme(legend.position = "none") +
       scale_fill_manual(values = pal)
+  })
+  
+  # Create foundational leaflet map
+  # and store it as a reactive expression
+  # foundational.map <- reactive({
+  #   
+  #   leaflet() %>% # create a leaflet map widget
+  #     
+  #     addTiles( urlTemplate = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+  #   
+  # })
+  # 
+  output$map <- renderLeaflet({
+
+    leaflet(data = bird_count) %>%
+      addTiles() %>%
+      addMarkers(label = bird_count$common_name,
+                 clusterOptions = markerClusterOptions())
   })
   
 }

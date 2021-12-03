@@ -220,11 +220,12 @@ library(leaflet)
 ```
 
 ```{r}
-m <- birds_9 %>%
-  leaflet() %>%
+
+  leaflet(data = birds_9) %>%
   addTiles() %>%  # Add default OpenStreetMap map tiles
-  addMarkers(lng=birds_9$long, lat=birds_9$lat, popup=birds_9$common_name)
-m  # Print the map
+  addMarkers(label = birds_9$common_name, clusterOptions = markerClusterOptions()) 
+  
+ # Print the map
 ```
 
 
