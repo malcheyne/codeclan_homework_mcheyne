@@ -113,6 +113,10 @@ ui <- fluidPage(
                   # Fifth tab
                     tabPanel("Seen flying",
                         plotOutput("fly_by")
+                    ),
+                  # Six tab
+                    tabPanel("Table",
+                             DT::dataTableOutput("table_output")
                     )
                 )
             )
@@ -195,6 +199,11 @@ server <- function(input, output, session) {
       scale_fill_manual(values = pal)
   })
   
+  output$table_output <- DT::renderDataTable({
+    filtered_birds()
+    
+  })
+  
   # Create foundational leaflet map
   # and store it as a reactive expression
   # foundational.map <- reactive({
@@ -207,7 +216,7 @@ server <- function(input, output, session) {
   # 
   output$map <- renderLeaflet({
 
-    leaflet(data = bird_count) %>%
+    leaflet(data = birds_9) %>%
       addTiles() %>%
       addMarkers(label = bird_count$common_name,
                  clusterOptions = markerClusterOptions())
