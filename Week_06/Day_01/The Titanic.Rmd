@@ -1,0 +1,184 @@
+---
+title: "The Titanic"
+output: html_notebook
+---
+
+```{r}
+library(prob)
+library(gtools)
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+titanic <- read_csv("data/titanic.csv")
+```
+
+#1.1 The Titanic
+Some time after the disaster a journalist wrote that crew members were more likely to have survived the sinking than passengers. This was disputed by a descendant of one of the surviving crew members, who suggested that the opposite was true, i.e. passengers were more likely to have survived than crew.
+
+#Question
+Calculate the conditional probabilities prob(survived∣crew) and prob(survived∣passenger)
+
+to settle this dispute.
+
+Have a look at the distinct values of the class variable, this will tell you whether each individual was a passenger (1st, 2nd or 3rd class) or a member of the crew (treat restaurant staff as crew)
+
+
+```{r}
+head(titanic)
+```
+
+
+```{r}
+titanic %>% 
+  count(class)
+```
+
+```{r}
+titanic %>% 
+  filter(survived %in% "yes") %>% 
+  count(class)
+```
+
+```{r}
+class_list <- titanic %>% 
+  mutate(crew = if_else(str_detect(class, 
+                                   "[0-9][a-z]{2}"), 
+                                   "passengers", "crew"))
+class_list
+```
+
+```{r}
+class_list %>% 
+  group_by(survived) %>% 
+  count(crew)
+```
+```{r}
+# 500 passengers survived out of 1317. Giving 38% change of survival
+500/1317 
+```
+
+```{r}
+# 211 crew survived out of 890. Giving 24% change of survival
+211/890
+```
+
+
+```{r}
+crew_pass <- class_list %>% 
+  tabyl(survived, crew) 
+
+crew_pass
+```
+
+```{r}
+crew_pass <- crew_pass %>% 
+  adorn_totals(where = c("row", "col"))
+
+crew_pass
+```
+
+```{r}
+crew_pass <- crew_pass %>% 
+adorn_percentages(denominator = "all")
+
+crew_pass
+
+# Out of the people on broad 32% survived 23% of them passangers and 10% crew.
+# Out of the people on broad 68% died 37% of them passangers and 31% crew.
+```
+
+
+
+```{r}
+prob_pass <- class_list %>% 
+  filter(crew %in% "passengers") %>% 
+  summarise(prob = sum(survived == "yes") / n())
+
+prob_pass
+
+# As above 38% change of survival, 500 passengers survived out of 1317.  
+```
+
+```{r}
+prob_crew <- class_list %>% 
+  filter(crew %in% "crew") %>% 
+  summarise(prob = sum(survived == "yes") / n())
+
+prob_crew
+# As above 24% change of survival, 211 crew survived out of 890.
+```
+
+```{r}
+prob_class <- class_list %>% 
+  group_by(class) %>% 
+  summarise(prob = sum(survived == "yes") / n()) %>% 
+  arrange(desc(prob))
+
+prob_class
+```
+
+```{r}
+prob_staff <- class_list %>% 
+  group_by(crew) %>% 
+  summarise(prob = sum(survived == "yes") / n()) %>% 
+  arrange(desc(prob))
+
+prob_staff
+```
+
+
+```{r}
+prob_gender <- class_list %>% 
+  group_by(gender) %>% 
+  summarise(prob = sum(survived == "yes") / n()) %>% 
+  arrange(desc(prob))
+
+prob_gender
+```
+
+```{r}
+age_grouped <- class_list %>% 
+  #mutate(age_group = when(age == NA_integer_, "unknown")) %>% 
+  mutate(age_group = if_else(age < 10, "under_10",
+                             if_else(age < 20, "under_20",
+                             if_else(age < 30, "20's",
+                             if_else(age < 40, "30's",
+                             if_else(age < 50, "40's",
+                             if_else(age < 60, "50's",
+                             if_else(age < 70, "60's",
+                             if_else(age < 80, "70's",
+                             if_else(age < 90, "80's",
+                             if_else(age < 100, "90's", "over 100"
+                             ))))))))))) 
+  
+         
+         
+age_grouped
+```
+
+```{r}
+age_grouped %>% 
+  group_by(age_group) %>% 
+  summarise(prob = sum(survived == "yes") / n()) %>% 
+  arrange(desc(prob))
+```
+
+```{r}
+age_grouped %>% 
+  filter(is.na(age_group))
+```
+
+# Answer
+No. More passangers survived than crew, 38% of the passangers to 24% of the crew. 
+
+Out of the people on broad 32% survived, 23% of them passangers and 10% crew.
+
+Both ways passengers were more likely to have survived than crew. While the deck crew did have a higher probabilitie of survival out of the classes at 65%,probably this is due to the fact they will have had to man the lifeboats. So the journalist might have just looked at this stat.
+
+Female's were about 3.6 times more likly to survive at 73% to male's 20%.
+
+Under 10's where the highest age group to survive.
+
+
