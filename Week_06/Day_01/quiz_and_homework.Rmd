@@ -63,9 +63,25 @@ Today was pretty full-on! Here are some problems to help you consolidate what yo
 **Question 1.**  
 If I roll a six-sided dice once, what is the probability of getting a number less than 5?
 
+```{r}
+5/6
+```
+```{r}
+# rolldie(1) %>% 
+#   filter()
+#   summarise(prob = n() / nrow(6))
+```
+
+
 <br>
 **Question 2.**  
 How many outcomes are there in the sample space of an experiment in which we toss three dice?
+
+```{r}
+#tosscoin()
+
+rolldie(3)
+```
 
 <br>
 
@@ -80,6 +96,16 @@ In an experiment where we roll four dice:
 <summary>**Hint**</summary>
 For part i, `rowSums(.)` may help you setup up the necessary random variable `total` (or you can use `pivot_longer()`)
 </details>
+```{r}
+four_dice <- rolldie(4)
+
+four_outcome <- four_dice %>% 
+  mutate(outcome = rowSums(.)) %>% 
+  filter(outcome == 5:7) %>% 
+  summarise(prob = n() / nrow(four_dice))
+
+four_outcome
+```
 
 <br>
 
@@ -90,6 +116,29 @@ Five chairs are placed in a row in a room, along with five people of differing h
 <summary>**Hint**</summary>
 This is an arrangement where order matters. Of all the possible arrangements, how many are correct?
 </details>
+```{r}
+hight <- c(5, 7, 9, 10, 12)
+
+chairs <- as_tibble(permutations(n = 5, 
+                                 r = 5, 
+                                 v = hight, 
+                                 repeats.allowed = FALSE))
+
+# Gives 120 
+
+chairs_order <- chairs %>% 
+  filter(V1 > V2, V2 > V3, V3 > V4, V4 > V5)
+
+# Gives 1
+
+chairs_prob <- chairs_order %>% 
+  summarise(prob = n() / nrow(chairs))
+
+# 1/120
+
+chairs_prob
+
+```
 
 <br>
 **Question 5.**  
@@ -102,6 +151,23 @@ I roll six dice:
 <summary>**Hint**</summary>
 Have a look at the `isin()` function in the `prob` package. For example, to `filter` all rows containing $6$, $1$, $2$ in that order, you could use `isin(., c(6, 1, 2), ordered = TRUE)`
 </details>
+
+```{r}
+six_roll <- rolldie(6)
+
+# six_dice <- as_tibble(permutations(n = 6, 
+#                                    r = 6, 
+#                                    v = six_roll, 
+#                                    repeats.allowed = FALSE))
+
+# Gives 120 
+
+six_dice_order <- six_roll %>% 
+  filter(isin(., C(6, 5, 4, 3, 2, 1), ordered = TRUE))
+
+# no idea but should be 1/46656 = 2.143347e-05
+```
+
 
 <br>
 **Question 6.**  
