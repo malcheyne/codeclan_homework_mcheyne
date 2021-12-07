@@ -64,7 +64,7 @@ Today was pretty full-on! Here are some problems to help you consolidate what yo
 If I roll a six-sided dice once, what is the probability of getting a number less than 5?
 
 ```{r}
-5/6
+4/6
 ```
 ```{r}
 # rolldie(1) %>% 
@@ -101,7 +101,7 @@ four_dice <- rolldie(4)
 
 four_outcome <- four_dice %>% 
   mutate(outcome = rowSums(.)) %>% 
-  filter(outcome == 5:7) %>% 
+  filter(outcome %in% 5:7) %>% 
   summarise(prob = n() / nrow(four_dice))
 
 four_outcome
@@ -155,17 +155,31 @@ Have a look at the `isin()` function in the `prob` package. For example, to `fil
 ```{r}
 six_roll <- rolldie(6)
 
-# six_dice <- as_tibble(permutations(n = 6, 
-#                                    r = 6, 
-#                                    v = six_roll, 
+# six_dice <- as_tibble(permutations(n = 6,
+#                                    r = 6,
+#                                    v = six_roll,
 #                                    repeats.allowed = FALSE))
 
-# Gives 120 
+# this the same as rolldie(6)
 
-six_dice_order <- six_roll %>% 
-  filter(isin(., C(6, 5, 4, 3, 2, 1), ordered = TRUE))
+
+
+six_dice_order <- six_roll %>%
+  filter(isin(., c(6, 5, 4, 3, 2, 1), ordered = TRUE))
 
 # no idea but should be 1/46656 = 2.143347e-05
+```
+
+### class work out
+```{r}
+six_dice_order_p <- six_roll %>%
+  dplyr::filter(X1 == 6, X2 == 5, X3 == 4, X4 == 3, X5 == 2, X6 ==1) %>% 
+  summarise(p = nrow(.)/nrow(six_roll))
+```
+
+### Ricardo 
+```{r}
+as_tibble(permutations(6, 6, repeats.allowed = T))
 ```
 
 
