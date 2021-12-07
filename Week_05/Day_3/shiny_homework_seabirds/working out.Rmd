@@ -63,12 +63,18 @@ sighting <-  birds_9 %>%
 sighting %>% 
     ggplot() +
     aes(y = common_name, 
-        x = log10(count), fill = sighting_id) +
-    geom_col() +
-    theme(legend.position = "none")
+        x = count, fill = sighting_id) +
+    geom_col(colour = "black") +
+    theme(legend.position = "none") +
+    scale_x_continuous(breaks = c(1, 5, 10, 1000, 6000, 1400000),
+                       limits = c(1,1400000), 
+                       trans = "log10") +
+    labs(y = "\n Bird Names",
+         x = "Number of Birds Seen \n Log10 scale")
 
 # log10() as 1 or more birds are less than 10 and don't show on normal graph
 ```
+1,394,468
 
 ```{r}
 feeding <-  birds_9 %>% 
@@ -80,9 +86,14 @@ feeding <-  birds_9 %>%
 feeding %>% 
     ggplot() +
     aes(y = common_name, 
-        x = log10(count), fill = feeding_id) +
-    geom_col() +
-    theme(legend.position = "none")
+        x = count, fill = feeding_id) +
+    geom_col(colour = "black") +
+    theme(legend.position = "none") +
+    scale_x_continuous(breaks = c(1, 5, 10, 100, 300, 800),
+                       limits = c(1,800), 
+                       trans = "log10") +
+    labs(y = "\n Bird Names",
+         x = "Number of Birds Seen Feeding \n Log10 scale")
 # log10() as 1 or more birds are less than 10 and don't show on normal graph
 ```
 
@@ -97,8 +108,10 @@ on_ship %>%
     ggplot() +
     aes(y = common_name, 
         x = count, fill = on_ship_id) +
-    geom_col() +
-    theme(legend.position = "none")
+    geom_col(colour = "black") +
+    theme(legend.position = "none") +
+    labs(y = "\n Bird Names",
+         x = "Number of Birds Seen On Ship")
 ```
 
 
@@ -113,8 +126,10 @@ in_hand %>%
     ggplot() +
     aes(y = common_name, 
         x = count, fill = in_hand_id) +
-    geom_col() +
-    theme(legend.position = "none")
+    geom_col(colour = "black") +
+    theme(legend.position = "none") +
+    labs(y = "\n Bird Names",
+         x = "Number of Birds Seen In Hand")
 ```
 
 
@@ -128,9 +143,14 @@ fly_by <-  birds_9 %>%
 fly_by %>% 
     ggplot() +
     aes(y = common_name, 
-        x = log10(count), fill = fly_by_id) +
-    geom_col() +
-    theme(legend.position = "none")
+        x = count, fill = fly_by_id) +
+    geom_col(colour = "black") +
+    theme(legend.position = "none") +
+    scale_x_continuous(breaks = c(1, 5, 10, 1000, 6000), 
+                       limits = c(1,6000), 
+                       trans = "log10") +
+    labs(y = "\n Bird Names",
+         x = "Number of Birds Seen Flying BY\n Log10 scale")
 # log10() as 1 or more birds are less than 10 and don't show on normal graph
 ```
 
