@@ -217,18 +217,11 @@ pre code {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShqYW5pdG9yKVxuXG5gYGAifQ== -->
-<pre class="r"><code>library(janitor)
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGphbml0b3IpXG5saWJyYXJ5KGdncGxvdDIpXG5gYGAifQ== -->
+<pre class="r"><code>library(tidyverse)
+library(janitor)
+library(ggplot2)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYamFuaXRvcuKAmVxuXG5UaGUgZm9sbG93aW5nIG9iamVjdHMgYXJlIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6c3RhdHPigJk6XG5cbiAgICBjaGlzcS50ZXN0LCBmaXNoZXIudGVzdFxuIn0= -->
-<pre><code>
-Attaching package: ‘janitor’
-
-The following objects are masked from ‘package:stats’:
-
-    chisq.test, fisher.test</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
@@ -237,9 +230,9 @@ The following objects are masked from ‘package:stats’:
 <pre class="r"><code>phone &lt;- read_csv(&quot;data/20190928-items.csv&quot;) %&gt;% 
   clean_names()</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUm93czogNzkyIENvbHVtbnM6IDlcbi0tIENvbHVtbiBzcGVjaWZpY2F0aW9uIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLVxuRGVsaW1pdGVyOiBcIixcIlxuY2hyICg3KTogYXNpbiwgYnJhbmQsIHRpdGxlLCB1cmwsIGltYWdlLCByZXZpZXdVcmwsIHByaWNlc1xuZGJsICgyKTogcmF0aW5nLCB0b3RhbFJldmlld3NcblxuaSBVc2UgYHNwZWMoKWAgdG8gcmV0cmlldmUgdGhlIGZ1bGwgY29sdW1uIHNwZWNpZmljYXRpb24gZm9yIHRoaXMgZGF0YS5cbmkgU3BlY2lmeSB0aGUgY29sdW1uIHR5cGVzIG9yIHNldCBgc2hvd19jb2xfdHlwZXMgPSBGQUxTRWAgdG8gcXVpZXQgdGhpcyBtZXNzYWdlLlxuIn0= -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogNzkyIENvbHVtbnM6IDlcbi0tIENvbHVtbiBzcGVjaWZpY2F0aW9uIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS1cbkRlbGltaXRlcjogXCIsXCJcbmNociAoNyk6IGFzaW4sIGJyYW5kLCB0aXRsZSwgdXJsLCBpbWFnZSwgcmV2aWV3VXJsLCBwcmljZXNcbmRibCAoMik6IHJhdGluZywgdG90YWxSZXZpZXdzXG5cbmkgVXNlIGBzcGVjKClgIHRvIHJldHJpZXZlIHRoZSBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9uIGZvciB0aGlzIGRhdGEuXG5pIFNwZWNpZnkgdGhlIGNvbHVtbiB0eXBlcyBvciBzZXQgYHNob3dfY29sX3R5cGVzID0gRkFMU0VgIHRvIHF1aWV0IHRoaXMgbWVzc2FnZS5cbiJ9 -->
 <pre><code>Rows: 792 Columns: 9
--- Column specification ---------------------------------------------------------------------
+-- Column specification -------------------------------------------------
 Delimiter: &quot;,&quot;
 chr (7): asin, brand, title, url, image, reviewUrl, prices
 dbl (2): rating, totalReviews
@@ -254,7 +247,7 @@ i Specify the column types or set `show_col_types = FALSE` to quiet this message
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVhZChwaG9uZSlcbmBgYCJ9 -->
 <pre class="r"><code>head(phone)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6OSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyI2IHggOSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJyVldXMi9iTmhSV0VqdXREYVFvMEQzdWdROWJNYUNqWk1tWDJBTUtXSmE5eElsOGlTOUoyb2NadEtUYXJHVlJrK2g0MjlQK3h2YWJ0aiswaDNhVVJMcVdPMlAxUXc1Z2t6emsrWGpPK1E0cERwcjN4Zng5WHBLa0V5bHpkQ1NkWkZsWE9qWDZxbGJXSkNsenpFWkhVa2JLUmUwdmJOVUwxb2tHejZObGZDTGZLREFaM210alkxdFQ2NWJOOCt0dHpmQjY5TFl3M05Lb3RXcEgxVHJiR3IxWDZxVncxS1p4cFY5ZDdPeVo3WklGUm56d3RFTW9DWWk3Yi95Rmk5TTcvTlJjSVJjMmtHY0RCWXdDRER2RWRzRFFEN0JIUWQ4WWd2NmNlQTVZSytDV1lNc0J1a1h4QTZLT0Rab1l1ZGliZ1plZ0VlRFpuSUs3T2FZT2FDQnI0V0lLaGxiZ09CN2Y1WVhZSGJTMVNobjRFU2FmT3UvMFJyMUJ6OVNCb1ZhcUdPaWpseU5ndExzWFkxTWZnUDZnMWRmYlRYRFI2MS8ydWkxZ3RFd1R4RjF1cnNaQmcwcTVVQUJERnpQZkd5N3pRQW14KytBRVlPeTV4Rm93YnczSGRaTll1T0czRzVkd3NWamVtZ2NOUWtJS09tU0tYYkVZYmhiZkZwbi9IZ0VXOFdpQUxBb3Nacmh5VVpBRUZidS9rK0tiT2FWKytJT2lyTmRyR1MzUmI4U1RMYkpVTnBtSEl1OXdrMTNJc3d0NU9oWGJWejZydjlkN2dJV3pFTE5rd3lqak1IWk9nS1JLMXR3SHdtbUJNUzFRTUFJNUk1QXpJakJUUmQvYWd4bHpCU091WU13VlRGaUNnaVVPbGo0dis4QStSY240Z3pGMU1LWU9KdFFKc05SUnUvby9zSWhmS01pRmd0eFUvdjc3cU40SjVLVzhkR3dXNWhZNlhxS1pFeXB0UlZOTHhWYmpSbE1McGp6UmpjbjRqYVpXSjhPV1BqQXVOYlZZclZZblAzYld6dFNmM0pqbjVZbjgzcDhkQWw5U2EzY04vYmFwRHg0Ri9seWR2dnE1K0t1OWFBOGZ4L3N3TEYzNjVzSjhKTzhMNDE1MVpvOWVQUXA4UlRYZmRJM2JJTGorY25oSmVoWlZVUDJwRkV2OVNUR1dldWF2U1A2dW4vQngvbDBzOWR3ZmtmeTVVM25xbnByMkEyS3ZXQkVIemdOMjF1SG45OGNoaHFrNzR4REQxTVZ3Z0dINkVqakVNSFhnRHpIY25PdUVsZTg1SzEvenRzTGJyM2hiNXUxM2twQ0VGZlowK01pRU8zRDZUYWttMThvYjdkNDI5UXJKZW1qcGhCd3l4NVVaRkdMeFJjMU9BL2JsRUFPSzZlWmJkYklLWEtHUHExTTRFaURLdmlqaXpaRUVQdm0wK0l3U2l0d0pUNGd3WWc4QkszSWs1VjB1SUd0WmVIakdmc2Uvc3o4V3hUKzdZVmd1Q2tVWVFwbTNFVVh5dTREWnM5R0hIWk1ueEtlWWVNem9PSHFGWlhlTWo0SWR4Zk9WRjNsaVEydSs4aFl3ZXM5SitYZytrVFBlUDkzcTU1STlqejl5ckt5STF2Rm1lUE5DeUxwbzZvanNQR01oeHhITDhkTm9rMFd5RHVVNGNVSmpFVmRvNHVDa0QvOENBaUxTMG40S0FBQT0ifQ== -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6OSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyI2IHggOSJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJyVldXMi9iTmhSV0VqdXREYVFvMEQzdWdROWJNYUNqWk1tWDJBTUtXSmE5eElsOGlTOUoyb2NadEtUYXJHVlJrK2g0MjlQK3h2YWJ0aiswaDNhVVJMcVdPMlAxUXc1Z2t6emsrWGpPK1E0cERwcjN4Zng5WHBLa0V5bHpkQ1NkWkZsWE9qWDZxbGJXSkNsenpFWkhVa2JLUmUwdmJOVUwxb2tHejZObGZDTGZLREFaM210alkxdFQ2NWJOOCt0dHpmQjY5TFl3M05Lb3RXcEgxVHJiR3IxWDZxVncxS1p4cFY5ZDdPeVo3WklGUm56d3RFTW9DWWk3Yi95Rmk5TTcvTlJjSVJjMmtHY0RCWXdDRER2RWRzRFFEN0JIUWQ4WWd2NmNlQTVZSytDV1lNc0J1a1h4QTZLT0Rab1l1ZGliZ1plZ0VlRFpuSUs3T2FZT2FDQnI0V0lLaGxiZ09CN2Y1WVhZSGJTMVNobjRFU2FmT3UvMFJyMUJ6OVNCb1ZhcUdPaWpseU5ndExzWFkxTWZnUDZnMWRmYlRYRFI2MS8ydWkxZ3RFd1R4RjF1cnNaQmcwcTVVQUJERnpQZkd5N3pRQW14KytBRVlPeTV4Rm93YnczSGRaTll1T0czRzVkd3NWamVtZ2NOUWtJS09tU0tYYkVZYmhiZkZwbi9IZ0VXOFdpQUxBb3Nacmh5VVpBRUZidS9rK0tiT2FWKytJT2lyTmRyR1MzUmI4U1RMYkpVTnBtSEl1OXdrMTNJc3d0NU9oWGJWejZydjlkN2dJV3pFTE5rd3lqak1IWk9nS1JLMXR3SHdtbUJNUzFRTUFJNUk1QXpJakJUUmQvYWd4bHpCU091WU13VlRGaUNnaVVPbGo0dis4QStSY240Z3pGMU1LWU9KdFFKc05SUnUvby9zSWhmS01pRmd0eFUvdjc3cU40SjVLVzhkR3dXNWhZNlhxS1pFeXB0UlZOTHhWYmpSbE1McGp6UmpjbjRqYVpXSjhPV1BqQXVOYlZZclZZblAzYld6dFNmM0pqbjVZbjgzcDhkQWw5U2EzY04vYmFwRHg0Ri9seWR2dnE1K0t1OWFBOGZ4L3N3TEYzNjVzSjhKTzhMNDE1MVpvOWVQUXA4UlRYZmRJM2JJTGorY25oSmVoWlZVUDJwRkV2OVNUR1dldWF2U1A2dW4vQngvbDBzOWR3ZmtmeTVVM25xbnByMkEyS3ZXQkVIemdOMjF1SG45OGNoaHFrNzR4REQxTVZ3Z0dINkVqakVNSFhnRHpIY25PdUVsZTg1SzEvenRzTGJyM2hiNXUxM2twQ0VGZlowK01pRU8zRDZUYWttMThvYjdkNDI5UXJKZW1qcGhCd3l4NVVaRkdMeFJjMU9BL2JsRUFPSzZlWmJkYklLWEtHUHExTTRFaURLdmlqaXpaRUVQdm0wK0l3U2l0d0pUNGd3WWc4QkszSWs1VjB1SUd0WmVIakdmc2Uvc3o4V3hUKzdZVmd1Q2tVWVFwbTNFVVh5dTREWnM5R0hIWk1ueEtlWWVNem9PSHFGWlhlTWo0SWR4Zk9WRjNsaVEydSs4aFpRTFVRN3hQT0puUEgrNlZZL2wreDUvSkZqWlVXMGpqZkRteGRDMWtWVFIyVG5HUXM1amxpT24wYWJMSkoxS01lSkV4cUx1RUlUQnlkOStCZmNGWUQyZmdvQUFBPT0ifQ== -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["asin"],"name":[1],"type":["chr"],"align":["left"]},{"label":["brand"],"name":[2],"type":["chr"],"align":["left"]},{"label":["title"],"name":[3],"type":["chr"],"align":["left"]},{"label":["url"],"name":[4],"type":["chr"],"align":["left"]},{"label":["image"],"name":[5],"type":["chr"],"align":["left"]},{"label":["rating"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["review_url"],"name":[7],"type":["chr"],"align":["left"]},{"label":["total_reviews"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["prices"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"B0000SX2UC","2":"Nokia","3":"Dual-Band / Tri-Mode Sprint PCS Phone w/ Voice Activated Dialing & Bright White Backlit Screen","4":"https://www.amazon.com/Dual-Band-Tri-Mode-Activated-Dialing-Backlit/dp/B0000SX2UC","5":"https://m.media-amazon.com/images/I/2143EBQ210L._AC_UY218_SEARCH213888_FMwebp_QL75_.jpg","6":"3.0","7":"https://www.amazon.com/product-reviews/B0000SX2UC","8":"14","9":"NA"},{"1":"B0009N5L7K","2":"Motorola","3":"Motorola I265 phone","4":"https://www.amazon.com/Motorola-i265-I265-phone/dp/B0009N5L7K","5":"https://m.media-amazon.com/images/I/419WBAVDARL._AC_UY218_SEARCH213888_FMwebp_QL75_.jpg","6":"2.9","7":"https://www.amazon.com/product-reviews/B0009N5L7K","8":"7","9":"$49.95"},{"1":"B000SKTZ0S","2":"Motorola","3":"MOTOROLA C168i AT&T CINGULAR PREPAID GOPHONE CELL PHONE","4":"https://www.amazon.com/MOTOROLA-C168i-CINGULAR-PREPAID-GOPHONE/dp/B000SKTZ0S","5":"https://m.media-amazon.com/images/I/71b+q3ydkIS._AC_UY218_SEARCH213888_FMwebp_QL75_.jpg","6":"2.6","7":"https://www.amazon.com/product-reviews/B000SKTZ0S","8":"22","9":"NA"},{"1":"B00198M12M","2":"Nokia","3":"Nokia 6500 Slide Black/silver Unlocked Cell Phone","4":"https://www.amazon.com/Nokia-6500-Slide-silver-Unlocked/dp/B00198M12M","5":"https://m.media-amazon.com/images/I/41ss4HpLkLL._AC_UY218_SEARCH213888_FMwebp_QL75_.jpg","6":"2.4","7":"https://www.amazon.com/product-reviews/B00198M12M","8":"5","9":"NA"},{"1":"B001AO4OUC","2":"Motorola","3":"Motorola i335 Cell Phone Boost Mobile","4":"https://www.amazon.com/Motorola-i335-Phone-Boost-Mobile/dp/B001AO4OUC","5":"https://m.media-amazon.com/images/I/710UO8gdT+L._AC_UY218_SEARCH213888_FMwebp_QL75_.jpg","6":"3.3","7":"https://www.amazon.com/product-reviews/B001AO4OUC","8":"21","9":"NA"},{"1":"B001DCJAJG","2":"Motorola","3":"Motorola V365 no contract cellular phone AT&T","4":"https://www.amazon.com/Motorola-V365-contract-cellular-phone/dp/B001DCJAJG","5":"https://m.media-amazon.com/images/I/61LYNCVrrKL._AC_UY218_SEARCH213888_FMwebp_QL75_.jpg","6":"3.2","7":"https://www.amazon.com/product-reviews/B001DCJAJG","8":"12","9":"NA"}],"options":{"columns":{"min":{},"max":[10],"total":[9]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
@@ -265,14 +258,12 @@ i Specify the column types or set `show_col_types = FALSE` to quiet this message
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGhvbmUgJT4lIFxuICAgXG4gIFxuICBjb3VudChicmFuZCkgJT4lXG4gIGFycmFuZ2UoZGVzYyhuKSlcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGhvbmUgJT4lIFxuICBjb3VudChicmFuZCkgJT4lXG4gIGFycmFuZ2UoZGVzYyhuKSlcbmBgYCJ9 -->
 <pre class="r"><code>phone %&gt;% 
-   
-  
   count(brand) %&gt;%
   arrange(desc(n))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJucm93IjoxMCwibmNvbCI6Miwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxMCB4IDIiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFSVFUrRFFCQmRLQlJMVXRQRW8vRmc0clVrcmVuQkkxR2pIdFJHMHNoMUM0aWJManVFajJodi9nSC9yc2ZpQUR2R1FQTFllVFB6WnZmdHZ0eUVsMjdvTXNaR3pESU1Ockl4Wk9QcjlXSzVXakptbWNnTVpyRkp1MzVpMXdrR2JYS0djSFhCQ1hoVzFpclYxUGJ6WENhYUhEMUNCUVZJVHNVbjJBa2k0L3VOLzNyN1FPd09JUDBUV2dHb1BWVkN3U0VUVlBHRFRVQmJQNnRrTGVzU3cybDNJbVo4NDVvZ1lzUUNjWUU0UjV3aFRuV2ZNN0JtSzU0bHBiWmxVbkpiY0JXVGVUV1FUQXI0OEVqV3pqUy84TmMwemM5d2RpUjVTYk1wNmNhODR0NWJnWHBraDRIRWdid1NvRkJrdHZkdEQ4UkdNVWpNYXRXZUpKNUg3N1hhelZkWC9WVmd2ZittT25iL3hXYS9wOW5vV1RiZGRhSlNvZWdWYk1tM2lkVGtHQzEzanIyOEVLb2lLNWd0dlFvcVRuMXVCSkl5blRsMitBV3cvSXYrYUFJQUFBPT0ifQ== -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInNwZWNfdGJsX2RmIiwidGJsX2RmIiwidGJsIiwiZGF0YS5mcmFtZSJdLCJucm93IjoxMCwibmNvbCI6Miwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxMCB4IDIiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFSVFUrRFFCQmR0bEFzU1UwVGo4YURpZGVTVU9NUElHclVnOXBJR3JsdUFaRjAyU0Y4UkwzMUQvaDNQUllIMkRFR2tzZk9tNWszdTIvMzVTYThkRUtITVRaaHBtR3dpWVVobTE2dnZkWFZpakdUSXpPWXlXYmQrb2xkSnhoMHlRWEMwUVU3RUhuVnFGUlR5eThLbVdoeTlBZzFsQ0FGRlo5Z2x4R1ozbS84MTlzSFluY0E2Wi9RREVCOVVTWE1CT1FaVmZ4Z0U5RFd6eXBaeTZiQ2NONmZpQm5mdUNhSUdPRWhMaERuaURQRXFlNnpSOVlzSmZLazByWTRKYmVsVURHWlZ5UEpySVFQbDJUZFRMN0hYOXUyUCtQWmtSUVZ6YWFrRTR0YXVHOGw2cEVkUmhJYmlqb0RoU0xlM2JjMUVodmxLTEZvVkhlU2VCbTlOMnEzOUx6aEtyQStmSE1kTy85aVB1ekpXejNMb3J0T1ZKb3BlZ1ZMaW0waU5UbEd5NzFqdHlnelZaTVZ6Rlp1RGJXZ1BpY0NTWm5lSER2OEFyaVNkckJvQWdBQSJ9 -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["brand"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Samsung","2":"397"},{"1":"Apple","2":"101"},{"1":"Motorola","2":"100"},{"1":"Nokia","2":"49"},{"1":"HUAWEI","2":"36"},{"1":"Google","2":"33"},{"1":"Sony","2":"29"},{"1":"Xiaomi","2":"27"},{"1":"ASUS","2":"13"},{"1":"OnePlus","2":"7"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[10]},"pages":{}}}
@@ -295,8 +286,27 @@ i Specify the column types or set `show_col_types = FALSE` to quiet this message
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGhvbmUgJT4lXG4gIGZpbHRlcihicmFuZCAlaW4lIFwiU2Ftc3VuZ1wiKSAlPiVcbiAgc3VtbWFyaXNlKGNvdW50ID0gbigpLFxuICAgICAgICAgICAgbWVhbiA9IG1lYW4ocmF0aW5nKSxcbiAgICAgICAgICAgIHNkID0gc2QocmF0aW5nKVxuICApXG5gYGAifQ== -->
+<pre class="r"><code>phone %&gt;%
+  filter(brand %in% &quot;Samsung&quot;) %&gt;%
+  summarise(count = n(),
+            mean = mean(rating),
+            sd = sd(rating)
+  )</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6Mywic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIHggMyJdfX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJndHlpVERtaXVCaVlHQmdabUJoWkdSZ1pnVXlHZGljQXd5TlRJMFlHRmlZZ0R4R0JoWUdUaEJkQVZRbERGYkt3TUFMbG1CZzdBWFNmQ0MyQTg4ME9kM2w3WjR3dnYzVGwwZTBiUzJZMEF4aHpVdk1UUzBHTWdRZ2RrSUVrL05MODBxZ0hKYmMxTVE4S0p1cE9BVk5QMmRSZnJrZXpBeVFJNWdhZ01SL0lFQzNLRGtuc1JobUVVeVFLeVd4SkZFdnJRaW9IOGo3aDZhRlBiK2dKRE0vRDZpSkNlUk5WalROakVWb0FnS2xlU0NYcE9nbVo1VG1aZXNhR29Gc2dJUUxHRUREQ0l4aGJHYUluVXovb1dheFFzMWlTODFMejh4TGhUaytKekVwTlFmSzRRTjZHZXhqdllLaVRIZ3djUUZGaS9WSzhrc1NZZXE0a3ZOellDSmd6ekg4QXdBMVFGL1Ezd0VBQUE9PSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["count"],"name":[1],"type":["int"],"align":["right"]},{"label":["mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"397","2":"3.5733","3":"0.6847859"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCmxpYnJhcnkodGlkeXZlcnNlKQ0KbGlicmFyeShqYW5pdG9yKQ0KbGlicmFyeShnZ3Bsb3QyKQ0KYGBgDQoNCmBgYHtyfQ0KcGhvbmUgPC0gcmVhZF9jc3YoImRhdGEvMjAxOTA5MjgtaXRlbXMuY3N2IikgJT4lIA0KICBjbGVhbl9uYW1lcygpDQpgYGANCg0KYGBge3J9DQpoZWFkKHBob25lKQ0KYGBgDQoNCmBgYHtyfQ0KcGhvbmUgJT4lIA0KICBjb3VudChicmFuZCkgJT4lDQogIGFycmFuZ2UoZGVzYyhuKSkNCmBgYA0KDQpgYGB7cn0NCnBob25lICU+JSANCiAgZmlsdGVyKGJyYW5kICVpbiUgIlNhbXN1bmciKSAlPiUgDQogIGdncGxvdChhZXMoeCA9IHJhdGluZykpICsNCiAgZ2VvbV9oaXN0b2dyYW0oY29sID0gIndoaXRlIiwgYmlucyA9IDI1KQ0KYGBgDQoNCg0K</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCmxpYnJhcnkodGlkeXZlcnNlKQ0KbGlicmFyeShqYW5pdG9yKQ0KbGlicmFyeShnZ3Bsb3QyKQ0KYGBgDQoNCmBgYHtyfQ0KcGhvbmUgPC0gcmVhZF9jc3YoImRhdGEvMjAxOTA5MjgtaXRlbXMuY3N2IikgJT4lIA0KICBjbGVhbl9uYW1lcygpDQpgYGANCg0KYGBge3J9DQpoZWFkKHBob25lKQ0KYGBgDQoNCmBgYHtyfQ0KcGhvbmUgJT4lIA0KICBjb3VudChicmFuZCkgJT4lDQogIGFycmFuZ2UoZGVzYyhuKSkNCmBgYA0KDQpgYGB7cn0NCnBob25lICU+JSANCiAgZmlsdGVyKGJyYW5kICVpbiUgIlNhbXN1bmciKSAlPiUgDQogIGdncGxvdChhZXMoeCA9IHJhdGluZykpICsNCiAgZ2VvbV9oaXN0b2dyYW0oY29sID0gIndoaXRlIiwgYmlucyA9IDI1KQ0KYGBgDQoNCmBgYHtyfQ0KcGhvbmUgJT4lDQogIGZpbHRlcihicmFuZCAlaW4lICJTYW1zdW5nIikgJT4lDQogIHN1bW1hcmlzZShjb3VudCA9IG4oKSwNCiAgICAgICAgICAgIG1lYW4gPSBtZWFuKHJhdGluZyksDQogICAgICAgICAgICBzZCA9IHNkKHJhdGluZykNCiAgKQ0KYGBgDQoNCg==</div>
 
 
 

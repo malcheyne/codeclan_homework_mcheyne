@@ -31,4 +31,12 @@ phone %>%
   geom_histogram(col = "white", bins = 25)
 ```
 
+```{r}
+phone %>%
+  filter(brand %in% "Samsung") %>%
+  summarise(count = n(),
+            mean = mean(rating),
+            sd = sd(rating)
+  )
+```
 
