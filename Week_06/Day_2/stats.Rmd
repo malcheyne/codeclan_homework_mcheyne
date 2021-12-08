@@ -40,3 +40,18 @@ phone %>%
   )
 ```
 
+```{r}
+phone %>%
+  ggplot(aes(x = rating)) +
+  geom_histogram(aes(y = ..density..), col = "white") +
+  stat_function(
+    fun = dnorm, 
+    args = list(
+      mean = mean(phone$rating),
+      sd = sd(phone$rating)
+    ),
+    col = "red"
+  )
+```
+
+
