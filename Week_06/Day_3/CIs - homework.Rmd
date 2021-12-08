@@ -1,0 +1,189 @@
+---
+title: "Homework - CIs"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
+    css: ../../../styles.css
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = 'center')
+```
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(infer)
+library(ggplot2)
+```
+
+
+
+<hr>
+
+# MVP
+
+Now we'll go back to CI creation in the normal fashion. We'll take the `ames` data from the CIs lab earlier today and regard it now as a **sample**, we won't be drawing any smaller samples from within it. This is the usual situation in an analysis: you use all the data available to you!
+
+<br>
+
+**Task 1.**  
+Load the data again, `clean_names()`, and re-familiarise yourself with it
+```{r}
+ames <- read_csv("data/ames.csv") %>% 
+  clean_names()
+```
+
+<br>
+
+**Task 2.**  
+Investigate the distribution of `lot_area`. Is the distribution roughly normal? If not, what problems do you find?
+```{r}
+ames %>% 
+  ggplot(aes(x = lot_area)) +
+  geom_histogram(col = "black", fill = "red", alpha = 0.7)
+```
+
+
+<br>
+
+**Task 3.**  
+Compute and visualise a bootstrap sampling distribution for the `mean(lot_area)` of the sold houses.
+```{r}
+ames_infer <- ames %>% 
+  specify(response = lot_area) %>% 
+  generate(reps = 5000, type = "bootstrap") %>% 
+  calculate(stat = "mean")
+
+ames_infer %>% 
+  summarise(mean(stat))
+```
+
+<br>
+
+**Task 4.**  
+Use your bootstrap distribution to calculate a $95\%$ CI for `mean(lot_area)`, and visualise it on the distribution
+```{r}
+ames_infer_95 <- ames_infer %>% 
+  get_ci(level = 0.95, type = "percentile")
+
+ames_infer_95
+```
+
+<br>
+
+**Task 5.**  
+You would like to know the `mean(lot_area)` of the sold houses with higher confidence. Calculate the $99\%$ CI for this variable (you can re-use your bootstrap distribution from above). Is it narrower or broader than the $95\%$ CI? Does that make sense?
+```{r}
+ames_infer_99 <- ames_infer %>% 
+  get_ci(level = 0.99, type = "percentile")
+
+ames_infer_99
+
+# broader as the outlining data pulling it out
+```
+
+<br>
+
+**Task 6.**  
+Calculate the point estimate of the `mean(lot_area)`
+```{r}
+mean_ames <- ames_infer %>% 
+  summarise(mean = mean(stat))
+mean_ames
+```
+
+<hr>
+
+# Extension
+
+<br>
+```{r}
+names(ames)
+```
+
+**Task 1.**  
+Calculate a point estimate and $95\%$ CI for the proportion of houses in the data built before 1920.  Does the number of `reps` you use matter? [Investigate `reps` from $200$ up to $50000$, memory of your laptop permitting].
+<br><br>
+```{r}
+yr_1920 <- ames %>%
+  filter(year_built < 1920)
+
+
+# 
+# yr_infer <- yr_1920 %>% 
+#   specify(response = reps) %>% 
+#   
+```
+
+```{r}
+ames %>% 
+  ggplot(aes(x = year_built)) + 
+  geom_histogram(col = "black", fill = "red", alpha = 0.7) 
+```
+
+
+```{r}
+yr_built <- ames %>% 
+  summarise(prop_1920 = sum(year_built < 1920)/ n())
+
+yr_built
+```
+
+```{r}
+yr_infer_200 <- yr_1920 %>% 
+  specify(response = year_built) %>% 
+  generate(reps = 200, type = "bootstrap") %>% 
+  calculate(stat = "mean")
+
+yr_infer_5000 <- yr_1920 %>% 
+  specify(response = year_built) %>% 
+  generate(reps = 5000, type = "bootstrap") %>% 
+  calculate(stat = "mean")
+
+yr_infer_200
+yr_infer_5000
+```
+
+```{r}
+yr_200_ci <- yr_infer_200 %>% 
+  get_ci(level = 0.95, type = "percentile")
+
+yr_5000_ci <- yr_infer_5000 %>% 
+  get_ci(level = 0.95, type = "percentile")
+
+yr_200_ci
+yr_5000_ci
+```
+
+```{r}
+yr_infer_200 %>% 
+  visualise(bins = 30) +
+  shade_confidence_interval(endpoints = yr_200_ci) +
+  labs(x = "Year Built",
+       y = "Number Built")
+
+yr_infer_5000 %>% 
+  visualise(bins = 30) +
+  shade_confidence_interval(endpoints = yr_5000_ci) +
+  labs(x = "Year Built",
+       y = "Number Built")
+```
+
+
+```{r}
+mean_yr_200 <- yr_infer_200 %>% 
+  summarise(mean = mean(stat))
+
+mean_yr_5000 <- yr_infer_5000 %>% 
+  summarise(mean = mean(stat))
+
+
+mean_yr_200
+mean_yr_5000
+```
+
