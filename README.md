@@ -23,7 +23,7 @@ Taking the top 7 types of cancer that are have more than 50 cases a year in NHS 
 * Colon
 
 
-![](Week_09\Day_01\screen_shots\top_7.png)
+![](images\top_7.png)
 
 We can see a steady rise's for two skin cancers incidences over the 24 year period. Breast cancer comes in peaks that mite have come from increased publicity encouraging people to check or be tested in the lead up to the peaks.
 They can be split by proactive and reactive approaches.
@@ -44,14 +44,14 @@ They can be split by proactive and reactive approaches.
 
 # Cancer by Age and Sex Demographic's
 
-![](Week_09\Day_01\screen_shots\age_gender.png)
+![](images\age_gender.png)
 
 Here we can see the brake down by age and gender showing the older the person is the greater risk they have. While women start by being at higher risk at a younger age older men make up the highest risk of cancer. This adds these ages to the demographic of targets to focus any publicity for proactive and reactive approaches. Both genders peak in the 70-74 range and men have the over take women as having the highest risk in the 55-59 range.
 
 
-![](Week_09\Day_01\screen_shots\age_cancers.png)
+![](images\age_cancers.png)
 
-![](Week_09\Day_01\screen_shots\age_cancers_2.png)
+![](images\age_cancers_2.png)
 
 This is a brake down of Cancer type by age reinforces the demographic of targets to focus any publicity for proactive and reactive approaches.
 
@@ -62,8 +62,8 @@ This is a brake down of Cancer type by age reinforces the demographic of targets
 
 
 
-![](Week_09\Day_01\screen_shots\top_8.png)
-![](Week_09\Day_01\screen_shots\top_8_2.png)
+![](images\top_8.png)
+![](images\top_8_2.png)
 
 While almost all these cancers are shared equally between the two genders, two cancers breast and prostate have a traditional gender bias on which is effected.  As-well two of the skin cancers have a higher risk in men since around 2005 on wards. This can be a demographic to target to focus the publicity encouraging talked about above or showing the risk
 
@@ -72,7 +72,7 @@ While almost all these cancers are shared equally between the two genders, two c
 
 # Health Boards comparason
 
-![](Week_09\Day_01\screen_shots\area.png)
+![](images\area.png)
 
 In comparison to other local Health Boards, NHS Borders has a small percentage of the cancer incidences across Scotland
 
@@ -80,7 +80,7 @@ In comparison to other local Health Boards, NHS Borders has a small percentage o
 
 # Allover trend v Crude rate
 
-![](Week_09\Day_01\screen_shots\crude.png)
+![](images\crude.png)
 
 Focusing in on NHS Borders we can see a steady rise in the number of cancer incidences over the 24 year period.  The crude rate that is measured by per 100,000 has lagged behind and not followed this increase since around 2004.
 
