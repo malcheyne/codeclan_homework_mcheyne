@@ -195,14 +195,14 @@ Here we can see the brake down by age and gender showing the older the person is
  
 ```{r}
 
-biggest_type <- area %>% 
-  filter(hb %in% "Borders",
-         sex %!in% "All",
-         cancer_site %!in% "All cancer types") %>%
-  group_by(cancer_site) %>% 
-  summarise(count = sum(incidences_all_ages)) %>% 
-  arrange(desc(count)) %>% 
-  head(8)
+# biggest_type <- area %>% 
+#   filter(hb %in% "Borders",
+#          sex %!in% "All",
+#          cancer_site %!in% "All cancer types") %>%
+#   group_by(cancer_site) %>% 
+#   summarise(count = sum(incidences_all_ages)) %>% 
+#   arrange(desc(count)) %>% 
+#   head(8)
 
 
 # comb_hb %>% 
@@ -406,7 +406,7 @@ area %>%
   ggplot(aes(x = year, y = incidences_all_ages, col = sex)) +
   geom_point() +
   geom_line(size=1.2) +
-  labs(title = "Top 4 Cancers by Gender \n",
+  labs(title = "Top 8 Cancers by Gender \n",
        x = "Year",
        y = "Number of Incidences \n",
        colour = "Gender") +
@@ -508,9 +508,11 @@ Focusing in on NHS Borders we can see a steady rise in the number of cancer inci
 
 <br>
 
-# standardised incidence ratio compared to NHS Borders
+
 
 ```{r}
+# standardised incidence ratio compared to NHS Borders
+
 # crude <- area %>% 
 #   filter(hb %in% "Borders",
 #          sex %in% "All",
