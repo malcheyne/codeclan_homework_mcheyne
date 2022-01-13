@@ -1,7 +1,9 @@
 # Homework as part of the Data courses
 
-# Example of work below
-
+ Example of work below
+<br>
+<br>
+<br>
 # Introduction
 
 <center>
