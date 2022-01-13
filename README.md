@@ -77,7 +77,7 @@ comb_hb <- read_csv("raw_data/opendata_inc1519comb_hb.csv") %>%
 
 ```
 
-# Intordution
+# Introduction
 
 <center>
 Report written <br>
