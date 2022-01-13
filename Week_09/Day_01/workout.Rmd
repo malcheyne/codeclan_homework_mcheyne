@@ -212,6 +212,22 @@ crude
 
 Focusing in on NHS Borders we can see a steady rise in the number of cancer incidences over the 24 year period. The crude rate that is measured by per 100,000 has lagged behind and not followed this increase since around 2004. 
 
+
+```{r}
+got it working
+
+area %>% 
+  filter(hb %in% "Borders",
+         sex %in% "All",
+         cancer_site %in% "All cancer types") %>% 
+  pivot_longer(7:8, names_to = "incedence",
+               values_to = "val") %>% 
+  ggplot(aes(x = year, y = val, col = incedence)) +
+  geom_point() +
+  geom_line() 
+```
+
+
 ```{r}
 easr <- area %>% 
   filter(hb %in% "Borders",
@@ -224,15 +240,15 @@ easr <- area %>%
   #                    breaks = c(600, 700, 800, 900)) +
   #geom_smooth(method = "lm", se = FALSE, col = "blue") +
   geom_point(aes(x = year, y = easr),
-             col = "dark green") +
+             col = "#800080") +
   geom_line(aes(x = year, y = easr),
-            col = "dark green") +
+            col = "#800080") +
   geom_ribbon(aes(ymin = easr - easr_diff_down, 
                   ymax = easr + easr_diff_up), 
               fill = "grey70", alpha=0.5) +
   
   geom_text(aes(label = "Incidences", x = 2019.5, y = 900), color = "red") +
-  geom_text(aes(label = "Easr", x = 2020, y = 550), color = "dark green") +
+  geom_text(aes(label = "Easr", x = 2020, y = 550), color = "#800080") +
   geom_text(aes(label = "Easr \n Range", x = 2020, y = 600), color = "grey70")
 
 easr
@@ -250,15 +266,15 @@ wasr <- area %>%
   #                    breaks = c(600, 700, 800, 900)) +
   #geom_smooth(method = "lm", se = FALSE, col = "blue") +
   geom_point(aes(x = year, y = wasr),
-             col = "dark green") +
+             col = "dark orange") +
   geom_line(aes(x = year, y = wasr),
-            col = "dark green") +
+            col = "dark orange") +
   geom_ribbon(aes(ymin = wasr - wasr_diff_down, 
                   ymax = wasr + wasr_diff_up), 
               fill = "grey70", alpha=0.5) +
   
   geom_text(aes(label = "Incidences", x = 2019.5, y = 900), color = "red") +
-  geom_text(aes(label = "Wasr", x = 2020, y = 280), color = "dark green") +
+  geom_text(aes(label = "Wasr", x = 2020, y = 280), color = "dark orange") +
   geom_text(aes(label = "Wasr \n Range", x = 2020, y = 350), color = "grey70")
 
 wasr
@@ -276,15 +292,15 @@ sir <- area %>%
   #                    breaks = c(600, 700, 800, 900)) +
   #geom_smooth(method = "lm", se = FALSE, col = "blue") +
   geom_point(aes(x = year, y = standardised_incidence_ratio),
-             col = "dark green") +
+             col = "dark blue") +
   geom_line(aes(x = year, y = standardised_incidence_ratio),
-            col = "dark green") +
+            col = "dark blue") +
   geom_ribbon(aes(ymin = standardised_incidence_ratio - sir_diff_down, 
                   ymax = standardised_incidence_ratio + sir_diff_up), 
               fill = "grey70", alpha=0.5) +
   
   geom_text(aes(label = "Incidences", x = 2019.5, y = 900), color = "red") +
-  geom_text(aes(label = "SIR", x = 2020, y = 100), color = "dark green") +
+  geom_text(aes(label = "SIR", x = 2020, y = 100), color = "dark blue") +
   geom_text(aes(label = "SIR \n Range", x = 2019.5, y = 170), color = "grey70")
 
 sir
@@ -363,7 +379,14 @@ sir
 ggarrange(crude, easr, wasr, sir,
           #labels = c("Crude","European Age-Standardised","World Age-Standardised"," standardised incidence"),
           ncol = 2, nrow = 2)
+
+
+# I just checked out the patchwork package, and yep you can combine legends really easily.
+# The code looks something like
+# p1 + p2 + plot_layout(guides = "collect")
 ```
+
+
 
 
 ```{r}

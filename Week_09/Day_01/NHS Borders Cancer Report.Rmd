@@ -101,7 +101,6 @@ Taking the top 7 types of cancer that are have more than 50 cases a year in NHS 
 * Squamous cell carcinoma of the skin				
 * Colon
 
-We can see a steady rise's for two skin cancers incidences over the 24 year period. Breast cancer comes in peaks that mite have come from increased publicity encouraging people to check or be tested in the lead up to the peaks. 
 
 <br>
 
@@ -113,7 +112,6 @@ biggest_type <- area %>%
   group_by(cancer_site) %>% 
   summarise(count = sum(incidences_all_ages)) %>% 
   arrange(desc(count)) %>% 
-  # change head to 
   head(7)
 
 area %>% 
@@ -124,13 +122,15 @@ area %>%
   ggplot(aes(x = year, y = incidences_all_ages, col = cancer_site)) +
   geom_point() +
   geom_line() +
-  labs(title = "Top 7 Cancers in Men, NHS Borders \n",
+  labs(title = "Top 7 Cancers in NHS Borders \n",
        x = "Year",
-       y = "Number of incidences \n") +
+       y = "Number of Incidences \n",
+       colour = "Types of Cancers\n") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
+<br>
 
-
+We can see a steady rise's for two skin cancers incidences over the 24 year period. Breast cancer comes in peaks that mite have come from increased publicity encouraging people to check or be tested in the lead up to the peaks.
 They can be split by proactive and reactive approaches.
 
 ## Proactive
@@ -158,10 +158,10 @@ comb_hb %>%
                names_to = "age_range",
                values_to = "count") %>%
   mutate(age_range = case_when(
-    age_range == "incidences_age_under5" ~ "< 5",
-    age_range == "incidences_age5to9" ~ "05 to 9",
+    age_range == "incidences_age_under5" ~ "< 05",
+    age_range == "incidences_age5to9" ~ "05 to 09",
     age_range == "incidences_age10to14" ~ "10 to 14",
-    age_range == "incidences_age15to19" ~ "15 yo 19",
+    age_range == "incidences_age15to19" ~ "15 to 19",
     age_range == "incidences_age20to24" ~ "20 to 24",
     age_range == "incidences_age25to29" ~ "25 to 29",
     age_range == "incidences_age30to34" ~ "30 to 34",
@@ -183,13 +183,13 @@ comb_hb %>%
   scale_fill_manual(values = pal) +
   coord_flip() +
   labs(title = "Age Range by Gender \n",
-       x = "Number of incidences \n",
+       x = "Number of Incidences \n",
        y = "Age Range \n") +
   theme(plot.title = element_text(hjust = 0.5))
   
 ```
 
-Here we can see the brake down by age and gender showing the older the person is the greater risk they have. While women start by being at higher risk at a younger age older men make up the highest risk of cancer. This adds these ages to the demographic of targets to focus any publicity for proactive and reactive approaches.
+Here we can see the brake down by age and gender showing the older the person is the greater risk they have. While women start by being at higher risk at a younger age older men make up the highest risk of cancer. This adds these ages to the demographic of targets to focus any publicity for proactive and reactive approaches. Both genders peak in the 70-74 range and men have the over take women as having the highest risk in the 55-59 range.
  
  
 ```{r}
@@ -201,7 +201,6 @@ biggest_type <- area %>%
   group_by(cancer_site) %>% 
   summarise(count = sum(incidences_all_ages)) %>% 
   arrange(desc(count)) %>% 
-  # change head to 
   head(8)
 
 
@@ -214,10 +213,10 @@ comb_hb %>%
                names_to = "age_range",
                values_to = "count") %>%
   mutate(age_range = case_when(
-    age_range == "incidences_age_under5" ~ "< 5",
-    age_range == "incidences_age5to9" ~ "05 to 9",
+    age_range == "incidences_age_under5" ~ "< 05",
+    age_range == "incidences_age5to9" ~ "05 to 09",
     age_range == "incidences_age10to14" ~ "10 to 14",
-    age_range == "incidences_age15to19" ~ "15 yo 19",
+    age_range == "incidences_age15to19" ~ "15 to 19",
     age_range == "incidences_age20to24" ~ "20 to 24",
     age_range == "incidences_age25to29" ~ "25 to 29",
     age_range == "incidences_age30to34" ~ "30 to 34",
@@ -237,15 +236,13 @@ comb_hb %>%
     cancer_site == "Basal cell carcinoma of the skin" ~ "Basal cell carcinoma",
     cancer_site == "Squamous cell carcinoma of the skin" ~ "Squamous cell carcinoma",
     TRUE ~ cancer_site)) %>% 
-  
-  #select(hb, cancer_site, sex, year, age_range, count) %>% 
   ggplot(aes(x = age_range, y = count, fill = sex)) +
   geom_col(position = "dodge", col = "black") +
   scale_fill_manual(values = pal) +
   coord_flip() +
   facet_wrap(~ cancer_site) +
   labs(title = "Age Range by Tpye of Cancer \n",
-       x = "Number of incidences \n",
+       x = "Number of Incidences \n",
        y = "Age Range \n") +
   theme(plot.title = element_text(hjust = 0.5), 
         axis.text.y=element_blank(),
@@ -269,7 +266,6 @@ biggest_type <- area %>%
   group_by(cancer_site) %>% 
   summarise(count = sum(incidences_all_ages)) %>% 
   arrange(desc(count)) %>% 
-  # change head to 
   head(8)
 
 area %>% 
@@ -279,16 +275,16 @@ area %>%
          cancer_site %!in% "All cancer types") %>% 
   ggplot(aes(x = year, y = incidences_all_ages, col = sex)) +
   geom_point() +
-  geom_line() +
+  geom_line(size=1.2) +
   labs(title = "Top 8 Cancers by Gender \n",
        x = "Year",
-       y = "Number of incidences \n") +
+       y = "Number of Incidences \n") +
   theme(plot.title = element_text(hjust = 0.5)) +
   facet_wrap(~ cancer_site) +
   scale_colour_manual(values = pal)
 ```
 
-While almost all the cancers are shared equally between the two genders, two cancers breast and prostate have a traditional gender bias on which is effected.  As-well two of the skin cancers have a higher risk in men since around 2005 on wards. This can be a demographic to target to focus the publicity encouraging talked about above or showing the risk 
+While almost all these cancers are shared equally between the two genders, two cancers breast and prostate have a traditional gender bias on which is effected.  As-well two of the skin cancers have a higher risk in men since around 2005 on wards. This can be a demographic to target to focus the publicity encouraging talked about above or showing the risk 
 
 <br>
 
@@ -316,7 +312,7 @@ area %>%
   geom_text(aes(label = "Lanarkshire", x = 2019.5, y = 4500), color = "grey40") +
   labs(title = "Cancers Incidence by Health Boards \n",
        x = "Year",
-       y = "Number of incidences \n") +
+       y = "Number of Incidences \n") +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
@@ -347,13 +343,13 @@ crude <- area %>%
   geom_text(aes(label = "Crude \n Rate \n Range", x = 2020, y = 750), color = "grey70") +
   labs(title = "Cancers Incidence in NHS Borders \n",
        x = "Year",
-       y = "Number of incidences \n") +
+       y = "Number of Incidences \n") +
   theme(plot.title = element_text(hjust = 0.5))
   
 crude
 ```
 
-Focusing in on NHS Borders we can see a steady rise in the number of cancer incidences over the 24 year period. The crude rate that is measured by per 100,000 has lagged behind and not followed this increase since around 2004. 
+Focusing in on NHS Borders we can see a steady rise in the number of cancer incidences over the 24 year period.  The crude rate that is measured by per 100,000 has lagged behind and not followed this increase since around 2004. 
 
 <br>
 
@@ -376,7 +372,7 @@ crude <- area %>%
               fill = "grey70", alpha=0.5) +
   labs(title = "Crude Rate by NHS Borders",
        x = "Year",
-       y = "Number of incidences \n") +
+       y = "Number of Incidences \n") +
   theme(plot.title = element_text(hjust = 0.5))
 
 
@@ -389,15 +385,15 @@ easr <- area %>%
   geom_point(col = "red") +
   geom_line(col = "red") +
   geom_point(aes(x = year, y = easr),
-             col = "dark green") +
+             col = "dark orange") +
   geom_line(aes(x = year, y = easr),
-            col = "dark green") +
+            col = "dark orange") +
   geom_ribbon(aes(ymin = easr - easr_diff_down, 
                   ymax = easr + easr_diff_up), 
               fill = "grey70", alpha=0.5) +
   labs(title = "European Age-Standardised by NHS Borders",
        x = "Year",
-       y = "Number of incidences \n") +
+       y = "Number of Incidences \n") +
   theme(plot.title = element_text(hjust = 0.5))
 
 
@@ -410,15 +406,15 @@ wasr <- area %>%
   geom_point(col = "red") +
   geom_line(col = "red") +
   geom_point(aes(x = year, y = wasr),
-             col = "dark green") +
+             col = "#800080") +
   geom_line(aes(x = year, y = wasr),
-            col = "dark green") +
+            col = "#800080") +
   geom_ribbon(aes(ymin = wasr - wasr_diff_down, 
                   ymax = wasr + wasr_diff_up), 
               fill = "grey70", alpha=0.5) +
   labs(title = "World Age-Standardised by NHS Borders",
        x = "Year",
-       y = "Number of incidences \n") +
+       y = "Number of Incidences \n") +
   theme(plot.title = element_text(hjust = 0.5))
 
 
@@ -431,15 +427,15 @@ sir <- area %>%
   geom_point(col = "red") +
   geom_line(col = "red") +
   geom_point(aes(x = year, y = standardised_incidence_ratio),
-             col = "dark green") +
+             col = "dark blue") +
   geom_line(aes(x = year, y = standardised_incidence_ratio),
-            col = "dark green") +
+            col = "dark blue") +
   geom_ribbon(aes(ymin = standardised_incidence_ratio - sir_diff_down, 
                   ymax = standardised_incidence_ratio + sir_diff_up), 
               fill = "grey70", alpha=0.5) +
   labs(title = "Age-Standardised by NHS Borders",
        x = "Year",
-       y = "Number of incidences \n") +
+       y = "Number of Incidences \n") +
   theme(plot.title = element_text(hjust = 0.5))
 
 
@@ -459,3 +455,9 @@ https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resou
 <br>
 <br>
 <br>
+
+
+
+
+
+
