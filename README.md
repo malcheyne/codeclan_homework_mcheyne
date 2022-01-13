@@ -81,8 +81,8 @@ comb_hb <- read_csv("raw_data/opendata_inc1519comb_hb.csv") %>%
 
 <center>
 Report written <br>
-\n by <br>
-\n Malcolm Cheyne
+ by <br>
+ Malcolm Cheyne
 <center>
 <br>
 
