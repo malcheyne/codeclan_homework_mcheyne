@@ -184,7 +184,8 @@ comb_hb %>%
   coord_flip() +
   labs(title = "Age Range by Gender \n",
        x = "Number of Incidences \n",
-       y = "Age Range \n") +
+       y = "Age Range \n",
+       fill = "Gender") +
   theme(plot.title = element_text(hjust = 0.5))
   
 ```
@@ -204,8 +205,56 @@ biggest_type <- area %>%
   head(8)
 
 
+# comb_hb %>% 
+#   filter(cancer_site %in% c(biggest_type$cancer_site)) %>%
+#   filter(hb %in% "Borders",
+#          sex %!in% "All",
+#          cancer_site %!in% "All cancer types") %>% 
+#   pivot_longer(c(7:24),
+#                names_to = "age_range",
+#                values_to = "count") %>%
+#   mutate(age_range = case_when(
+#     age_range == "incidences_age_under5" ~ "< 05",
+#     age_range == "incidences_age5to9" ~ "05 to 09",
+#     age_range == "incidences_age10to14" ~ "10 to 14",
+#     age_range == "incidences_age15to19" ~ "15 to 19",
+#     age_range == "incidences_age20to24" ~ "20 to 24",
+#     age_range == "incidences_age25to29" ~ "25 to 29",
+#     age_range == "incidences_age30to34" ~ "30 to 34",
+#     age_range == "incidences_age35to39" ~ "35 to 39",
+#     age_range == "incidences_age40to44" ~ "40 to 44",
+#     age_range == "incidences_age45to49" ~ "45 to 49",
+#     age_range == "incidences_age50to54" ~ "50 to 54",
+#     age_range == "incidences_age55to59" ~ "55 to 59",
+#     age_range == "incidences_age60to64" ~ "60 to 64",
+#     age_range == "incidences_age65to69" ~ "65 to 69",
+#     age_range == "incidences_age70to74" ~ "70 to 74",
+#     age_range == "incidences_age75to79" ~ "75 to 79",
+#     age_range == "incidences_age80to84" ~ "80 to 84",
+#     age_range == "incidences_age85and_over" ~ "85 +"
+#   ),
+#   cancer_site = case_when(
+#     cancer_site == "Basal cell carcinoma of the skin" ~ "Basal cell carcinoma",
+#     cancer_site == "Squamous cell carcinoma of the skin" ~ "Squamous cell carcinoma",
+#     TRUE ~ cancer_site)) %>% 
+#   ggplot(aes(x = age_range, y = count, fill = sex)) +
+#   geom_col(position = "dodge", col = "black") +
+#   scale_fill_manual(values = pal) +
+#   coord_flip() +
+#   facet_wrap(~ cancer_site) +
+#   labs(title = "Age Range by Tpye of Cancer \n",
+#        x = "Number of Incidences \n",
+#        y = "Age Range \n",
+#        colour = "Gender") +
+#   theme(plot.title = element_text(hjust = 0.5), 
+#         axis.text.y=element_blank(),
+#         axis.ticks.y=element_blank())
+
 comb_hb %>% 
-  filter(cancer_site %in% c(biggest_type$cancer_site)) %>%
+  filter(cancer_site %in% c("Basal cell carcinoma of the skin", 
+                            "Non-melanoma skin cancer",
+                            "Breast",
+                            "Prostate")) %>%
   filter(hb %in% "Borders",
          sex %!in% "All",
          cancer_site %!in% "All cancer types") %>% 
@@ -243,7 +292,60 @@ comb_hb %>%
   facet_wrap(~ cancer_site) +
   labs(title = "Age Range by Tpye of Cancer \n",
        x = "Number of Incidences \n",
-       y = "Age Range \n") +
+       y = "Age Range \n",
+       fill = "Gender") +
+  theme(plot.title = element_text(hjust = 0.5), 
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+
+```
+
+```{r}
+comb_hb %>% 
+  filter(cancer_site %in% c("Trachea, bronchus and lung",
+                            "Colorectal cancer",
+                            "Squamous cell carcinoma of the skin",
+                            "Colon")) %>%
+  filter(hb %in% "Borders",
+         sex %!in% "All",
+         cancer_site %!in% "All cancer types") %>% 
+  pivot_longer(c(7:24),
+               names_to = "age_range",
+               values_to = "count") %>%
+  mutate(age_range = case_when(
+    age_range == "incidences_age_under5" ~ "< 05",
+    age_range == "incidences_age5to9" ~ "05 to 09",
+    age_range == "incidences_age10to14" ~ "10 to 14",
+    age_range == "incidences_age15to19" ~ "15 to 19",
+    age_range == "incidences_age20to24" ~ "20 to 24",
+    age_range == "incidences_age25to29" ~ "25 to 29",
+    age_range == "incidences_age30to34" ~ "30 to 34",
+    age_range == "incidences_age35to39" ~ "35 to 39",
+    age_range == "incidences_age40to44" ~ "40 to 44",
+    age_range == "incidences_age45to49" ~ "45 to 49",
+    age_range == "incidences_age50to54" ~ "50 to 54",
+    age_range == "incidences_age55to59" ~ "55 to 59",
+    age_range == "incidences_age60to64" ~ "60 to 64",
+    age_range == "incidences_age65to69" ~ "65 to 69",
+    age_range == "incidences_age70to74" ~ "70 to 74",
+    age_range == "incidences_age75to79" ~ "75 to 79",
+    age_range == "incidences_age80to84" ~ "80 to 84",
+    age_range == "incidences_age85and_over" ~ "85 +"
+  ),
+  cancer_site = case_when(
+    cancer_site == "Basal cell carcinoma of the skin" ~ "Basal cell carcinoma",
+    cancer_site == "Squamous cell carcinoma of the skin" ~ "Squamous cell carcinoma",
+    TRUE ~ cancer_site)) %>% 
+  ggplot(aes(x = age_range, y = count, fill = sex)) +
+  geom_col(position = "dodge", col = "black") +
+  scale_fill_manual(values = pal) +
+  coord_flip() +
+  facet_wrap(~ cancer_site) +
+  labs(
+       x = "Number of Incidences \n",
+       y = "Age Range \n",
+       fill = "Gender") +
   theme(plot.title = element_text(hjust = 0.5), 
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
@@ -259,26 +361,79 @@ This is a brake down of Cancer type by age reinforces the demographic of targets
  
  
 ```{r}
-biggest_type <- area %>% 
-  filter(hb %in% "Borders",
-         sex %!in% "All",
-         cancer_site %!in% "All cancer types") %>%
-  group_by(cancer_site) %>% 
-  summarise(count = sum(incidences_all_ages)) %>% 
-  arrange(desc(count)) %>% 
-  head(8)
+# biggest_type <- area %>% 
+#   filter(hb %in% "Borders",
+#          sex %!in% "All",
+#          cancer_site %!in% "All cancer types") %>%
+#   group_by(cancer_site) %>% 
+#   summarise(count = sum(incidences_all_ages)) %>% 
+#   arrange(desc(count)) %>% 
+#   head(8)
+
+# area %>% 
+#   filter(cancer_site %in% c(biggest_type$cancer_site)) %>%
+#   filter(hb %in% "Borders",
+#          sex %!in% "All",
+#          cancer_site %!in% "All cancer types") %>% 
+#   mutate(
+#   cancer_site = case_when(
+#     cancer_site == "Basal cell carcinoma of the skin" ~ "Basal cell carcinoma",
+#     cancer_site == "Squamous cell carcinoma of the skin" ~ "Squamous cell carcinoma",
+#     TRUE ~ cancer_site)) %>% 
+#   ggplot(aes(x = year, y = incidences_all_ages, col = sex)) +
+#   geom_point() +
+#   geom_line(size=1.2) +
+#   labs(title = "Top 8 Cancers by Gender \n",
+#        x = "Year",
+#        y = "Number of Incidences \n",
+#        colour = "Gender") +
+#   theme(plot.title = element_text(hjust = 0.5)) +
+#   facet_wrap(~ cancer_site) +
+#   scale_colour_manual(values = pal)
 
 area %>% 
-  filter(cancer_site %in% c(biggest_type$cancer_site)) %>%
+  filter(cancer_site %in% c("Non-melanoma skin cancer",
+                            "Squamous cell carcinoma of the skin", "Breast",
+                            "Prostate")) %>%
   filter(hb %in% "Borders",
          sex %!in% "All",
          cancer_site %!in% "All cancer types") %>% 
+  mutate(
+  cancer_site = case_when(
+    cancer_site == "Basal cell carcinoma of the skin" ~ "Basal cell carcinoma",
+    cancer_site == "Squamous cell carcinoma of the skin" ~ "Squamous cell carcinoma",
+    TRUE ~ cancer_site)) %>% 
   ggplot(aes(x = year, y = incidences_all_ages, col = sex)) +
   geom_point() +
   geom_line(size=1.2) +
-  labs(title = "Top 8 Cancers by Gender \n",
+  labs(title = "Top 4 Cancers by Gender \n",
        x = "Year",
-       y = "Number of Incidences \n") +
+       y = "Number of Incidences \n",
+       colour = "Gender") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  facet_wrap(~ cancer_site) +
+  scale_colour_manual(values = pal)
+
+area %>% 
+  filter(cancer_site %in% c("Trachea, bronchus and lung",
+                            "Colorectal cancer",
+                            "Basal cell carcinoma of the skin",
+                            "Colon"))%>%
+  filter(hb %in% "Borders",
+         sex %!in% "All",
+         cancer_site %!in% "All cancer types") %>% 
+  mutate(
+  cancer_site = case_when(
+    cancer_site == "Basal cell carcinoma of the skin" ~ "Basal cell carcinoma",
+    cancer_site == "Squamous cell carcinoma of the skin" ~ "Squamous cell carcinoma",
+    TRUE ~ cancer_site)) %>% 
+  ggplot(aes(x = year, y = incidences_all_ages, col = sex)) +
+  geom_point() +
+  geom_line(size=1.2) +
+  labs(
+       x = "Year",
+       y = "Number of Incidences \n",
+       colour = "Gender") +
   theme(plot.title = element_text(hjust = 0.5)) +
   facet_wrap(~ cancer_site) +
   scale_colour_manual(values = pal)
@@ -356,92 +511,92 @@ Focusing in on NHS Borders we can see a steady rise in the number of cancer inci
 # standardised incidence ratio compared to NHS Borders
 
 ```{r}
-crude <- area %>% 
-  filter(hb %in% "Borders",
-         sex %in% "All",
-         cancer_site %in% "All cancer types") %>% 
-  ggplot(aes(x = year, y = incidences_all_ages)) +
-  geom_point(col = "red") +
-  geom_line(col = "red") +
-  geom_point(aes(x = year, y = crude_rate),
-             col = "dark green") +
-  geom_line(aes(x = year, y = crude_rate),
-            col = "dark green") +
-  geom_ribbon(aes(ymin = crude_rate - cure_diff_down, 
-                  ymax = crude_rate + cure_diff_up), 
-              fill = "grey70", alpha=0.5) +
-  labs(title = "Crude Rate by NHS Borders",
-       x = "Year",
-       y = "Number of Incidences \n") +
-  theme(plot.title = element_text(hjust = 0.5))
-
-
-
-easr <- area %>% 
-  filter(hb %in% "Borders",
-         sex %in% "All",
-         cancer_site %in% "All cancer types") %>% 
-  ggplot(aes(x = year, y = incidences_all_ages)) +
-  geom_point(col = "red") +
-  geom_line(col = "red") +
-  geom_point(aes(x = year, y = easr),
-             col = "dark orange") +
-  geom_line(aes(x = year, y = easr),
-            col = "dark orange") +
-  geom_ribbon(aes(ymin = easr - easr_diff_down, 
-                  ymax = easr + easr_diff_up), 
-              fill = "grey70", alpha=0.5) +
-  labs(title = "European Age-Standardised by NHS Borders",
-       x = "Year",
-       y = "Number of Incidences \n") +
-  theme(plot.title = element_text(hjust = 0.5))
-
-
-
-wasr <- area %>% 
-  filter(hb %in% "Borders",
-         sex %in% "All",
-         cancer_site %in% "All cancer types") %>% 
-  ggplot(aes(x = year, y = incidences_all_ages)) +
-  geom_point(col = "red") +
-  geom_line(col = "red") +
-  geom_point(aes(x = year, y = wasr),
-             col = "#800080") +
-  geom_line(aes(x = year, y = wasr),
-            col = "#800080") +
-  geom_ribbon(aes(ymin = wasr - wasr_diff_down, 
-                  ymax = wasr + wasr_diff_up), 
-              fill = "grey70", alpha=0.5) +
-  labs(title = "World Age-Standardised by NHS Borders",
-       x = "Year",
-       y = "Number of Incidences \n") +
-  theme(plot.title = element_text(hjust = 0.5))
-
-
-
-sir <- area %>% 
-  filter(hb %in% "Borders",
-         sex %in% "All",
-         cancer_site %in% "All cancer types") %>% 
-  ggplot(aes(x = year, y = incidences_all_ages)) +
-  geom_point(col = "red") +
-  geom_line(col = "red") +
-  geom_point(aes(x = year, y = standardised_incidence_ratio),
-             col = "dark blue") +
-  geom_line(aes(x = year, y = standardised_incidence_ratio),
-            col = "dark blue") +
-  geom_ribbon(aes(ymin = standardised_incidence_ratio - sir_diff_down, 
-                  ymax = standardised_incidence_ratio + sir_diff_up), 
-              fill = "grey70", alpha=0.5) +
-  labs(title = "Age-Standardised by NHS Borders",
-       x = "Year",
-       y = "Number of Incidences \n") +
-  theme(plot.title = element_text(hjust = 0.5))
-
-
-
-ggarrange(crude, easr, wasr, sir,
-          ncol = 2, nrow = 2)
+# crude <- area %>% 
+#   filter(hb %in% "Borders",
+#          sex %in% "All",
+#          cancer_site %in% "All cancer types") %>% 
+#   ggplot(aes(x = year, y = incidences_all_ages)) +
+#   geom_point(col = "red") +
+#   geom_line(col = "red") +
+#   geom_point(aes(x = year, y = crude_rate),
+#              col = "dark green") +
+#   geom_line(aes(x = year, y = crude_rate),
+#             col = "dark green") +
+#   geom_ribbon(aes(ymin = crude_rate - cure_diff_down, 
+#                   ymax = crude_rate + cure_diff_up), 
+#               fill = "grey70", alpha=0.5) +
+#   labs(title = "Crude Rate by NHS Borders",
+#        x = "Year",
+#        y = "Number of Incidences \n") +
+#   theme(plot.title = element_text(hjust = 0.5))
+# 
+# 
+# 
+# easr <- area %>% 
+#   filter(hb %in% "Borders",
+#          sex %in% "All",
+#          cancer_site %in% "All cancer types") %>% 
+#   ggplot(aes(x = year, y = incidences_all_ages)) +
+#   geom_point(col = "red") +
+#   geom_line(col = "red") +
+#   geom_point(aes(x = year, y = easr),
+#              col = "dark orange") +
+#   geom_line(aes(x = year, y = easr),
+#             col = "dark orange") +
+#   geom_ribbon(aes(ymin = easr - easr_diff_down, 
+#                   ymax = easr + easr_diff_up), 
+#               fill = "grey70", alpha=0.5) +
+#   labs(title = "European Age-Standardised by NHS Borders",
+#        x = "Year",
+#        y = "Number of Incidences \n") +
+#   theme(plot.title = element_text(hjust = 0.5))
+# 
+# 
+# 
+# wasr <- area %>% 
+#   filter(hb %in% "Borders",
+#          sex %in% "All",
+#          cancer_site %in% "All cancer types") %>% 
+#   ggplot(aes(x = year, y = incidences_all_ages)) +
+#   geom_point(col = "red") +
+#   geom_line(col = "red") +
+#   geom_point(aes(x = year, y = wasr),
+#              col = "#800080") +
+#   geom_line(aes(x = year, y = wasr),
+#             col = "#800080") +
+#   geom_ribbon(aes(ymin = wasr - wasr_diff_down, 
+#                   ymax = wasr + wasr_diff_up), 
+#               fill = "grey70", alpha=0.5) +
+#   labs(title = "World Age-Standardised by NHS Borders",
+#        x = "Year",
+#        y = "Number of Incidences \n") +
+#   theme(plot.title = element_text(hjust = 0.5))
+# 
+# 
+# 
+# sir <- area %>% 
+#   filter(hb %in% "Borders",
+#          sex %in% "All",
+#          cancer_site %in% "All cancer types") %>% 
+#   ggplot(aes(x = year, y = incidences_all_ages)) +
+#   geom_point(col = "red") +
+#   geom_line(col = "red") +
+#   geom_point(aes(x = year, y = standardised_incidence_ratio),
+#              col = "dark blue") +
+#   geom_line(aes(x = year, y = standardised_incidence_ratio),
+#             col = "dark blue") +
+#   geom_ribbon(aes(ymin = standardised_incidence_ratio - sir_diff_down, 
+#                   ymax = standardised_incidence_ratio + sir_diff_up), 
+#               fill = "grey70", alpha=0.5) +
+#   labs(title = "Age-Standardised by NHS Borders",
+#        x = "Year",
+#        y = "Number of Incidences \n") +
+#   theme(plot.title = element_text(hjust = 0.5))
+# 
+# 
+# 
+# ggarrange(crude, easr, wasr, sir,
+#           ncol = 2, nrow = 2)
 ```
 
 # References
