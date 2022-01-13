@@ -79,11 +79,11 @@ comb_hb <- read_csv("raw_data/opendata_inc1519comb_hb.csv") %>%
 
 # Introduction
 
-<center>
-                                                                          Report written <br>
-                                                                                by <br>
-                                                                           Malcolm Cheyne
-<center>
+
+<center>Report written <br>
+<center>by <br>
+<center>Malcolm Cheyne
+
 <br>
 
 # Brakedown of Cancers in NHS Borders
