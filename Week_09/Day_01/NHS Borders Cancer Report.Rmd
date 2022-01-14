@@ -25,7 +25,7 @@ library(ggpubr)
 pal <- c("Male" = "#a6bddb", "Female" = "#fa9fb5")
 
 nhs <- c( "#ee9c00", "#ff0000", 
-         "#b80068", "#092869",
+         "#b80068", "#00a15f",
          "#0391bf", "#67bf29", "#00684d")
 
 area <- read_csv("raw_data/opendata_inc9519_hb.csv") %>% 
