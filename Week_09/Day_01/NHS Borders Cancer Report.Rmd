@@ -406,6 +406,7 @@ area %>%
   ggplot(aes(x = year, y = incidences_all_ages, col = sex)) +
   geom_point() +
   geom_line(size=1.2) +
+  scale_x_continuous(limits = c(1995, 2020)) +
   labs(title = "Top 8 Cancers by Gender \n",
        x = "Year",
        y = "Number of Incidences \n",
@@ -430,6 +431,8 @@ area %>%
   ggplot(aes(x = year, y = incidences_all_ages, col = sex)) +
   geom_point() +
   geom_line(size=1.2) +
+  scale_x_continuous(limits = c(1995, 2020)) +
+  scale_y_continuous(breaks = c(0, 50, 100, 150, 200), limits = c(0, 230)) +
   labs(
        x = "Year",
        y = "Number of Incidences \n",
