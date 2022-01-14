@@ -86,7 +86,11 @@ In comparison to other local Health Boards, NHS Borders has a small percentage o
 
 ![](images/crude.png)
 
-Focusing in on NHS Borders we can see a steady rise in the number of cancer incidences over the 24 year period.  The crude rate that is measured by per 100,000 has lagged behind and not followed this increase since around 2004.
+Focusing in on NHS Borders we can see a steady rise in the number of cancer incidences over the 24 year period. The crude rate that is measured by per 100,000 has lagged behind and not followed this increase since around 2004.
+
+The shaded area shows the confidence interval defined as a specified probability that the value of a parameter lies within it. The shaded area shows 5-95% of the Crude Rate.
+
+From about 2004 onwords the number of cancer incidences exceeds the confidence interval. This seams to show a significant difference from the expected number of cancer incidences for this size of population. This abnormal rise in the cancer incidences away from the expected number could be from the increase on the two skin cancers seen in the first graph.
 
 <br>
 
@@ -97,6 +101,8 @@ The data used were all sourced from https://www.opendata.nhs.scot/. The links be
 https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/3aef16b7-8af6-4ce0-a90b-8a29d6870014/download/opendata_inc9519_hb.csv - Incidence by Health Board
 
 https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/e8d33b2b-1fb2-4d59-ad21-20fa2f76d9d5/download/opendata_inc1519comb_hb.csv - 5 Year Summary of Incidence by Health Board
+
+https://www.nhsscotlandci.scot.nhs.uk/wp-content/uploads/Shared/pdf/identity_guidelines.pdf - Colour Palette
 
 <br>
 <br>
