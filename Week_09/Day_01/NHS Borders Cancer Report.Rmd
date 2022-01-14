@@ -181,11 +181,11 @@ comb_hb %>%
   ggplot(aes(x = age_range, y = count, fill = sex)) +
   geom_col(position = "dodge", col = "black") +
   scale_fill_manual(values = pal) +
-  coord_flip() +
   labs(title = "Age Range by Gender \n",
-       x = "Number of Incidences \n",
-       y = "Age Range \n",
+       y = "Number of Incidences \n",
+       x = "Age Range \n",
        fill = "Gender") +
+  coord_flip() +
   theme(plot.title = element_text(hjust = 0.5))
   
 ```
@@ -291,8 +291,8 @@ comb_hb %>%
   coord_flip() +
   facet_wrap(~ cancer_site) +
   labs(title = "Age Range by Tpye of Cancer \n",
-       x = "Number of Incidences \n",
-       y = "Age Range \n",
+       y = "Number of Incidences \n",
+       x = "Age Range \n",
        fill = "Gender") +
   theme(plot.title = element_text(hjust = 0.5), 
         axis.text.y=element_blank(),
@@ -343,8 +343,8 @@ comb_hb %>%
   coord_flip() +
   facet_wrap(~ cancer_site) +
   labs(
-       x = "Number of Incidences \n",
-       y = "Age Range \n",
+       y = "Number of Incidences \n",
+       x = "Age Range \n",
        fill = "Gender") +
   theme(plot.title = element_text(hjust = 0.5), 
         axis.text.y=element_blank(),
