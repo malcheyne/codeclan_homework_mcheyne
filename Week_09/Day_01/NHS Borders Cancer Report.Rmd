@@ -282,21 +282,25 @@ comb_hb %>%
     age_range == "incidences_age85and_over" ~ "85 +"
   ),
   cancer_site = case_when(
-    cancer_site == "Basal cell carcinoma of the skin" ~ "Basal cell carcinoma",
-    cancer_site == "Squamous cell carcinoma of the skin" ~ "Squamous cell carcinoma",
+    cancer_site == "Basal cell carcinoma of the skin" ~ 
+      "Basal cell carcinoma",
+    cancer_site == "Squamous cell carcinoma of the skin" ~ 
+      "Squamous cell carcinoma",
     TRUE ~ cancer_site)) %>% 
   ggplot(aes(x = age_range, y = count, fill = sex)) +
   geom_col(position = "dodge", col = "black") +
   scale_fill_manual(values = pal) +
-  coord_flip() +
+  coord_flip() + 
+  scale_y_continuous(breaks = c(0, 50, 100, 150), limits = c(0, 180)) +
+  scale_x_discrete(breaks = c("05 to 09", "15 to 19", "25 to 29", 
+                              "35 to 39", "45 to 49", "55 to 59", 
+                              "65 to 69", "75 to 79", "85 +")) +
   facet_wrap(~ cancer_site) +
   labs(title = "Age Range by Tpye of Cancer \n",
        y = "Number of Incidences \n",
        x = "Age Range \n",
        fill = "Gender") +
-  theme(plot.title = element_text(hjust = 0.5), 
-        axis.text.y=element_blank(),
-        axis.ticks.y=element_blank())
+  theme(plot.title = element_text(hjust = 0.5))
 
 
 ```
@@ -341,14 +345,16 @@ comb_hb %>%
   geom_col(position = "dodge", col = "black") +
   scale_fill_manual(values = pal) +
   coord_flip() +
+  scale_y_continuous(breaks = c(0, 50, 100, 150), limits = c(0, 180)) +
+  scale_x_discrete(breaks = c("05 to 09", "15 to 19", "25 to 29", 
+                              "35 to 39", "45 to 49", "55 to 59", 
+                              "65 to 69", "75 to 79", "85 +")) +
   facet_wrap(~ cancer_site) +
   labs(
        y = "Number of Incidences \n",
        x = "Age Range \n",
        fill = "Gender") +
-  theme(plot.title = element_text(hjust = 0.5), 
-        axis.text.y=element_blank(),
-        axis.ticks.y=element_blank())
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 
 This is a brake down of Cancer type by age reinforces the demographic of targets to focus any publicity for proactive and reactive approaches. 
