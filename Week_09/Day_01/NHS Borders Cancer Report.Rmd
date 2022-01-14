@@ -24,6 +24,10 @@ library(ggpubr)
 
 pal <- c("Male" = "#a6bddb", "Female" = "#fa9fb5")
 
+nhs <- c( "#ee9c00", "#ff0000", 
+         "#b80068", "#092869",
+         "#0391bf", "#67bf29", "#00684d")
+
 area <- read_csv("raw_data/opendata_inc9519_hb.csv") %>% 
   clean_names() %>% 
   mutate(hb = case_when(
@@ -122,6 +126,7 @@ area %>%
   ggplot(aes(x = year, y = incidences_all_ages, col = cancer_site)) +
   geom_point() +
   geom_line() +
+  scale_colour_manual(values = nhs) +
   labs(title = "Top 7 Cancers in NHS Borders \n",
        x = "Year",
        y = "Number of Incidences \n",
@@ -617,6 +622,8 @@ The data used were all sourced from https://www.opendata.nhs.scot/. The links be
 https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/3aef16b7-8af6-4ce0-a90b-8a29d6870014/download/opendata_inc9519_hb.csv - Incidence by Health Board
 
 https://www.opendata.nhs.scot/dataset/c2c59eb1-3aff-48d2-9e9c-60ca8605431d/resource/e8d33b2b-1fb2-4d59-ad21-20fa2f76d9d5/download/opendata_inc1519comb_hb.csv - 5 Year Summary of Incidence by Health Board
+
+https://www.nhsscotlandci.scot.nhs.uk/wp-content/uploads/Shared/pdf/identity_guidelines.pdf - Colour Palette 
 
 <br>
 <br>
