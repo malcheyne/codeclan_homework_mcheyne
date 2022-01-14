@@ -518,7 +518,11 @@ crude <- area %>%
 crude
 ```
 
-Focusing in on NHS Borders we can see a steady rise in the number of cancer incidences over the 24 year period.  The crude rate that is measured by per 100,000 has lagged behind and not followed this increase since around 2004. 
+Focusing in on NHS Borders we can see a steady rise in the number of cancer incidences over the 24 year period. The crude rate that is measured by per 100,000 has lagged behind and not followed this increase since around 2004. 
+
+The shaded area shows the confidence interval defined as a specified probability that the value of a parameter lies within it. The shaded area shows 5-95% of the Crude Rate.
+
+From about 2004 onwords the number of cancer incidences exceeds the confidence interval. This seams to show a significant difference from the expected number of cancer incidences for this size of population. This abnormal rise in the cancer incidences away from the expected number could be from the increase on the two skin cancers seen in the first graph. 
 
 <br>
 
