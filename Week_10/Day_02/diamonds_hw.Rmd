@@ -1,0 +1,152 @@
+---
+title: "Homework - features and elements of multiple regression"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = 'center')
+
+library(mosaicData)
+library(tidyverse)
+library(janitor)
+library(GGally)
+library(ggfortify)
+library(mosaic)
+```
+
+
+
+<hr>
+
+# MVP
+
+1. Load the `diamonds.csv` data set and undertake an initial exploration of the data. You will find a description of the meanings of the variables on the relevant [Kaggle page](https://www.kaggle.com/shivam2503/diamonds/)
+
+```{r}
+diamonds <- read_csv("data/diamonds.csv")
+```
+
+```{r}
+summary(diamonds)
+
+# no NA's
+```
+
+
+
+<br>
+
+2. We expect the `carat` of the diamonds to be strong correlated with the physical dimensions `x`, `y` and `z`. Use `ggpairs()` to investigate correlations between these four variables.
+
+```{r}
+diamonds %>% 
+  select(carat, x, y, z) %>% 
+ggpairs()
+```
+<br>
+All have a very strong correlate at 0.95+
+
+<br>
+
+3. So, we do find significant correlations. Let's drop columns `x`, `y` and `z` from the dataset, in preparation to use only `carat` going forward.
+
+```{r}
+diamonds <- diamonds %>% 
+  select(-c(x, y, z))
+```
+
+<br>
+
+4. We are interested in developing a regression model for the `price` of a diamond in terms of the possible predictor variables in the dataset. 
+
+  i. Use `ggpairs()` to investigate correlations between `price` and the predictors (this may take a while to run, don't worry, make coffee or something).
+
+```{r}
+ggpairs(diamonds)
+```
+
+
+  ii. Perform further `ggplot` visualisations of any significant correlations you find.
+  
+```{r, message=FALSE, warning=FALSE}
+diamonds %>% 
+  ggplot(aes(x = price, y = carat))  +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+
+diamonds %>% 
+  ggplot(aes(x = price, y = cut))  +
+  geom_boxplot() +
+  geom_smooth(method = "lm", se = FALSE)
+```
+  
+<br>
+
+
+5. Shortly we may try a regression fit using one or more of the categorical predictors `cut`, `clarity` and `color`, so let's investigate these predictors. Investigate the levels of these predictors. How many dummy variables do you expect for each of them?
+
+```{r}
+model <- lm(price ~ cut + clarity + color, data = diamonds)
+
+summary(model)
+autoplot(model)
+
+```
+
+
+<br> 
+
+6. Start with simple linear regression. Regress `price` on `carat` and check the regression diagnostics.
+
+```{r}
+model2 <- lm(price ~carat, data = diamonds)
+
+summary(model2)
+```
+
+Both predictor variables are statistically significant as their p-values are below 0.05,  R-squared is at 84%
+
+<br>
+
+
+7. Add another predictor of your choice. Check your assumptions, diagnostics, and interpret the model.
+
+```{r}
+model3 <- lm(price ~ carat + table + depth + cut + clarity + color, data = diamonds)
+
+summary(model3)
+```
+
+All predictor variables are statistically significant as their p-values are below 0.05,  R-squared is at 91%
+
+    
+<hr>
+
+
+# Extension
+    
+8. Try adding an interaction between `log(carat)` and your chosen categorical predictor. Do you think this interaction term is statistically justified?
+
+```{r}
+model4 <- lm(price ~ log(carat) + table + depth + cut + clarity + color, data = diamonds)
+
+summary(model4)
+```
+
+no as it makes depth statistically significant, p-values are higher then 0.05 and R-squared is at 78%
+
+<br>
+
+9. Find and plot an appropriate visualisation to show the effect of this interaction
+    
+    
+```{r}
+plotModel(model4)
+```
+
