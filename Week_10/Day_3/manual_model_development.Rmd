@@ -1,0 +1,269 @@
+---
+title: "Manual model development"
+output: html_notebook
+---
+
+Explanatory model - check stat. sig. contune vars
+
+Predictive model - black box
+
+‘All models are wrong, but some are useful’
+
+```{r}
+library(car)
+library(tidyverse)
+library(modelr)
+library(GGally)
+```
+
+```{r}
+Prestige
+```
+
+```{r}
+unique(Prestige$type)
+```
+
+```{r}
+summary(Prestige)
+```
+
+
+```{r}
+perstige_trim <- Prestige %>% 
+  select(-census) %>% 
+  drop_na()
+```
+
+```{r}
+summary(perstige_trim)
+```
+
+# First predictor
+
+```{r}
+perstige_trim %>% 
+  ggpairs(aes(colour = type, alpha = 0.5))
+```
+
+Amongst the continuous predictors, it looks like education is strongly correlated with prestige, as is income. But we also see that the boxplots of prestige against type show some separation, which perhaps indicates significant association.
+
+Education cor 0.866
+Income cor 0.703
+Type boxplot good spearation  
+
+```{r}
+mod1a <- lm(prestige ~ education, data = perstige_trim)
+
+mod1a
+```
+
+\[\text{Prestige}= -10.841+5.388\times\text{Education}\]
+
+```{r}
+summary(mod1a)
+```
+
+```{r}
+par(mfrow = c(2, 2))
+
+plot(mod1a)
+```
+
+Task - 10 mins
+
+Now create a model using type as a predictor of prestige. Summarise and plot the results.
+
+What are your interpretations?
+
+Which of the two models explain the data more? Which predictor would you choose as your first predictor?
+
+```{r}
+mod2 <- lm(prestige ~ type, data = perstige_trim)
+
+summary(mod2)
+
+par(mfrow = c(2, 2))
+
+plot(mod2)
+
+```
+
+# Second predictor
+
+```{r}
+pertaige_remain_resid <- perstige_trim %>% 
+  add_residuals(mod1a) %>% 
+  select(-c("prestige", "education"))
+
+pertaige_remain_resid %>% 
+  ggpairs(aes(colour = type, alpha = 0.5))
+```
+
+income - cor 0.412
+type - boxplot 
+
+
+```{r}
+mod3 <- lm(prestige ~ education + income, data = perstige_trim)
+
+summary(mod3)
+```
+
+```{r}
+mod4 <- lm(prestige ~ education + type, data = perstige_trim)
+
+summary(mod4)
+```
+
+income is better than type. Better %, less error and type has one not signifacant 
+
+```{r}
+anova(mod1a, mod4)
+```
+
+```{r}
+Anova(mod1a, mod4)
+```
+
+
+# Third predictor
+
+```{r}
+pertaige_remain_resid <- perstige_trim %>% 
+  add_residuals(mod3) %>% 
+  select(-c("prestige", "education", "income"))
+
+pertaige_remain_resid %>% 
+  ggpairs(aes(colour = type, alpha = 0.5))
+```
+
+
+
+```{r}
+mod5 <- lm(prestige ~ education + income + type, data = perstige_trim)
+
+summary(mod5)
+```
+
+
+good % and error but bad sig.
+
+```{r}
+anova(mod3, mod5)
+```
+
+
+comparing the two mod's we can see the p-value is sig. so that must mean that the typebc that is hidden is sig. making the whole of type sig.
+
+
+# Adding an interaction
+
+```{r}
+pertaige_resid <- perstige_trim %>% 
+  add_residuals(mod5) %>% 
+  select(-prestige)
+```
+
+
+```{r}
+coplot(resid ~ income | education, 
+       data = pertaige_resid, 
+       columns = 6)
+```
+
+adding the columns make it easier to read, than without below
+
+```{r}
+coplot(resid ~ income | education, data = pertaige_resid)
+```
+
+```{r}
+coplot(resid ~ income | education, 
+       panel = function(x,y, ...){
+         points(x,y)
+         abline(lm(y ~ x), col = "blue")
+       },
+       data = pertaige_resid, 
+       columns = 6)
+```
+
+
+
+```{r}
+pertaige_resid %>% 
+  ggplot(aes(x = education, y = resid, colour = type)) +
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+
+
+```{r}
+pertaige_resid %>% 
+  ggplot(aes(x = income, y = resid, colour = type)) +
+  geom_point()+
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+
+
+Task - 10 mins
+
+Test all three interactions in your model separately, and choose the best. To get you started, here is the model to check for an education:income interaction.
+
+
+```{r}
+mod6 <- lm(prestige ~ education + income + type + education:income, data = perstige_trim)
+summary(mod6)
+```
+
+
+
+
+
+```{r}
+mod7 <- lm(prestige ~ education + income + type + education:type, data = perstige_trim)
+summary(mod7)
+```
+
+```{r}
+mod8 <- lm(prestige ~ education + income + type + income:type, data = perstige_trim)
+summary(mod8)
+```
+
+```{r}
+anova(mod5, mod8)
+```
+
+# Relative importance
+
+```{r}
+library(relaimpo)
+```
+
+Relative importance analysis
+
+lmg - Lindemann, Merenda and Gold method
+
+```{r}
+calc.relimp(mod8, type = "lmg", rela = TRUE)
+```
+
+So, we see by this measure that type is most important (accounting for 40% of r2), followed by education (31%), then income (25%), and finally the income:type interaction (4%).
+
+A less useful but still common used measure of the relative importance comes from the so-called ‘beta coefficients’, which are just the regression coefficients fitted after the predictors have been standardised. We can add the beta coefficients to a model in the following way:
+
+
+```{r}
+library(lm.beta)
+```
+
+
+```{r}
+mod4c_betas <- lm.beta(mod8)
+summary(mod4c_betas)
+```
+
+
+The values in the Standardized column provide a rough measure of predictor importance, but the lmg method of calc.relimp() is better!

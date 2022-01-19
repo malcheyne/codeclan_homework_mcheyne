@@ -85,6 +85,27 @@ diamonds %>%
   geom_boxplot() +
   geom_smooth(method = "lm", se = FALSE)
 ```
+```{r}
+diamonds %>%
+  ggplot(aes(x = carat, y = price)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE)
+
+
+diamonds %>%
+  ggplot(aes(x = cut, y = price)) +
+  geom_boxplot()
+
+diamonds %>%
+  ggplot(aes(x = color, y = price)) +
+  geom_boxplot()
+
+diamonds %>%
+  ggplot(aes(x = clarity, y = price)) +
+  geom_boxplot()
+
+
+```
   
 <br>
 
@@ -92,11 +113,30 @@ diamonds %>%
 5. Shortly we may try a regression fit using one or more of the categorical predictors `cut`, `clarity` and `color`, so let's investigate these predictors. Investigate the levels of these predictors. How many dummy variables do you expect for each of them?
 
 ```{r}
-model <- lm(price ~ cut + clarity + color, data = diamonds)
+# model <- lm(price ~ cut + clarity + color, data = diamonds)
+# 
+# summary(model)
+# autoplot(model)
 
-summary(model)
-autoplot(model)
+```
+```{r}
+unique(diamonds$cut)
 
+## [1] "Ideal"     "Premium"   "Good"      "Very Good" "Fair"
+
+# expect 4 dummies for cut
+
+unique(diamonds$color)
+
+## [1] "E" "I" "J" "H" "F" "G" "D"
+
+# expect 6 dummies for color
+
+unique(diamonds$clarity)
+
+## [1] "SI2"  "SI1"  "VS1"  "VS2"  "VVS2" "VVS1" "I1"   "IF"
+
+# expect 7 dummies for clarity
 ```
 
 
@@ -105,9 +145,16 @@ autoplot(model)
 6. Start with simple linear regression. Regress `price` on `carat` and check the regression diagnostics.
 
 ```{r}
-model2 <- lm(price ~carat, data = diamonds)
+# model2 <- lm(price ~carat, data = diamonds)
+# 
+# summary(model2)
+```
 
-summary(model2)
+```{r}
+mod1 <- lm(price ~ carat, data = diamonds)
+
+summary(mod1)
+autoplot(mod1)
 ```
 
 Both predictor variables are statistically significant as their p-values are below 0.05,  R-squared is at 84%
@@ -134,7 +181,7 @@ All predictor variables are statistically significant as their p-values are belo
 8. Try adding an interaction between `log(carat)` and your chosen categorical predictor. Do you think this interaction term is statistically justified?
 
 ```{r}
-model4 <- lm(price ~ log(carat) + table + depth + cut + clarity + color, data = diamonds)
+model4 <- lm(log(price) ~ log(carat) + clarity + log(carat):clarity, data = diamonds)
 
 summary(model4)
 ```
@@ -147,6 +194,13 @@ no as it makes depth statistically significant, p-values are higher then 0.05 an
     
     
 ```{r}
-plotModel(model4)
+diamonds %>%
+  ggplot(aes(x = log(carat), y = log(price), colour = clarity)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~ clarity)
 ```
 
+
+https://data.library.virginia.edu/diagnostic-plots/
+Understanding Diagnostic Plots for Linear Regression Analysis | University of Virginia Library Research Data Services + Sciences
