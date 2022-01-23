@@ -1,0 +1,395 @@
+---
+title: "Weekend Homework - Model Building"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align = 'center')
+```
+
+# MVP
+
+We've looked at a few different ways in which we can build models this week, including how to prepare them properly. This weekend we'll build a multiple linear regression model on a dataset which will need some preparation. The data can be found in the data folder, along with a data dictionary
+
+We want to investigate the avocado dataset, and, in particular, to model the `AveragePrice` of the avocados. Use the tools we've worked with this week in order to prepare your dataset and find appropriate predictors. Once you've built your model use the validation techniques discussed on Wednesday to evaluate it. Feel free to focus either on building an *explanatory* or a *predictive* model, or both if you are feeling energetic!
+
+As part of the MVP we want you not to just run the code but also have a go at **interpreting the results** and write your thinking in comments in your script.
+
+**Hints and tips**
+
+* `region` may lead to many dummy variables. Think carefully about whether to include this variable or not (there is no one 'right' answer to this!)
+* Think about whether each variable is *categorical* or *numerical*. If categorical, make sure that the variable is represented as a factor.
+* We will not treat this data as a time series, so `Date` will not be needed in your models, but can you extract any useful features out of `Date` before you discard it?
+* If you want to build a predictive model, consider using either `leaps` or `glmulti` to help with this.
+
+```{r}
+library(tidyverse)
+library(leaps)
+library(janitor)
+library(lubridate)
+```
+
+```{r}
+avocado_raw <- read_csv("data/avocado.csv")
+```
+
+# Automated model development
+```{r}
+avocado <- avocado_raw %>% 
+  clean_names() %>% 
+  rename(small_medium = x4046,
+         large = x4225,
+         extra_large = x4770,
+         extra_large_bags = x_large_bags) %>% 
+  mutate(month = month(date, 
+                       label = TRUE, abbr = TRUE)) %>% 
+  select(-c(x1, date)) %>% 
+  group_by(year, month,
+           region, type) %>%
+  mutate(average_price = mean(average_price),
+            total_volume = sum(total_volume),
+            small_medium = sum(small_medium),
+            large = sum(large),
+            extra_large = sum(extra_large),
+            total_bags = sum(total_bags),
+            small_bags = sum(small_bags),
+            large_bags = sum(large_bags),
+            extra_large_bags = sum(extra_large_bags),
+            type = type,
+            region = region) %>% 
+  unique() %>% 
+  select(region, month, year, type, 
+         average_price, total_volume, small_medium, 
+         large, extra_large, total_bags,
+         small_bags, large_bags, extra_large_bags) %>% 
+  ungroup() %>%
+  arrange(year, desc(month)) %>% 
+  select(-c(total_volume, small_bags, large_bags, extra_large_bags)) # as covered be the other variables
+
+avocado
+```
+
+```{r}
+avocado_without_region <- avocado_raw %>% 
+  clean_names() %>% 
+  rename(small_medium = x4046,
+         large = x4225,
+         extra_large = x4770,
+         extra_large_bags = x_large_bags) %>% 
+  mutate(month = month(date, 
+                       label = TRUE, abbr = TRUE)) %>% 
+  select(-c(x1, date, region)) %>% 
+  group_by(year, month, type) %>% 
+  mutate(average_price = mean(average_price),
+            total_volume = sum(total_volume),
+            small_medium = sum(small_medium),
+            large = sum(large),
+            extra_large = sum(extra_large),
+            total_bags = sum(total_bags),
+            small_bags = sum(small_bags),
+            large_bags = sum(large_bags),
+            extra_large_bags = sum(extra_large_bags),
+            type = type) %>% 
+  unique() %>% 
+  ungroup() %>% 
+  select(month, year, type, 
+         average_price, total_volume, small_medium, 
+         large, extra_large, total_bags,
+         small_bags, large_bags, extra_large_bags) %>% 
+  arrange(year, desc(month)) %>% 
+  select(-c(total_volume, small_bags, large_bags, extra_large_bags)) # as covered be the other variables
+
+avocado_without_region
+```
+
+
+
+
+```{r}
+regsubsets_forward <- regsubsets(average_price ~ ., 
+                                 data = avocado_without_region, 
+                                 method = "forward")
+
+regsubsets_backward <- regsubsets(average_price ~ ., 
+                                 data = avocado_without_region, 
+                                 method = "backward")
+
+regsubsets_exhaustive <- regsubsets(average_price ~ ., 
+                                 data = avocado_without_region, 
+                                 method = "exhaustive")
+```
+
+```{r}
+sum_regsubsets_forward <- summary(regsubsets_forward)
+sum_regsubsets_forward
+
+sum_regsubsets_backward<- summary(regsubsets_backward)
+sum_regsubsets_backward
+
+sum_regsubsets_exhaustive <- summary(regsubsets_exhaustive)
+sum_regsubsets_exhaustive
+```
+
+```{r}
+plot(regsubsets_forward, scale = "adjr2")
+
+plot(regsubsets_backward, scale = "adjr2")
+
+plot(regsubsets_exhaustive, scale = "adjr2")
+```
+
+```{r}
+plot(regsubsets_forward, scale = "bic")
+
+plot(regsubsets_backward, scale = "bic")
+
+plot(regsubsets_exhaustive, scale = "bic")
+```
+
+```{r}
+plot(sum_regsubsets_forward$rsq, type = "b")
+
+plot(sum_regsubsets_backward$rsq, type = "b")
+
+plot(sum_regsubsets_exhaustive$rsq, type = "b")
+```
+
+Both rsq backward and exhaustive says 6 index's while forward says 7 index's
+
+```{r}
+plot(sum_regsubsets_forward$bic, type = "b")
+
+plot(sum_regsubsets_backward$bic, type = "b")
+
+plot(sum_regsubsets_exhaustive$bic, type = "b")
+```
+
+Both BIC backward and exhaustive says 6 index's while forward says 5 or 7 index's
+
+
+```{r}
+summary(regsubsets_backward)$which[6,]
+```
+
+```{r}
+mod_without_month <- lm(average_price ~ year + type + extra_large + total_bags, data = avocado_without_region)
+summary(mod_without_month)
+```
+
+
+
+```{r}
+mod_with_month <- lm(average_price ~ year + type + extra_large + total_bags + month, data = avocado_without_region)
+summary(mod_with_month)
+```
+
+```{r}
+anova(mod_without_month, mod_with_month)
+```
+
+The model with region is significantly better than the model without, so we should keep month. 
+
+
+```{r}
+par(mfrow = c(2, 2))
+plot(mod_with_month)
+```
+
+```{r}
+mod_without_region <- lm(average_price ~ year + type + extra_large + total_bags + month, data = avocado)
+summary(mod_without_region)
+```
+
+
+```{r}
+mod_with_region <- lm(average_price ~ year + type + extra_large + total_bags + month + region, data = avocado)
+summary(mod_with_region)
+```
+
+
+```{r}
+anova(mod_without_region, mod_with_region)
+```
+
+The model with region is significantly better than the model without, so we should keep region.
+
+
+```{r}
+avocado_forward <- regsubsets(average_price ~ ., 
+                                 data = avocado, 
+                                 method = "forward")
+
+avocado_backward <- regsubsets(average_price ~ ., 
+                                 data = avocado, 
+                                 method = "backward")
+
+# avocado_exhaustive <- regsubsets(average_price ~ ., 
+#                                  data = avocado, 
+#                                  method = "exhaustive")
+
+# Error in leaps.exhaustive(a, really.big) : 
+# Exhaustive search will be S L O W, must specify really.big=T
+```
+
+```{r}
+sum_avocado_forward <- summary(avocado_forward)
+sum_avocado_forward
+
+sum_avocado_backward<- summary(avocado_backward)
+sum_avocado_backward
+
+# sum_avocado_exhaustive <- summary(regsubsets_exhaustive)
+# sum_avocado_exhaustive
+```
+
+```{r}
+plot(avocado_forward, scale = "adjr2")
+
+plot(avocado_backward, scale = "adjr2")
+
+# plot(avocado_exhaustive, scale = "adjr2")
+```
+
+```{r}
+plot(avocado_forward, scale = "bic")
+
+plot(avocado_backward, scale = "bic")
+
+# plot(avocado_exhaustive, scale = "bic")
+```
+
+```{r}
+plot(sum_avocado_forward$rsq, type = "b")
+
+plot(sum_avocado_backward$rsq, type = "b")
+
+# plot(sum_avocado_exhaustive$rsq, type = "b")
+```
+
+Both rsq backward and exhaustive says 6 index's while forward says 7 index's
+
+```{r}
+plot(sum_avocado_forward$bic, type = "b")
+
+plot(sum_avocado_backward$bic, type = "b")
+
+# plot(sum_avocado_exhaustive$bic, type = "b")
+```
+
+Both BIC backward and exhaustive says 6 index's while forward says 5 or 7 index's
+
+
+```{r}
+summary(avocado_backward)$which[8,]
+```
+
+```{r}
+par(mfrow = c(2, 2))
+plot(mod_with_region)
+```
+
+Lot of noise probley better without 
+
+```{r}
+par(mfrow = c(2, 2))
+plot(mod_without_region)
+```
+
+
+average_price ~ year + type + extra_large + total_bags + month + region, data = avocado
+
+# testing and training
+```{r}
+# Seed the random number generator
+# This forces the random number generation to use a specific point, ensuring the same results every time we run this example. Don't do this when building a real model!
+set.seed(9)
+
+# Count how many total rows there are in our data
+n_data <- nrow(avocado)
+
+# Make a test index
+test_index <- sample(1:n_data, size = n_data*0.2)
+
+# Use the test index to create test and training datasets
+test  <- slice(avocado, test_index)
+train <- slice(avocado, -test_index)
+```
+
+
+```{r}
+model <- lm(average_price ~ year + type + 
+            extra_large + total_bags + 
+            month + region,
+            data = train)
+```
+
+```{r}
+library(modelr)
+
+predictions_test <- test %>%
+  add_predictions(model) %>%
+  select(average_price, pred)
+```
+
+
+```{r}
+mse_test <- mean((predictions_test$pred - test$average_price)**2)
+mse_test
+```
+
+# K-fold cross-validation
+
+```{r}
+library(caret)
+
+# set up options for train function below
+cv_10_fold <- trainControl(method = "cv", # cross-validation
+                           number = 10, # 10-fold
+                           savePredictions = TRUE) # save all predictions
+
+k_model <- train(average_price ~ year + type + 
+               extra_large + total_bags + 
+               month + region,
+               data = train,
+               trControl = cv_10_fold, # use options defined above
+               method = 'lm')
+```
+
+
+```{r}
+k_model$resample
+```
+To compare models we want to calculate the average error:
+
+```{r}
+mean(k_model$resample$RMSE)
+```
+
+Or the average r-squared value:
+```{r}
+mean(k_model$resample$Rsquared)
+```
+
+
+
+
+
+
+
+
+
+```{r}
+# avocado_raw %>% 
+#   group_by(region) %>% 
+#   summarise(count = mean(average_price))
+```
+
+
+
+
