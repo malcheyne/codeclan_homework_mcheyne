@@ -39,6 +39,26 @@ library(lubridate)
 avocado_raw <- read_csv("data/avocado.csv")
 ```
 
+```{r}
+# check to see if total_bags variable is just the sum of the other three
+avocado_raw %>%
+  clean_names() %>%
+  mutate(total_sum = small_bags + large_bags + x_large_bags) %>%
+  select(total_bags, total_sum)
+```
+
+Yep, the total_bags column is just a sum of the other three. So this is a another variable I can get rid of. I can also check the same for volume:
+
+```{r}
+# check to see if total_volume variable is just the sum of the other three
+avocado_raw %>%
+  clean_names() %>%
+  mutate(total_sum = x4046 + x4225 + x4770 + total_bags) %>%
+  select(total_volume, total_sum)
+```
+
+Yep, the total_volume column is just a sum of the other four. So this is a another variable I can get rid of.
+
 # Automated model development
 ```{r}
 avocado <- avocado_raw %>% 
