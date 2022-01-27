@@ -1,0 +1,135 @@
+---
+title: "Clustering homework"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, include=FALSE}
+library(tidyverse)
+library(janitor)
+library(ggplot2)
+library(broom)
+library(factoextra)
+```
+
+
+```{r, include=FALSE}
+mail <- read_csv("data/mall_customers.csv") %>% 
+  clean_names()
+```
+
+```{r, include=FALSE}
+glimpse(mail)
+```
+
+```{r, include=FALSE}
+summary(mail)
+```
+
+* You have been provided some customer data from a shopping centre. Do some exploratory analysis on the data. Comment on findings. 
+
+```{r}
+mail %>% 
+ count(gender) 
+```
+
+Female bias but not by much.
+
+```{r}
+mail %>% 
+  ggplot(aes(x = age)) +
+  geom_histogram(col = "white") +
+  geom_vline(aes(xintercept = mean(age), 
+                 col = "red")) +
+  geom_text(x = 40, y = 15, label = "Mean Age",
+           color = "black",
+           size = 3.5,
+           hjust = 0)
+```
+
+Mix of ages, mean age is about 36-38.
+
+
+```{r}
+mail %>% 
+  ggplot(aes(x = spending_score_1_100, y = annual_income_k)) +
+  geom_point()
+```
+
+Looks like there could be 5 clusters. 
+
+* We are interested in creating a marketing campaign to target customers based on their spending score and annual income. Perform a k-means clustering to find if there are meaningful clusters in the data to target the customers. 
+
+```{r}
+mail_scale <- mail %>% 
+  select(annual_income_k, spending_score_1_100) %>% 
+  mutate(across(where(is.numeric), scale))
+
+summary(mail_scale)
+
+```
+
+
+* Perform k-means clustering and chose a value of k.
+
+```{r}
+k_max <- 20 
+
+k_clusters <- tibble(k = 1:k_max) %>%
+  mutate(
+    kclust = map(k, ~ kmeans(mail_scale, .x, nstart = 25)), 
+    tidied = map(kclust, tidy),
+    glanced = map(kclust, glance),
+    augmented = map(kclust, augment, mail_scale)
+  )
+
+k_clusters
+```
+
+```{r}
+k_clusters$tidied
+```
+
+
+```{r}
+fviz_nbclust(mail_scale, kmeans, method = "wss", nstart = 25)
+```
+```{r}
+fviz_nbclust(mail_scale, kmeans, method = "silhouette", nstart = 25)
+```
+
+
+* Visualise the clustering for your chosen value of k.
+
+```{r}
+mail_clusters <- k_clusters %>% 
+  unnest(cols = c(augmented)) %>%
+  filter(k == 5) 
+```
+
+
+```{r}
+mail_clusters %>% 
+ggplot(aes(x = annual_income_k, y = spending_score_1_100)) +
+  geom_point(aes(col = .cluster))
+```
+
+
+* Do you think the clustering seems a good fit for this data?
+
+> 5 claer clusters, yes this seams a good fit
+
+* Comment on the attributes on one or two of the clusters (maybe even give them a label if you like - like in section 4.1 of the 'Segmentation & clustering intro' lesson). 
+
+> High Rollers: High Income - High Spending
+  Savers: High Income - Low Spending
+  Middle of the road: Middle Income - Middle Spending
+  Living on credit: Low Income -  High Spending
+  Make doers: Low Income -  Low Spending
+
+
+
