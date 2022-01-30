@@ -6,16 +6,98 @@ output:
     toc_float: true
     number_sections: true
     df_print: paged
-    css: ../../../styles.css
+    code_folding: hide
   pdf_document: default
 ---
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(fig.align = "center")
+knitr::opts_chunk$set(fig.align = "center", message = FALSE, warning = FALSE)
 ```
 
+```{r}
+library(tidyverse)
+library(janitor)
+library(GGally)
+library(modelr)
+library(broom)
+library(pROC)
+library(caret)
+library(readxl)
+library(leaps)
+```
+
+
+```{r}
+orange_juice <- read_csv("data/orange_juice.csv") %>% 
+  clean_names() %>% 
+  select(1:9) %>% 
+  mutate_if(is.character, as.factor) %>%
+  mutate_if(is.double, as.factor)
+```
+
+```{r}
+summary(orange_juice)
+```
+
+
+
+
 # MVP
+
+```{r}
+regsubsets_backward <- regsubsets(purchase  ~ ., 
+                                 data = orange_juice, 
+                                 method = "backward")
+```
+
+```{r}
+sum_regsubsets_backward<- summary(regsubsets_backward)
+sum_regsubsets_backward
+```
+
+```{r}
+plot(regsubsets_backward, scale = "adjr2")
+```
+
+```{r}
+plot(regsubsets_backward, scale = "bic")
+```
+
+```{r}
+plot(sum_regsubsets_backward$rsq, type = "b")
+```
+
+```{r}
+plot(sum_regsubsets_backward$bic, type = "b")
+```
+
+```{r}
+summary(regsubsets_backward)$which[8,]
+```
+```{r}
+orange_juice
+```
+
+
+```{r}
+mod_8 <- glm(purchase ~ weekof_purchase + store_id +
+             price_ch + price_mm + disc_ch +
+             disc_mm + special_ch + special_mm,
+             data = orange_juice,
+             family = binomial(link = 'logit'))
+summary(mod_8)
+```
+
+```{r}
+mod_7 <- glm(purchase ~ store_id +
+             price_ch + price_mm + disc_ch +
+             disc_mm + special_ch + special_mm,
+             data = orange_juice,
+             family = binomial(link = 'logit'))
+summary(mod_7)
+```
+
 
 You have been provided with a set of data on customer purchases of either 'Citrus Hill' (`purchase = 'CH'`) or 'Minute Maid' (`purchase = 'MM'`) orange juice, together with some further attributes of both the customer and the store of purchase. A data dictionary is also provided in the `data` directory.
 
