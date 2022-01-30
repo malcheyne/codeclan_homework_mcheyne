@@ -1,0 +1,177 @@
+---
+title: "Text Mining Homework"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    df_print: paged
+    code_folding: hide
+  pdf_document: default
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.align = "center", message = FALSE, warning = FALSE)
+```
+
+
+
+```{r, include=FALSE}
+library(tidyverse)
+library(tidytext)
+library(janeaustenr)
+library(janitor)
+library(ggplot2)
+```
+
+```{r}
+austen_books <- austen_books()
+```
+
+```{r}
+glimpse(austen_books)
+```
+
+```{r}
+unique(austen_books$book)
+```
+
+# MVP
+
+Using the dataset `austen_books()` from the package `janeaustenr`:
+
+1. Find the most common words in both Pride & Prejudice and Sense & Sensibility.
+
+<br>
+```{r}
+austen_books %>% 
+  filter(book %in% c("Sense & Sensibility", "Pride & Prejudice")) %>% 
+  unnest_tokens(word, text) %>%
+  count(word, sort = TRUE)
+```
+
+<br>
+
+2. Find the most common words in both Pride & Prejudice and Sense & Sensibility, not including stop words.
+
+<br>
+```{r}
+austen_books %>% 
+  filter(book %in% c("Sense & Sensibility", "Pride & Prejudice")) %>% 
+  unnest_tokens(word, text) %>%
+  count(word, sort = TRUE) %>%
+  anti_join(stop_words)
+```
+<br>
+
+3. Find the most common sentiment words in both Pride & Prejudice and Sense & Sensibility.
+
+<br>
+```{r}
+afinn <- austen_books %>% 
+  filter(book %in% c("Sense & Sensibility", "Pride & Prejudice")) %>% 
+  unnest_tokens(word, text) %>%
+  count(word, sort = TRUE) %>%
+  anti_join(stop_words) %>% 
+  inner_join(get_sentiments("afinn")) %>% 
+  head(10) %>%
+  mutate(word = factor(word, 
+                       levels = word),
+         value = as.factor(value))
+
+afinn
+
+afinn %>% 
+  ggplot(aes(y = word, x = n)) + 
+  geom_col(aes(fill = value)) +
+  labs(x = "Count",
+       y = "Common Words",
+       title = "Common Words by Sentiment") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+```{r}
+bing <- austen_books %>% 
+  filter(book %in% c("Sense & Sensibility", "Pride & Prejudice")) %>% 
+  unnest_tokens(word, text) %>%
+  count(word, sort = TRUE) %>%
+  anti_join(stop_words) %>% 
+  inner_join(get_sentiments("bing")) %>% 
+  head(10) %>%
+  mutate(word = factor(word, 
+                       levels = word))
+
+bing
+
+bing %>% 
+ggplot(aes(y = word, x = n)) + 
+  geom_col(aes(fill = sentiment)) +
+  labs(x = "Count",
+       y = "Common Words",
+       title = "Common Words by Sentiment") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+<br>
+
+# Extension
+
+Taking your results above. Can you create a plot which visualises the differences between the books?  
+
+<br>
+```{r}
+austen_books %>% 
+  unnest_tokens(word, text) %>%
+  filter(book %in% c("Sense & Sensibility", "Pride & Prejudice"),
+         word %in% c(afinn$word, bing$word)) %>% 
+  group_by(book) %>% 
+  count(word, sort = TRUE) %>%
+  mutate(word = factor(word, 
+                       levels = word)) %>% 
+  ggplot(aes(y = word, x = n)) + 
+  geom_col(aes(fill = book), position = "dodge") +
+  labs(x = "Count",
+       y = "Common Words",
+       title = "Common Words by Book") +
+  theme(plot.title = element_text(hjust = 0.5))
+
+```
+
+```{r}
+austen_books %>% 
+  unnest_tokens(word, text) %>%
+  filter(book %in% c("Sense & Sensibility", "Pride & Prejudice"),
+         word %in% c(afinn$word)) %>% 
+  group_by(book) %>% 
+  count(word, sort = TRUE) %>%
+  mutate(word = factor(word, 
+                       levels = word)) %>% 
+  ggplot(aes(y = word, x = n)) + 
+  geom_col(aes(fill = book), position = "dodge") +
+  labs(x = "Count",
+       y = "Common Words",
+       title = "Common Words by Book & Afinn Sentiment") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+```{r}
+austen_books %>% 
+  unnest_tokens(word, text) %>%
+  filter(book %in% c("Sense & Sensibility", "Pride & Prejudice"),
+         word %in% c(bing$word)) %>% 
+  group_by(book) %>% 
+  count(word, sort = TRUE) %>%
+  mutate(word = factor(word, 
+                       levels = word)) %>% 
+  ggplot(aes(y = word, x = n)) + 
+  geom_col(aes(fill = book), position = "dodge") +
+  labs(x = "Count",
+       y = "Common Words",
+       title = "Common Words by Book & Bing Sentiment") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+
+
+
