@@ -45,6 +45,46 @@
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
 \usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -68,6 +108,68 @@
 
 \begin{document}
 \maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\StringTok{\textasciigrave{}}\AttributeTok{\%!in\%}\StringTok{\textasciigrave{}} \OtherTok{\textless{}{-}} \FunctionTok{negate}\NormalTok{(}\StringTok{\textasciigrave{}}\AttributeTok{\%in\%}\StringTok{\textasciigrave{}}\NormalTok{)}
+
+\NormalTok{pal }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Male"} \OtherTok{=} \StringTok{"\#a6bddb"}\NormalTok{, }\StringTok{"Female"} \OtherTok{=} \StringTok{"\#fa9fb5"}\NormalTok{)}
+
+\NormalTok{nhs }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{( }\StringTok{"\#ee9c00"}\NormalTok{, }\StringTok{"\#ff0000"}\NormalTok{, }
+         \StringTok{"\#b80068"}\NormalTok{, }\StringTok{"\#00a15f"}\NormalTok{,}
+         \StringTok{"\#0391bf"}\NormalTok{, }\StringTok{"\#67bf29"}\NormalTok{, }\StringTok{"\#00684d"}\NormalTok{)}
+
+\NormalTok{area }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"raw\_data/opendata\_inc9519\_hb.csv"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{clean\_names}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{hb =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S92000003"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Scotland"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000015"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Ayrshire and Arran"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000016"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Borders"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000017"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Dumfries and Galloway"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000019"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Forth Valley"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000020"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Grampian"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000022"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Highland"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000024"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Lothian"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000025"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Orkney"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000026"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Shetland"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000028"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Western Isles"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000029"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Fife"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000030"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Tayside"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000031"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Greater Glasgow and Clyde"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000032"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Lanarkshire"}\NormalTok{,}
+    \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \FunctionTok{as.character}\NormalTok{(}\ConstantTok{NA}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(hb)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{cure\_diff\_up =}\NormalTok{ crude\_rate\_upper95pc\_confidence\_interval }\SpecialCharTok{{-}}\NormalTok{ crude\_rate,}
+         \AttributeTok{cure\_diff\_down =}\NormalTok{ crude\_rate }\SpecialCharTok{{-}}\NormalTok{ crude\_rate\_lower95pc\_confidence\_interval,}
+         \AttributeTok{easr\_diff\_up =}\NormalTok{ easr\_upper95pc\_confidence\_interval }\SpecialCharTok{{-}}\NormalTok{ easr,}
+         \AttributeTok{easr\_diff\_down =}\NormalTok{ easr }\SpecialCharTok{{-}}\NormalTok{ easr\_lower95pc\_confidence\_interval,}
+         \AttributeTok{wasr\_diff\_up =}\NormalTok{ wasr\_upper95pc\_confidence\_interval }\SpecialCharTok{{-}}\NormalTok{ wasr,}
+         \AttributeTok{wasr\_diff\_down =}\NormalTok{ wasr }\SpecialCharTok{{-}}\NormalTok{ wasr\_lower95pc\_confidence\_interval,}
+         \AttributeTok{sir\_diff\_up =}\NormalTok{ sir\_upper95pc\_confidence\_interval }\SpecialCharTok{{-}}\NormalTok{ standardised\_incidence\_ratio,}
+         \AttributeTok{sir\_diff\_down =}\NormalTok{ standardised\_incidence\_ratio }\SpecialCharTok{{-}}\NormalTok{ sir\_lower95pc\_confidence\_interval)}
+
+\NormalTok{comb\_hb }\OtherTok{\textless{}{-}} \FunctionTok{read\_csv}\NormalTok{(}\StringTok{"raw\_data/opendata\_inc1519comb\_hb.csv"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{clean\_names}\NormalTok{() }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{hb =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S92000003"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Scotland"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000015"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Ayrshire and Arran"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000016"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Borders"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000017"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Dumfries and Galloway"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000019"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Forth Valley"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000020"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Grampian"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000022"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Highland"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000024"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Lothian"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000025"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Orkney"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000026"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Shetland"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000028"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Western Isles"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000029"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Fife"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000030"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Tayside"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000031"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Greater Glasgow and Clyde"}\NormalTok{,}
+\NormalTok{    hb }\SpecialCharTok{==} \StringTok{"S08000032"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Lanarkshire"}\NormalTok{,}
+    \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \FunctionTok{as.character}\NormalTok{(}\ConstantTok{NA}\NormalTok{))) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(hb))}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{intordution}{%
 \section{Intordution}\label{intordution}}
@@ -102,6 +204,34 @@ in NHS Borders.
 \item
   Colon
 \end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{biggest\_type }\OtherTok{\textless{}{-}}\NormalTok{ area }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(hb }\SpecialCharTok{\%in\%} \StringTok{"Borders"}\NormalTok{,}
+\NormalTok{         sex }\SpecialCharTok{\%in\%} \StringTok{"All"}\NormalTok{,}
+\NormalTok{         cancer\_site }\SpecialCharTok{\%!in\%} \StringTok{"All cancer types"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{group\_by}\NormalTok{(cancer\_site) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{count =} \FunctionTok{sum}\NormalTok{(incidences\_all\_ages)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(count)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{head}\NormalTok{(}\DecValTok{7}\NormalTok{)}
+
+\NormalTok{area }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(cancer\_site }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(biggest\_type}\SpecialCharTok{$}\NormalTok{cancer\_site)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(hb }\SpecialCharTok{\%in\%} \StringTok{"Borders"}\NormalTok{,}
+\NormalTok{         sex }\SpecialCharTok{\%in\%} \StringTok{"All"}\NormalTok{,}
+\NormalTok{         cancer\_site }\SpecialCharTok{\%!in\%} \StringTok{"All cancer types"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ year, }\AttributeTok{y =}\NormalTok{ incidences\_all\_ages, }\AttributeTok{col =}\NormalTok{ cancer\_site)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_colour\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ nhs) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Top 7 Cancers in NHS Borders }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Year"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Number of Incidences }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{colour =} \StringTok{"Types of Cancers}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
 
 \includegraphics{NHS-Borders-Cancer-Report_files/figure-latex/unnamed-chunk-3-1.pdf}
 
@@ -143,6 +273,48 @@ up to the peaks. They can be split by proactive and reactive approaches.
 \section{Cancer by Age and Sex
 Demographic's}\label{cancer-by-age-and-sex-demographics}}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{comb\_hb }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(hb }\SpecialCharTok{\%in\%} \StringTok{"Borders"}\NormalTok{,}
+\NormalTok{         sex }\SpecialCharTok{\%!in\%} \StringTok{"All"}\NormalTok{,}
+\NormalTok{         cancer\_site }\SpecialCharTok{\%in\%} \StringTok{"All cancer types"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{7}\SpecialCharTok{:}\DecValTok{24}\NormalTok{),}
+               \AttributeTok{names\_to =} \StringTok{"age\_range"}\NormalTok{,}
+               \AttributeTok{values\_to =} \StringTok{"count"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{age\_range =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age\_under5"} \SpecialCharTok{\textasciitilde{}} \StringTok{"\textless{} 05"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age5to9"} \SpecialCharTok{\textasciitilde{}} \StringTok{"05 to 09"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age10to14"} \SpecialCharTok{\textasciitilde{}} \StringTok{"10 to 14"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age15to19"} \SpecialCharTok{\textasciitilde{}} \StringTok{"15 to 19"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age20to24"} \SpecialCharTok{\textasciitilde{}} \StringTok{"20 to 24"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age25to29"} \SpecialCharTok{\textasciitilde{}} \StringTok{"25 to 29"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age30to34"} \SpecialCharTok{\textasciitilde{}} \StringTok{"30 to 34"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age35to39"} \SpecialCharTok{\textasciitilde{}} \StringTok{"35 to 39"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age40to44"} \SpecialCharTok{\textasciitilde{}} \StringTok{"40 to 44"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age45to49"} \SpecialCharTok{\textasciitilde{}} \StringTok{"45 to 49"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age50to54"} \SpecialCharTok{\textasciitilde{}} \StringTok{"50 to 54"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age55to59"} \SpecialCharTok{\textasciitilde{}} \StringTok{"55 to 59"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age60to64"} \SpecialCharTok{\textasciitilde{}} \StringTok{"60 to 64"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age65to69"} \SpecialCharTok{\textasciitilde{}} \StringTok{"65 to 69"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age70to74"} \SpecialCharTok{\textasciitilde{}} \StringTok{"70 to 74"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age75to79"} \SpecialCharTok{\textasciitilde{}} \StringTok{"75 to 79"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age80to84"} \SpecialCharTok{\textasciitilde{}} \StringTok{"80 to 84"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age85and\_over"} \SpecialCharTok{\textasciitilde{}} \StringTok{"85 +"}
+\NormalTok{  )) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{select}\NormalTok{(hb, cancer\_site, sex, year, age\_range, count) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ age\_range, }\AttributeTok{y =}\NormalTok{ count, }\AttributeTok{fill =}\NormalTok{ sex)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{, }\AttributeTok{col =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ pal) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Age Range by Gender }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Number of Incidences }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Age Range }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{fill =} \StringTok{"Gender"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
 \includegraphics{NHS-Borders-Cancer-Report_files/figure-latex/unnamed-chunk-4-1.pdf}
 
 Here we can see the brake down by age and gender showing the older the
@@ -153,7 +325,172 @@ publicity for proactive and reactive approaches. Both genders peak in
 the 70-74 range and men have the over take women as having the highest
 risk in the 55-59 range.
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# biggest\_type \textless{}{-} area \%\textgreater{}\% }
+\CommentTok{\#   filter(hb \%in\% "Borders",}
+\CommentTok{\#          sex \%!in\% "All",}
+\CommentTok{\#          cancer\_site \%!in\% "All cancer types") \%\textgreater{}\%}
+\CommentTok{\#   group\_by(cancer\_site) \%\textgreater{}\% }
+\CommentTok{\#   summarise(count = sum(incidences\_all\_ages)) \%\textgreater{}\% }
+\CommentTok{\#   arrange(desc(count)) \%\textgreater{}\% }
+\CommentTok{\#   head(8)}
+
+
+\CommentTok{\# comb\_hb \%\textgreater{}\% }
+\CommentTok{\#   filter(cancer\_site \%in\% c(biggest\_type$cancer\_site)) \%\textgreater{}\%}
+\CommentTok{\#   filter(hb \%in\% "Borders",}
+\CommentTok{\#          sex \%!in\% "All",}
+\CommentTok{\#          cancer\_site \%!in\% "All cancer types") \%\textgreater{}\% }
+\CommentTok{\#   pivot\_longer(c(7:24),}
+\CommentTok{\#                names\_to = "age\_range",}
+\CommentTok{\#                values\_to = "count") \%\textgreater{}\%}
+\CommentTok{\#   mutate(age\_range = case\_when(}
+\CommentTok{\#     age\_range == "incidences\_age\_under5" \textasciitilde{} "\textless{} 05",}
+\CommentTok{\#     age\_range == "incidences\_age5to9" \textasciitilde{} "05 to 09",}
+\CommentTok{\#     age\_range == "incidences\_age10to14" \textasciitilde{} "10 to 14",}
+\CommentTok{\#     age\_range == "incidences\_age15to19" \textasciitilde{} "15 to 19",}
+\CommentTok{\#     age\_range == "incidences\_age20to24" \textasciitilde{} "20 to 24",}
+\CommentTok{\#     age\_range == "incidences\_age25to29" \textasciitilde{} "25 to 29",}
+\CommentTok{\#     age\_range == "incidences\_age30to34" \textasciitilde{} "30 to 34",}
+\CommentTok{\#     age\_range == "incidences\_age35to39" \textasciitilde{} "35 to 39",}
+\CommentTok{\#     age\_range == "incidences\_age40to44" \textasciitilde{} "40 to 44",}
+\CommentTok{\#     age\_range == "incidences\_age45to49" \textasciitilde{} "45 to 49",}
+\CommentTok{\#     age\_range == "incidences\_age50to54" \textasciitilde{} "50 to 54",}
+\CommentTok{\#     age\_range == "incidences\_age55to59" \textasciitilde{} "55 to 59",}
+\CommentTok{\#     age\_range == "incidences\_age60to64" \textasciitilde{} "60 to 64",}
+\CommentTok{\#     age\_range == "incidences\_age65to69" \textasciitilde{} "65 to 69",}
+\CommentTok{\#     age\_range == "incidences\_age70to74" \textasciitilde{} "70 to 74",}
+\CommentTok{\#     age\_range == "incidences\_age75to79" \textasciitilde{} "75 to 79",}
+\CommentTok{\#     age\_range == "incidences\_age80to84" \textasciitilde{} "80 to 84",}
+\CommentTok{\#     age\_range == "incidences\_age85and\_over" \textasciitilde{} "85 +"}
+\CommentTok{\#   ),}
+\CommentTok{\#   cancer\_site = case\_when(}
+\CommentTok{\#     cancer\_site == "Basal cell carcinoma of the skin" \textasciitilde{} "Basal cell carcinoma",}
+\CommentTok{\#     cancer\_site == "Squamous cell carcinoma of the skin" \textasciitilde{} "Squamous cell carcinoma",}
+\CommentTok{\#     TRUE \textasciitilde{} cancer\_site)) \%\textgreater{}\% }
+\CommentTok{\#   ggplot(aes(x = age\_range, y = count, fill = sex)) +}
+\CommentTok{\#   geom\_col(position = "dodge", col = "black") +}
+\CommentTok{\#   scale\_fill\_manual(values = pal) +}
+\CommentTok{\#   coord\_flip() +}
+\CommentTok{\#   facet\_wrap(\textasciitilde{} cancer\_site) +}
+\CommentTok{\#   labs(title = "Age Range by Tpye of Cancer \textbackslash{}n",}
+\CommentTok{\#        x = "Number of Incidences \textbackslash{}n",}
+\CommentTok{\#        y = "Age Range \textbackslash{}n",}
+\CommentTok{\#        colour = "Gender") +}
+\CommentTok{\#   theme(plot.title = element\_text(hjust = 0.5), }
+\CommentTok{\#         axis.text.y=element\_blank(),}
+\CommentTok{\#         axis.ticks.y=element\_blank())}
+
+\NormalTok{comb\_hb }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(cancer\_site }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Basal cell carcinoma of the skin"}\NormalTok{, }
+                            \StringTok{"Non{-}melanoma skin cancer"}\NormalTok{,}
+                            \StringTok{"Breast"}\NormalTok{,}
+                            \StringTok{"Prostate"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(hb }\SpecialCharTok{\%in\%} \StringTok{"Borders"}\NormalTok{,}
+\NormalTok{         sex }\SpecialCharTok{\%!in\%} \StringTok{"All"}\NormalTok{,}
+\NormalTok{         cancer\_site }\SpecialCharTok{\%!in\%} \StringTok{"All cancer types"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{7}\SpecialCharTok{:}\DecValTok{24}\NormalTok{),}
+               \AttributeTok{names\_to =} \StringTok{"age\_range"}\NormalTok{,}
+               \AttributeTok{values\_to =} \StringTok{"count"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{age\_range =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age\_under5"} \SpecialCharTok{\textasciitilde{}} \StringTok{"\textless{} 05"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age5to9"} \SpecialCharTok{\textasciitilde{}} \StringTok{"05 to 09"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age10to14"} \SpecialCharTok{\textasciitilde{}} \StringTok{"10 to 14"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age15to19"} \SpecialCharTok{\textasciitilde{}} \StringTok{"15 to 19"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age20to24"} \SpecialCharTok{\textasciitilde{}} \StringTok{"20 to 24"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age25to29"} \SpecialCharTok{\textasciitilde{}} \StringTok{"25 to 29"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age30to34"} \SpecialCharTok{\textasciitilde{}} \StringTok{"30 to 34"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age35to39"} \SpecialCharTok{\textasciitilde{}} \StringTok{"35 to 39"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age40to44"} \SpecialCharTok{\textasciitilde{}} \StringTok{"40 to 44"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age45to49"} \SpecialCharTok{\textasciitilde{}} \StringTok{"45 to 49"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age50to54"} \SpecialCharTok{\textasciitilde{}} \StringTok{"50 to 54"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age55to59"} \SpecialCharTok{\textasciitilde{}} \StringTok{"55 to 59"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age60to64"} \SpecialCharTok{\textasciitilde{}} \StringTok{"60 to 64"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age65to69"} \SpecialCharTok{\textasciitilde{}} \StringTok{"65 to 69"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age70to74"} \SpecialCharTok{\textasciitilde{}} \StringTok{"70 to 74"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age75to79"} \SpecialCharTok{\textasciitilde{}} \StringTok{"75 to 79"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age80to84"} \SpecialCharTok{\textasciitilde{}} \StringTok{"80 to 84"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age85and\_over"} \SpecialCharTok{\textasciitilde{}} \StringTok{"85 +"}
+\NormalTok{  ),}
+  \AttributeTok{cancer\_site =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    cancer\_site }\SpecialCharTok{==} \StringTok{"Basal cell carcinoma of the skin"} \SpecialCharTok{\textasciitilde{}} 
+      \StringTok{"Basal cell carcinoma"}\NormalTok{,}
+\NormalTok{    cancer\_site }\SpecialCharTok{==} \StringTok{"Squamous cell carcinoma of the skin"} \SpecialCharTok{\textasciitilde{}} 
+      \StringTok{"Squamous cell carcinoma"}\NormalTok{,}
+    \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}}\NormalTok{ cancer\_site)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ age\_range, }\AttributeTok{y =}\NormalTok{ count, }\AttributeTok{fill =}\NormalTok{ sex)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{, }\AttributeTok{col =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ pal) }\SpecialCharTok{+}
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{50}\NormalTok{, }\DecValTok{100}\NormalTok{, }\DecValTok{150}\NormalTok{), }\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{180}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\StringTok{"05 to 09"}\NormalTok{, }\StringTok{"15 to 19"}\NormalTok{, }\StringTok{"25 to 29"}\NormalTok{, }
+                              \StringTok{"35 to 39"}\NormalTok{, }\StringTok{"45 to 49"}\NormalTok{, }\StringTok{"55 to 59"}\NormalTok{, }
+                              \StringTok{"65 to 69"}\NormalTok{, }\StringTok{"75 to 79"}\NormalTok{, }\StringTok{"85 +"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ cancer\_site) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Age Range by Tpye of Cancer }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Number of Incidences }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Age Range }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{fill =} \StringTok{"Gender"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
 \includegraphics{NHS-Borders-Cancer-Report_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{comb\_hb }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(cancer\_site }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Trachea, bronchus and lung"}\NormalTok{,}
+                            \StringTok{"Colorectal cancer"}\NormalTok{,}
+                            \StringTok{"Squamous cell carcinoma of the skin"}\NormalTok{,}
+                            \StringTok{"Colon"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(hb }\SpecialCharTok{\%in\%} \StringTok{"Borders"}\NormalTok{,}
+\NormalTok{         sex }\SpecialCharTok{\%!in\%} \StringTok{"All"}\NormalTok{,}
+\NormalTok{         cancer\_site }\SpecialCharTok{\%!in\%} \StringTok{"All cancer types"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{pivot\_longer}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{7}\SpecialCharTok{:}\DecValTok{24}\NormalTok{),}
+               \AttributeTok{names\_to =} \StringTok{"age\_range"}\NormalTok{,}
+               \AttributeTok{values\_to =} \StringTok{"count"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{age\_range =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age\_under5"} \SpecialCharTok{\textasciitilde{}} \StringTok{"\textless{} 05"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age5to9"} \SpecialCharTok{\textasciitilde{}} \StringTok{"05 to 09"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age10to14"} \SpecialCharTok{\textasciitilde{}} \StringTok{"10 to 14"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age15to19"} \SpecialCharTok{\textasciitilde{}} \StringTok{"15 to 19"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age20to24"} \SpecialCharTok{\textasciitilde{}} \StringTok{"20 to 24"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age25to29"} \SpecialCharTok{\textasciitilde{}} \StringTok{"25 to 29"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age30to34"} \SpecialCharTok{\textasciitilde{}} \StringTok{"30 to 34"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age35to39"} \SpecialCharTok{\textasciitilde{}} \StringTok{"35 to 39"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age40to44"} \SpecialCharTok{\textasciitilde{}} \StringTok{"40 to 44"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age45to49"} \SpecialCharTok{\textasciitilde{}} \StringTok{"45 to 49"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age50to54"} \SpecialCharTok{\textasciitilde{}} \StringTok{"50 to 54"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age55to59"} \SpecialCharTok{\textasciitilde{}} \StringTok{"55 to 59"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age60to64"} \SpecialCharTok{\textasciitilde{}} \StringTok{"60 to 64"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age65to69"} \SpecialCharTok{\textasciitilde{}} \StringTok{"65 to 69"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age70to74"} \SpecialCharTok{\textasciitilde{}} \StringTok{"70 to 74"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age75to79"} \SpecialCharTok{\textasciitilde{}} \StringTok{"75 to 79"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age80to84"} \SpecialCharTok{\textasciitilde{}} \StringTok{"80 to 84"}\NormalTok{,}
+\NormalTok{    age\_range }\SpecialCharTok{==} \StringTok{"incidences\_age85and\_over"} \SpecialCharTok{\textasciitilde{}} \StringTok{"85 +"}
+\NormalTok{  ),}
+  \AttributeTok{cancer\_site =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    cancer\_site }\SpecialCharTok{==} \StringTok{"Basal cell carcinoma of the skin"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Basal cell carcinoma"}\NormalTok{,}
+\NormalTok{    cancer\_site }\SpecialCharTok{==} \StringTok{"Squamous cell carcinoma of the skin"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Squamous cell carcinoma"}\NormalTok{,}
+    \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}}\NormalTok{ cancer\_site)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ age\_range, }\AttributeTok{y =}\NormalTok{ count, }\AttributeTok{fill =}\NormalTok{ sex)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{(}\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{, }\AttributeTok{col =} \StringTok{"black"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_fill\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ pal) }\SpecialCharTok{+}
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{50}\NormalTok{, }\DecValTok{100}\NormalTok{, }\DecValTok{150}\NormalTok{), }\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{180}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_discrete}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\StringTok{"05 to 09"}\NormalTok{, }\StringTok{"15 to 19"}\NormalTok{, }\StringTok{"25 to 29"}\NormalTok{, }
+                              \StringTok{"35 to 39"}\NormalTok{, }\StringTok{"45 to 49"}\NormalTok{, }\StringTok{"55 to 59"}\NormalTok{, }
+                              \StringTok{"65 to 69"}\NormalTok{, }\StringTok{"75 to 79"}\NormalTok{, }\StringTok{"85 +"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ cancer\_site) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+       \AttributeTok{y =} \StringTok{"Number of Incidences }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Age Range }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{fill =} \StringTok{"Gender"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
 
 \includegraphics{NHS-Borders-Cancer-Report_files/figure-latex/unnamed-chunk-6-1.pdf}
 
@@ -169,7 +506,96 @@ targets to focus any publicity for proactive and reactive approaches.
   checked regularly at these ages.
 \end{itemize}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# biggest\_type \textless{}{-} area \%\textgreater{}\% }
+\CommentTok{\#   filter(hb \%in\% "Borders",}
+\CommentTok{\#          sex \%!in\% "All",}
+\CommentTok{\#          cancer\_site \%!in\% "All cancer types") \%\textgreater{}\%}
+\CommentTok{\#   group\_by(cancer\_site) \%\textgreater{}\% }
+\CommentTok{\#   summarise(count = sum(incidences\_all\_ages)) \%\textgreater{}\% }
+\CommentTok{\#   arrange(desc(count)) \%\textgreater{}\% }
+\CommentTok{\#   head(8)}
+
+\CommentTok{\# area \%\textgreater{}\% }
+\CommentTok{\#   filter(cancer\_site \%in\% c(biggest\_type$cancer\_site)) \%\textgreater{}\%}
+\CommentTok{\#   filter(hb \%in\% "Borders",}
+\CommentTok{\#          sex \%!in\% "All",}
+\CommentTok{\#          cancer\_site \%!in\% "All cancer types") \%\textgreater{}\% }
+\CommentTok{\#   mutate(}
+\CommentTok{\#   cancer\_site = case\_when(}
+\CommentTok{\#     cancer\_site == "Basal cell carcinoma of the skin" \textasciitilde{} "Basal cell carcinoma",}
+\CommentTok{\#     cancer\_site == "Squamous cell carcinoma of the skin" \textasciitilde{} "Squamous cell carcinoma",}
+\CommentTok{\#     TRUE \textasciitilde{} cancer\_site)) \%\textgreater{}\% }
+\CommentTok{\#   ggplot(aes(x = year, y = incidences\_all\_ages, col = sex)) +}
+\CommentTok{\#   geom\_point() +}
+\CommentTok{\#   geom\_line(size=1.2) +}
+\CommentTok{\#   labs(title = "Top 8 Cancers by Gender \textbackslash{}n",}
+\CommentTok{\#        x = "Year",}
+\CommentTok{\#        y = "Number of Incidences \textbackslash{}n",}
+\CommentTok{\#        colour = "Gender") +}
+\CommentTok{\#   theme(plot.title = element\_text(hjust = 0.5)) +}
+\CommentTok{\#   facet\_wrap(\textasciitilde{} cancer\_site) +}
+\CommentTok{\#   scale\_colour\_manual(values = pal)}
+
+\NormalTok{area }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(cancer\_site }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Non{-}melanoma skin cancer"}\NormalTok{,}
+                            \StringTok{"Squamous cell carcinoma of the skin"}\NormalTok{, }\StringTok{"Breast"}\NormalTok{,}
+                            \StringTok{"Prostate"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(hb }\SpecialCharTok{\%in\%} \StringTok{"Borders"}\NormalTok{,}
+\NormalTok{         sex }\SpecialCharTok{\%!in\%} \StringTok{"All"}\NormalTok{,}
+\NormalTok{         cancer\_site }\SpecialCharTok{\%!in\%} \StringTok{"All cancer types"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}
+  \AttributeTok{cancer\_site =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    cancer\_site }\SpecialCharTok{==} \StringTok{"Basal cell carcinoma of the skin"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Basal cell carcinoma"}\NormalTok{,}
+\NormalTok{    cancer\_site }\SpecialCharTok{==} \StringTok{"Squamous cell carcinoma of the skin"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Squamous cell carcinoma"}\NormalTok{,}
+    \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}}\NormalTok{ cancer\_site)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ year, }\AttributeTok{y =}\NormalTok{ incidences\_all\_ages, }\AttributeTok{col =}\NormalTok{ sex)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{size=}\FloatTok{1.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{1995}\NormalTok{, }\DecValTok{2020}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Top 8 Cancers by Gender }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Year"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Number of Incidences }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{colour =} \StringTok{"Gender"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ cancer\_site) }\SpecialCharTok{+}
+  \FunctionTok{scale\_colour\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ pal)}
+\end{Highlighting}
+\end{Shaded}
+
 \includegraphics{NHS-Borders-Cancer-Report_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{area }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(cancer\_site }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"Trachea, bronchus and lung"}\NormalTok{,}
+                            \StringTok{"Colorectal cancer"}\NormalTok{,}
+                            \StringTok{"Basal cell carcinoma of the skin"}\NormalTok{,}
+                            \StringTok{"Colon"}\NormalTok{))}\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(hb }\SpecialCharTok{\%in\%} \StringTok{"Borders"}\NormalTok{,}
+\NormalTok{         sex }\SpecialCharTok{\%!in\%} \StringTok{"All"}\NormalTok{,}
+\NormalTok{         cancer\_site }\SpecialCharTok{\%!in\%} \StringTok{"All cancer types"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}
+  \AttributeTok{cancer\_site =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{    cancer\_site }\SpecialCharTok{==} \StringTok{"Basal cell carcinoma of the skin"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Basal cell carcinoma"}\NormalTok{,}
+\NormalTok{    cancer\_site }\SpecialCharTok{==} \StringTok{"Squamous cell carcinoma of the skin"} \SpecialCharTok{\textasciitilde{}} \StringTok{"Squamous cell carcinoma"}\NormalTok{,}
+    \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}}\NormalTok{ cancer\_site)) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ year, }\AttributeTok{y =}\NormalTok{ incidences\_all\_ages, }\AttributeTok{col =}\NormalTok{ sex)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{size=}\FloatTok{1.2}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{scale\_x\_continuous}\NormalTok{(}\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{1995}\NormalTok{, }\DecValTok{2020}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{scale\_y\_continuous}\NormalTok{(}\AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{50}\NormalTok{, }\DecValTok{100}\NormalTok{, }\DecValTok{150}\NormalTok{, }\DecValTok{200}\NormalTok{), }\AttributeTok{limits =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{230}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+       \AttributeTok{x =} \StringTok{"Year"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Number of Incidences }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{colour =} \StringTok{"Gender"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{ cancer\_site) }\SpecialCharTok{+}
+  \FunctionTok{scale\_colour\_manual}\NormalTok{(}\AttributeTok{values =}\NormalTok{ pal)}
+\end{Highlighting}
+\end{Shaded}
+
 \includegraphics{NHS-Borders-Cancer-Report_files/figure-latex/unnamed-chunk-7-2.pdf}
 
 While almost all these cancers are shared equally between the two
@@ -182,6 +608,33 @@ risk
 \hypertarget{health-boards-comparason}{%
 \section{Health Boards comparason}\label{health-boards-comparason}}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{text }\OtherTok{\textless{}{-}}\NormalTok{ area }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{filter}\NormalTok{(year }\SpecialCharTok{==} \DecValTok{2005}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{label\_text =}\NormalTok{ hb)}
+
+\NormalTok{area }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(}
+\NormalTok{         sex }\SpecialCharTok{\%in\%} \StringTok{"All"}\NormalTok{,}
+\NormalTok{         cancer\_site }\SpecialCharTok{\%in\%} \StringTok{"All cancer types"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(hb) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ year, }\AttributeTok{y =}\NormalTok{ incidences\_all\_ages, }\AttributeTok{group =}\NormalTok{ hb, }\AttributeTok{col =}\NormalTok{ hb }\SpecialCharTok{==} \StringTok{"Borders"}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{scale\_colour\_manual}\NormalTok{(}\AttributeTok{values =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}grey40\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}red\textquotesingle{}}\NormalTok{), }\AttributeTok{guide =} \StringTok{"none"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \StringTok{"Borders"}\NormalTok{, }\AttributeTok{x =} \DecValTok{2020}\NormalTok{, }\AttributeTok{y =} \DecValTok{500}\NormalTok{), }\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \StringTok{"Greater }\SpecialCharTok{\textbackslash{}n}\StringTok{Glasgow"}\NormalTok{, }\AttributeTok{x =} \DecValTok{2020}\NormalTok{, }\AttributeTok{y =} \DecValTok{7000}\NormalTok{), }\AttributeTok{color =} \StringTok{"grey40"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \StringTok{"Dumfries"}\NormalTok{, }\AttributeTok{x =} \DecValTok{2020}\NormalTok{, }\AttributeTok{y =} \DecValTok{1000}\NormalTok{), }\AttributeTok{color =} \StringTok{"grey40"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \StringTok{"Lothian"}\NormalTok{, }\AttributeTok{x =} \DecValTok{2020}\NormalTok{, }\AttributeTok{y =} \DecValTok{5200}\NormalTok{), }\AttributeTok{color =} \StringTok{"grey40"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \StringTok{"Lanarkshire"}\NormalTok{, }\AttributeTok{x =} \FloatTok{2019.5}\NormalTok{, }\AttributeTok{y =} \DecValTok{4500}\NormalTok{), }\AttributeTok{color =} \StringTok{"grey40"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Cancers Incidence by Health Boards }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Year"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Number of Incidences }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
 \includegraphics{NHS-Borders-Cancer-Report_files/figure-latex/unnamed-chunk-8-1.pdf}
 
 In comparison to other local Health Boards, NHS Borders has a small
@@ -189,6 +642,35 @@ percentage of the cancer incidences across Scotland
 
 \hypertarget{allover-trend-v-crude-rate}{%
 \section{Allover trend v Crude rate}\label{allover-trend-v-crude-rate}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{crude }\OtherTok{\textless{}{-}}\NormalTok{ area }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{filter}\NormalTok{(hb }\SpecialCharTok{\%in\%} \StringTok{"Borders"}\NormalTok{,}
+\NormalTok{         sex }\SpecialCharTok{\%in\%} \StringTok{"All"}\NormalTok{,}
+\NormalTok{         cancer\_site }\SpecialCharTok{\%in\%} \StringTok{"All cancer types"}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ year, }\AttributeTok{y =}\NormalTok{ incidences\_all\_ages)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{col =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{col =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ year, }\AttributeTok{y =}\NormalTok{ crude\_rate),}
+             \AttributeTok{col =} \StringTok{"dark green"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_line}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ year, }\AttributeTok{y =}\NormalTok{ crude\_rate),}
+            \AttributeTok{col =} \StringTok{"dark green"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_ribbon}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin =}\NormalTok{ crude\_rate }\SpecialCharTok{{-}}\NormalTok{ cure\_diff\_down, }
+                  \AttributeTok{ymax =}\NormalTok{ crude\_rate }\SpecialCharTok{+}\NormalTok{ cure\_diff\_up), }
+              \AttributeTok{fill =} \StringTok{"grey70"}\NormalTok{, }\AttributeTok{alpha=}\FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
+  
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \StringTok{"Incidences"}\NormalTok{, }\AttributeTok{x =} \FloatTok{2019.5}\NormalTok{, }\AttributeTok{y =} \DecValTok{900}\NormalTok{), }\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \StringTok{"Crude }\SpecialCharTok{\textbackslash{}n}\StringTok{ Rate"}\NormalTok{, }\AttributeTok{x =} \DecValTok{2020}\NormalTok{, }\AttributeTok{y =} \DecValTok{650}\NormalTok{), }\AttributeTok{color =} \StringTok{"dark green"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_text}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{label =} \StringTok{"Crude }\SpecialCharTok{\textbackslash{}n}\StringTok{ Rate }\SpecialCharTok{\textbackslash{}n}\StringTok{ Range"}\NormalTok{, }\AttributeTok{x =} \DecValTok{2020}\NormalTok{, }\AttributeTok{y =} \DecValTok{750}\NormalTok{), }\AttributeTok{color =} \StringTok{"grey70"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Cancers Incidence in NHS Borders }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+       \AttributeTok{x =} \StringTok{"Year"}\NormalTok{,}
+       \AttributeTok{y =} \StringTok{"Number of Incidences }\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{plot.title =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+  
+\NormalTok{crude}
+\end{Highlighting}
+\end{Shaded}
 
 \includegraphics{NHS-Borders-Cancer-Report_files/figure-latex/unnamed-chunk-9-1.pdf}
 
@@ -207,6 +689,99 @@ the expected number of cancer incidences for this size of population.
 This abnormal rise in the cancer incidences away from the expected
 number could be from the increase on the two skin cancers seen in the
 first graph.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# standardised incidence ratio compared to NHS Borders}
+
+\CommentTok{\# crude \textless{}{-} area \%\textgreater{}\% }
+\CommentTok{\#   filter(hb \%in\% "Borders",}
+\CommentTok{\#          sex \%in\% "All",}
+\CommentTok{\#          cancer\_site \%in\% "All cancer types") \%\textgreater{}\% }
+\CommentTok{\#   ggplot(aes(x = year, y = incidences\_all\_ages)) +}
+\CommentTok{\#   geom\_point(col = "red") +}
+\CommentTok{\#   geom\_line(col = "red") +}
+\CommentTok{\#   geom\_point(aes(x = year, y = crude\_rate),}
+\CommentTok{\#              col = "dark green") +}
+\CommentTok{\#   geom\_line(aes(x = year, y = crude\_rate),}
+\CommentTok{\#             col = "dark green") +}
+\CommentTok{\#   geom\_ribbon(aes(ymin = crude\_rate {-} cure\_diff\_down, }
+\CommentTok{\#                   ymax = crude\_rate + cure\_diff\_up), }
+\CommentTok{\#               fill = "grey70", alpha=0.5) +}
+\CommentTok{\#   labs(title = "Crude Rate by NHS Borders",}
+\CommentTok{\#        x = "Year",}
+\CommentTok{\#        y = "Number of Incidences \textbackslash{}n") +}
+\CommentTok{\#   theme(plot.title = element\_text(hjust = 0.5))}
+\CommentTok{\# }
+\CommentTok{\# }
+\CommentTok{\# }
+\CommentTok{\# easr \textless{}{-} area \%\textgreater{}\% }
+\CommentTok{\#   filter(hb \%in\% "Borders",}
+\CommentTok{\#          sex \%in\% "All",}
+\CommentTok{\#          cancer\_site \%in\% "All cancer types") \%\textgreater{}\% }
+\CommentTok{\#   ggplot(aes(x = year, y = incidences\_all\_ages)) +}
+\CommentTok{\#   geom\_point(col = "red") +}
+\CommentTok{\#   geom\_line(col = "red") +}
+\CommentTok{\#   geom\_point(aes(x = year, y = easr),}
+\CommentTok{\#              col = "dark orange") +}
+\CommentTok{\#   geom\_line(aes(x = year, y = easr),}
+\CommentTok{\#             col = "dark orange") +}
+\CommentTok{\#   geom\_ribbon(aes(ymin = easr {-} easr\_diff\_down, }
+\CommentTok{\#                   ymax = easr + easr\_diff\_up), }
+\CommentTok{\#               fill = "grey70", alpha=0.5) +}
+\CommentTok{\#   labs(title = "European Age{-}Standardised by NHS Borders",}
+\CommentTok{\#        x = "Year",}
+\CommentTok{\#        y = "Number of Incidences \textbackslash{}n") +}
+\CommentTok{\#   theme(plot.title = element\_text(hjust = 0.5))}
+\CommentTok{\# }
+\CommentTok{\# }
+\CommentTok{\# }
+\CommentTok{\# wasr \textless{}{-} area \%\textgreater{}\% }
+\CommentTok{\#   filter(hb \%in\% "Borders",}
+\CommentTok{\#          sex \%in\% "All",}
+\CommentTok{\#          cancer\_site \%in\% "All cancer types") \%\textgreater{}\% }
+\CommentTok{\#   ggplot(aes(x = year, y = incidences\_all\_ages)) +}
+\CommentTok{\#   geom\_point(col = "red") +}
+\CommentTok{\#   geom\_line(col = "red") +}
+\CommentTok{\#   geom\_point(aes(x = year, y = wasr),}
+\CommentTok{\#              col = "\#800080") +}
+\CommentTok{\#   geom\_line(aes(x = year, y = wasr),}
+\CommentTok{\#             col = "\#800080") +}
+\CommentTok{\#   geom\_ribbon(aes(ymin = wasr {-} wasr\_diff\_down, }
+\CommentTok{\#                   ymax = wasr + wasr\_diff\_up), }
+\CommentTok{\#               fill = "grey70", alpha=0.5) +}
+\CommentTok{\#   labs(title = "World Age{-}Standardised by NHS Borders",}
+\CommentTok{\#        x = "Year",}
+\CommentTok{\#        y = "Number of Incidences \textbackslash{}n") +}
+\CommentTok{\#   theme(plot.title = element\_text(hjust = 0.5))}
+\CommentTok{\# }
+\CommentTok{\# }
+\CommentTok{\# }
+\CommentTok{\# sir \textless{}{-} area \%\textgreater{}\% }
+\CommentTok{\#   filter(hb \%in\% "Borders",}
+\CommentTok{\#          sex \%in\% "All",}
+\CommentTok{\#          cancer\_site \%in\% "All cancer types") \%\textgreater{}\% }
+\CommentTok{\#   ggplot(aes(x = year, y = incidences\_all\_ages)) +}
+\CommentTok{\#   geom\_point(col = "red") +}
+\CommentTok{\#   geom\_line(col = "red") +}
+\CommentTok{\#   geom\_point(aes(x = year, y = standardised\_incidence\_ratio),}
+\CommentTok{\#              col = "dark blue") +}
+\CommentTok{\#   geom\_line(aes(x = year, y = standardised\_incidence\_ratio),}
+\CommentTok{\#             col = "dark blue") +}
+\CommentTok{\#   geom\_ribbon(aes(ymin = standardised\_incidence\_ratio {-} sir\_diff\_down, }
+\CommentTok{\#                   ymax = standardised\_incidence\_ratio + sir\_diff\_up), }
+\CommentTok{\#               fill = "grey70", alpha=0.5) +}
+\CommentTok{\#   labs(title = "Age{-}Standardised by NHS Borders",}
+\CommentTok{\#        x = "Year",}
+\CommentTok{\#        y = "Number of Incidences \textbackslash{}n") +}
+\CommentTok{\#   theme(plot.title = element\_text(hjust = 0.5))}
+\CommentTok{\# }
+\CommentTok{\# }
+\CommentTok{\# }
+\CommentTok{\# ggarrange(crude, easr, wasr, sir,}
+\CommentTok{\#           ncol = 2, nrow = 2)}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{references}{%
 \section{References}\label{references}}
